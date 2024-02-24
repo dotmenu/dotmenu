@@ -1,0 +1,4 @@
+/home/natesworks/Documents/crystalsharp/obj/Debug/net8.0/crystalsharp.GeneratedMSBuildEditorConfig.editorconfig
+/home/natesworks/Documents/crystalsharp/obj/Debug/net8.0/crystalsharp.AssemblyInfoInputs.cache
+/home/natesworks/Documents/crystalsharp/obj/Debug/net8.0/crystalsharp.AssemblyInfo.cs
+/home/natesworks/Documents/crystalsharp/obj/Debug/net8.0/crystalsharp.csproj.CoreCompileInputs.cache
