@@ -6,9 +6,16 @@ CrystalSharp is a straightforward console menu library designed to streamline us
 
 ### Prompt
 
-The prompt is the message displayed before presenting the menu options. For instance: "Select an option:"
+The prompt is the message displayed before showing the menu options.
 ```cs
-.Prompt("Select an option:")
+.Prompt(prompt)
+```
+
+### Actions
+
+Actions are the things that will run when you select the option.
+```cs
+.Actions(actions)
 ```
 
 ### Prefix & Suffix
@@ -64,7 +71,8 @@ class Program
 
         Action[] actions = { Option1Selected, Option2Selected };
 
-        Menu mainMenu = new Menu(options, actions)
+        Menu mainMenu = new Menu(options)
+                            .Actions(actions)
                             .Prompt(prompt);
 
         int selectedIndex = mainMenu.Run();
