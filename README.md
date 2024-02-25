@@ -49,7 +49,7 @@ You can also configure them differently for the selected option.
 
 ### Keyboard Shortcuts
 
-By default, you can select an option by pressing the corresponding number key (1-9). If you have more than nine options(or any other reason), you may want to include a keybind for navigating to additional options.
+By default, you can select an option by pressing the corresponding number key (1-9). But you may want to include a keybind for navigating to options > 9.
 
 ```cs
 // Replace 9 with the index of the option
