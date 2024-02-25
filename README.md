@@ -109,7 +109,7 @@ You can contribute by submitting a Pull Request or opening an Issue on GitHub [@
 
 ### 1.2.1
 
-Add support for older if/switch statments instead of using actions.
+Make actions optional so you can use if or switch on selectedIndex instead.
 
 ### 1.2
 
