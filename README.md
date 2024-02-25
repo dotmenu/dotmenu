@@ -31,6 +31,15 @@ You can also configure the foreground and background colors differently for the 
 .ColorsWhenSelected(fg, bg)
 ```
 
+### Keyboard Shortcuts
+
+By default, you can select an option by pressing the corresponding number key (1-9). If you have more than nine options(or any other reason), you may want to include a keybind for navigating to additional options.
+
+```cs
+// Replace 0 with the index of the option
+.Shortcut(ConsoleKey.A, 9);
+```
+
 ### Creating a Menu
 
 You can add any desired options, along with customizations like prompt, prefix, suffix, and colors.
@@ -78,3 +87,9 @@ class Program
 ## Contributing
 
 You can contribute by submitting a Pull Request or opening an Issue on GitHub [@natesworks/crystalsharp](https://github.com/natesworks/crystalsharp).
+
+## Changelog
+
+### 1.2
+
+Added keyboard shortcuts.
