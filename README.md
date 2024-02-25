@@ -1,36 +1,40 @@
 # CrystalSharp
 
-A simple console menu library
+CrystalSharp is a straightforward console menu library designed to streamline user interactions in console applications.
 
 ## How To Use
 
 ### Prompt
 
-The prompt is the message sent before the menu. For example: "Select an option:"
+The prompt is the message displayed before presenting the menu options. For instance: "Select an option:"
 ```cs
 .Prompt("Select an option:")
 ```
 
 ### Prefix & Suffix
-The prefix is the text shown before the name of the option
-You can set the prefix with .Prefix(prefix)
-Theres also an option to have the prefix or/and suffix change for the option that is selected
-You can do that using .PrefixWhenSelected(prefix) or .SuffixWhenSelected(suffix)
+The prefix is the text shown before the name of each option. You can set the prefix using:
+```cs
+.Prefix(prefix)
+```
+Additionally, there's an option to dynamically change the prefix and/or suffix for the selected option:
+```cs
+.PrefixWhenSelected(prefix) or .SuffixWhenSelected(suffix)
+```
 
 ### Colors
-You can change the colors of the foreground or background using:
+Customize the foreground and background colors using:
 ```cs
 .Colors(fg, bg)
 ```
-Theres also an option to have the foreground or background be diffrent for the selected option with:
+You can also configure the foreground and background colors differently for the selected option:
 ```cs
 .ColorsWhenSelected(fg, bg)
 ```
 
-### Create Menu
+### Creating a Menu
 
-You can add or not add any option (prompt, prefix, suffix etc.) except options which are required.
-```cs
+You can add any desired options, along with customizations like prompt, prefix, suffix, and colors.
+```
 Menu mainMenu = new Menu(options)
                     .Prompt("Select an option:")
                     .Colors(ConsoleColor.White, ConsoleColor.Black)
@@ -39,7 +43,7 @@ Menu mainMenu = new Menu(options)
 
 ## Example Usage
 
-```cs
+```
 using CrystalSharp;
 
 class Program
@@ -70,4 +74,4 @@ class Program
 
 ## Contributing
 
-You can contribute by making a PR/Issue @ github.com/natesworks/crystalsharp
+You can contribute by submitting a Pull Request or opening an Issue on GitHub [@natesworks/crystalsharp](https://github.com/natesworks/crystalsharp).
