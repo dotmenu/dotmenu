@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace CrystalSharp
+﻿namespace CrystalSharp
 {
     public class Menu
     {
@@ -11,27 +9,21 @@ namespace CrystalSharp
         private string _suffix;
         private string _selectedPrefix;
         private string _selectedSuffix;
-        private Dictionary<int, Action> _actions = new Dictionary<int, Action>();
         private ConsoleColor _fg = ConsoleColor.White;
         private ConsoleColor _bg = ConsoleColor.Black;
         private ConsoleColor _selectedFg = ConsoleColor.Black;
         private ConsoleColor _selectedBg = ConsoleColor.White;
+        private Dictionary<ConsoleKey, int> _shortcutMap = new Dictionary<ConsoleKey, int>();
+        private Action[] _actions;
 
-        public Menu(string[] options)
+        public Menu(string[] options, Action[] actions)
         {
             _options = options;
-        }
+            _actions = actions;
 
-        public Menu(string[] options, Action[] actions) : this(options)
-        {
-            if (actions.Length != options.Length)
+            for (int i = 0; i < options.Length && i < 9; i++)
             {
-                throw new ArgumentException("Number of actions must match the number of options.");
-            }
-
-            for (int i = 0; i < actions.Length; i++)
-            {
-                _actions[i] = actions[i];
+                _shortcutMap[ConsoleKey.D1 + i] = i;
             }
         }
 
@@ -79,6 +71,12 @@ namespace CrystalSharp
             return this;
         }
 
+        public Menu Shortcut(ConsoleKey key, int optionIndex)
+        {
+            _shortcutMap[key] = optionIndex;
+            return this;
+        }
+
         public int Run()
         {
             ConsoleKey keyPressed;
@@ -90,21 +88,26 @@ namespace CrystalSharp
                 ConsoleKeyInfo keyInfo = Console.ReadKey(true);
                 keyPressed = keyInfo.Key;
 
-                if (keyPressed == ConsoleKey.UpArrow && _selectedIndex > 0)
+                if (_shortcutMap.ContainsKey(keyPressed))
                 {
-                    _selectedIndex--;
-                }
-                if (keyPressed == ConsoleKey.DownArrow && _selectedIndex != _options.Length - 1)
-                {
-                    _selectedIndex++;
-                }
 
-                if (keyPressed == ConsoleKey.Enter && _actions.ContainsKey(_selectedIndex))
-                {
-                    _actions[_selectedIndex].Invoke();
+                    _actions[_shortcutMap[keyPressed]]?.Invoke();
+                    return _shortcutMap[keyPressed];
                 }
-
+                else
+                {
+                    if (keyPressed == ConsoleKey.UpArrow && _selectedIndex > 0)
+                    {
+                        _selectedIndex--;
+                    }
+                    if (keyPressed == ConsoleKey.DownArrow && _selectedIndex != _options.Length - 1)
+                    {
+                        _selectedIndex++;
+                    }
+                }
             } while (keyPressed != ConsoleKey.Enter);
+
+            _actions[_selectedIndex]?.Invoke();
 
             return _selectedIndex;
         }
@@ -136,7 +139,7 @@ namespace CrystalSharp
                     Console.Write(selectedOption);
                     Console.Write(_suffix);
                 }
-                
+
                 Console.WriteLine();
             }
 
