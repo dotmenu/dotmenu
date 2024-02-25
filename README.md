@@ -58,7 +58,7 @@ By default, you can select an option by pressing the corresponding number key (1
 
 ### Creating a Menu
 
-You can add any desired options, along with customizations like prompt, prefix, suffix, and colors.
+To create a menu you must specify the options and actions(unless you use the selectedIndex instead) and optionally any other things such as the prompt or bg and fg colors.
 ```
 Menu mainMenu = new Menu(options)
                     .Prompt("Select an option:")
