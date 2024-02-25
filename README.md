@@ -19,21 +19,23 @@ Actions are the things that will run when you select the option.
 ```
 
 ### Prefix & Suffix
-The prefix is the text shown before the name of each option. You can set the prefix using:
+
+The prefix is the text shown before the name of each option.
 ```cs
 .Prefix(prefix)
 ```
-Additionally, there's an option to dynamically change the prefix and/or suffix for the selected option:
+Additionally, there's an option to dynamically change the prefix and/or suffix for the selected option.
 ```cs
 .PrefixWhenSelected(prefix) or .SuffixWhenSelected(suffix)
 ```
 
 ### Colors
-Customize the foreground and background colors using:
+
+Allows you to customize the foreground and background colors.
 ```cs
 .Colors(fg, bg)
 ```
-You can also configure the foreground and background colors differently for the selected option:
+You can also configure them differently for the selected option.
 ```cs
 .ColorsWhenSelected(fg, bg)
 ```
