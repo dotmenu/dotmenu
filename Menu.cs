@@ -11,6 +11,7 @@ namespace CrystalSharp
         private string _suffix;
         private string _selectedPrefix;
         private string _selectedSuffix;
+        private Dictionary<int, Action> _actions = new Dictionary<int, Action>();
         private ConsoleColor _fg = ConsoleColor.White;
         private ConsoleColor _bg = ConsoleColor.Black;
         private ConsoleColor _selectedFg = ConsoleColor.Black;
@@ -19,6 +20,19 @@ namespace CrystalSharp
         public Menu(string[] options)
         {
             _options = options;
+        }
+
+        public Menu(string[] options, Action[] actions) : this(options)
+        {
+            if (actions.Length != options.Length)
+            {
+                throw new ArgumentException("Number of actions must match the number of options.");
+            }
+
+            for (int i = 0; i < actions.Length; i++)
+            {
+                _actions[i] = actions[i];
+            }
         }
 
         public Menu Prompt(string prompt)
@@ -84,6 +98,12 @@ namespace CrystalSharp
                 {
                     _selectedIndex++;
                 }
+
+                if (keyPressed == ConsoleKey.Enter && _actions.ContainsKey(_selectedIndex))
+                {
+                    _actions[_selectedIndex].Invoke();
+                }
+
             } while (keyPressed != ConsoleKey.Enter);
 
             return _selectedIndex;

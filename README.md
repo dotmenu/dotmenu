@@ -43,31 +43,34 @@ Menu mainMenu = new Menu(options)
 
 ## Example Usage
 
-```
-using CrystalSharp;
+```cs
+using CrystalSharp
 
 class Program
 {
     static void Main(string[] args)
     {
-        string[] options = {"Option 1", "Option 2"};
+        string[] options = { "Option 1", "Option 2" };
         string prompt = "Select an option:";
-        Menu mainMenu = new Menu(options)
-                            .Prompt(prompt)
-                            .Colors(ConsoleColor.White, ConsoleColor.Black)
-                            .ColorsWhenSelected(ConsoleColor.Black, ConsoleColor.White);
+
+        Action[] actions = { Option1Selected, Option2Selected };
+
+        Menu mainMenu = new Menu(options, actions)
+                            .Prompt(prompt);
+
         int selectedIndex = mainMenu.Run();
 
-        if(selectedIndex == 0)
-        {
-            Console.WriteLine("Option 1 selected");
-        }
-        else if(selectedIndex == 1)
-        {
-            Console.WriteLine("Option 2 selected");
-        }
-
         Console.ReadKey();
+    }
+
+    static void Option1Selected()
+    {
+        Console.WriteLine("Option 1 selected");
+    }
+
+    static void Option2Selected()
+    {
+        Console.WriteLine("Option 2 selected");
     }
 }
 ```
