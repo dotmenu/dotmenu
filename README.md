@@ -4,6 +4,13 @@ CrystalSharp is a straightforward console menu library designed to streamline us
 
 ## How To Use
 
+## Options
+
+Options are the items shown in the menu.
+```cs
+Menu mainMenu = new Menu(options)
+```
+
 ### Prompt
 
 The prompt is the message displayed before showing the menu options.
