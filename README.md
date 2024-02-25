@@ -92,7 +92,7 @@ You can contribute by submitting a Pull Request or opening an Issue on GitHub [@
 
 ### 1.2.1
 
-Add suport for if/switch selectedIndex instead of using actions. (Legacy support)
+Add support for older if/switch statments instead of using actions.
 
 ### 1.2
 
