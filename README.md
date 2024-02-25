@@ -90,6 +90,10 @@ You can contribute by submitting a Pull Request or opening an Issue on GitHub [@
 
 ## Changelog
 
+### 1.2.1
+
+Add suport for if/switch selectedIndex instead of using actions. (Legacy support)
+
 ### 1.2
 
 Added keyboard shortcuts.

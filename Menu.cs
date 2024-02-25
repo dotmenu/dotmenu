@@ -16,10 +16,10 @@
         private Dictionary<ConsoleKey, int> _shortcutMap = new Dictionary<ConsoleKey, int>();
         private Action[] _actions;
 
-        public Menu(string[] options, Action[] actions)
+        public Menu(string[] options)
         {
             _options = options;
-            _actions = actions;
+            _actions = new Action[options.Length];
 
             for (int i = 0; i < options.Length && i < 9; i++)
             {
@@ -30,6 +30,12 @@
         public Menu Prompt(string prompt)
         {
             _prompt = prompt;
+            return this;
+        }
+
+        public Menu Actions(Action[] actions)
+        {
+            _actions = actions;
             return this;
         }
 
