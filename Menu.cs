@@ -4,7 +4,6 @@ namespace CrystalSharp
     {
         private int _selectedIndex;
         private List<Option> _options = new List<Option>();
-        private string _prompt;
         private ConsoleColor _fg = ConsoleColor.White;
         private ConsoleColor _bg = ConsoleColor.Black;
         private ConsoleColor _selectedFg = ConsoleColor.Black;
@@ -12,23 +11,6 @@ namespace CrystalSharp
         private Dictionary<ConsoleKey, int> _shortcutMap = new Dictionary<ConsoleKey, int>();
 
         public Menu(){}
-
-        public Menu(string prompt) : this()
-        {
-            _prompt = prompt;
-        }
-
-        public Menu Prompt(string prompt)
-        {
-            _prompt = prompt;
-            return this;
-        }
-
-        public Menu AddOption(string text, Action action, string prefix = "", string suffix = "")
-        {
-            _options.Add(new Option(text, action, prefix, suffix));
-            return this;
-        }
 
         public Menu Colors(ConsoleColor fg, ConsoleColor bg)
         {
@@ -47,6 +29,12 @@ namespace CrystalSharp
         public Menu Shortcut(ConsoleKey key, int optionIndex)
         {
             _shortcutMap[key] = optionIndex;
+            return this;
+        }
+
+        public Menu AddOption(string text, Action action)
+        {
+            _options.Add(new Option(text, action));
             return this;
         }
 
@@ -85,11 +73,6 @@ namespace CrystalSharp
 
         private void DisplayOptions()
         {
-            if (!string.IsNullOrEmpty(_prompt))
-            {
-                Console.WriteLine(_prompt);
-            }
-
             for (int i = 0; i < _options.Count; i++)
             {
                 string selectedOption = _options[i].Text;
@@ -98,17 +81,13 @@ namespace CrystalSharp
                 {
                     Console.ForegroundColor = _selectedFg;
                     Console.BackgroundColor = _selectedBg;
-                    Console.Write(_options[i].Prefix);
                     Console.Write(selectedOption);
-                    Console.Write(_options[i].Suffix);
                 }
                 else
                 {
                     Console.BackgroundColor = _bg;
                     Console.ForegroundColor = _fg;
-                    Console.Write(_options[i].Prefix);
                     Console.Write(selectedOption);
-                    Console.Write(_options[i].Suffix);
                 }
 
                 Console.WriteLine();
@@ -122,15 +101,11 @@ namespace CrystalSharp
     {
         public string Text { get; }
         public Action Action { get; }
-        public string Prefix { get; }
-        public string Suffix { get; }
 
-        public Option(string text, Action action, string prefix = "", string suffix = "")
+        public Option(string text, Action action)
         {
             Text = text;
             Action = action;
-            Prefix = prefix;
-            Suffix = suffix;
         }
     }
 }
