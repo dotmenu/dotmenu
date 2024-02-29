@@ -1,30 +1,21 @@
-﻿namespace CrystalSharp
+namespace CrystalSharp
 {
     public class Menu
     {
         private int _selectedIndex;
-        private string[] _options;
+        private List<Option> _options = new List<Option>();
         private string _prompt;
-        private string _prefix;
-        private string _suffix;
-        private string _selectedPrefix;
-        private string _selectedSuffix;
         private ConsoleColor _fg = ConsoleColor.White;
         private ConsoleColor _bg = ConsoleColor.Black;
         private ConsoleColor _selectedFg = ConsoleColor.Black;
         private ConsoleColor _selectedBg = ConsoleColor.White;
         private Dictionary<ConsoleKey, int> _shortcutMap = new Dictionary<ConsoleKey, int>();
-        private Action[] _actions;
 
-        public Menu(string[] options)
+        public Menu(){}
+
+        public Menu(string prompt) : this()
         {
-            _options = options;
-            _actions = new Action[options.Length];
-
-            for (int i = 0; i < options.Length && i < 9; i++)
-            {
-                _shortcutMap[ConsoleKey.D1 + i] = i;
-            }
+            _prompt = prompt;
         }
 
         public Menu Prompt(string prompt)
@@ -33,33 +24,9 @@
             return this;
         }
 
-        public Menu Actions(Action[] actions)
+        public Menu AddOption(string text, Action action, string prefix = "", string suffix = "")
         {
-            _actions = actions;
-            return this;
-        }
-
-        public Menu Prefix(string prefix)
-        {
-            _prefix = prefix;
-            return this;
-        }
-
-        public Menu Suffix(string suffix)
-        {
-            _suffix = suffix;
-            return this;
-        }
-
-        public Menu PrefixWhenSelected(string selectedPrefix)
-        {
-            _selectedPrefix = selectedPrefix;
-            return this;
-        }
-
-        public Menu SuffixWhenSelected(string selectedSuffix)
-        {
-            _selectedSuffix = selectedSuffix;
+            _options.Add(new Option(text, action, prefix, suffix));
             return this;
         }
 
@@ -96,8 +63,7 @@
 
                 if (_shortcutMap.ContainsKey(keyPressed))
                 {
-
-                    _actions[_shortcutMap[keyPressed]]?.Invoke();
+                    _options[_shortcutMap[keyPressed]].Action?.Invoke();
                     return _shortcutMap[keyPressed];
                 }
                 else
@@ -106,15 +72,14 @@
                     {
                         _selectedIndex--;
                     }
-                    if (keyPressed == ConsoleKey.DownArrow && _selectedIndex != _options.Length - 1)
+                    if (keyPressed == ConsoleKey.DownArrow && _selectedIndex != _options.Count - 1)
                     {
                         _selectedIndex++;
                     }
                 }
             } while (keyPressed != ConsoleKey.Enter);
 
-            _actions[_selectedIndex]?.Invoke();
-
+            _options[_selectedIndex].Action?.Invoke();
             return _selectedIndex;
         }
 
@@ -125,31 +90,47 @@
                 Console.WriteLine(_prompt);
             }
 
-            for (int i = 0; i < _options.Length; i++)
+            for (int i = 0; i < _options.Count; i++)
             {
-                string selectedOption = _options[i];
+                string selectedOption = _options[i].Text;
 
                 if (i == _selectedIndex)
                 {
                     Console.ForegroundColor = _selectedFg;
                     Console.BackgroundColor = _selectedBg;
-                    Console.Write(_selectedPrefix);
+                    Console.Write(_options[i].Prefix);
                     Console.Write(selectedOption);
-                    Console.Write(_selectedSuffix);
+                    Console.Write(_options[i].Suffix);
                 }
                 else
                 {
                     Console.BackgroundColor = _bg;
                     Console.ForegroundColor = _fg;
-                    Console.Write(_prefix);
+                    Console.Write(_options[i].Prefix);
                     Console.Write(selectedOption);
-                    Console.Write(_suffix);
+                    Console.Write(_options[i].Suffix);
                 }
 
                 Console.WriteLine();
             }
 
             Console.ResetColor();
+        }
+    }
+
+    public class Option
+    {
+        public string Text { get; }
+        public Action Action { get; }
+        public string Prefix { get; }
+        public string Suffix { get; }
+
+        public Option(string text, Action action, string prefix = "", string suffix = "")
+        {
+            Text = text;
+            Action = action;
+            Prefix = prefix;
+            Suffix = suffix;
         }
     }
 }
