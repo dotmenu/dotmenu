@@ -13,7 +13,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Spectre.Console" Version="x.x.x" /> <!-- Replace x.x.x with the version you want to use -->
+    <PackageReference Include="Spectre.Console" Version="0.48.0" /> <!-- Replace x.x.x with the version you want to use -->
   </ItemGroup>
 
 </Project>
