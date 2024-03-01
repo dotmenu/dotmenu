@@ -1,4 +1,6 @@
-﻿namespace CrystalSharp
+using Spectre.Console;
+
+namespace CrystalSharp
 {
     public class Menu
     {
@@ -45,38 +47,46 @@
             return this;
         }
 
-        public int Run()
+public int Run()
+{
+    ConsoleKey keyPressed;
+    do
+    {
+        Console.Clear();
+        DisplayOptions();
+
+        ConsoleKeyInfo keyInfo = Console.ReadKey(true);
+        keyPressed = keyInfo.Key;
+
+        try
         {
-            ConsoleKey keyPressed;
-            do
+            if (_shortcutMap.ContainsKey(keyPressed))
             {
-                Console.Clear();
-                DisplayOptions();
-
-                ConsoleKeyInfo keyInfo = Console.ReadKey(true);
-                keyPressed = keyInfo.Key;
-
-                if (_shortcutMap.ContainsKey(keyPressed))
+                _options[_shortcutMap[keyPressed]].Action?.Invoke();
+                return _shortcutMap[keyPressed];
+            }
+            else
+            {
+                if (keyPressed == ConsoleKey.UpArrow && _selectedIndex > 0)
                 {
-                    _options[_shortcutMap[keyPressed]].Action?.Invoke();
-                    return _shortcutMap[keyPressed];
+                    _selectedIndex--;
                 }
-                else
+                if (keyPressed == ConsoleKey.DownArrow && _selectedIndex != _options.Count - 1)
                 {
-                    if (keyPressed == ConsoleKey.UpArrow && _selectedIndex > 0)
-                    {
-                        _selectedIndex--;
-                    }
-                    if (keyPressed == ConsoleKey.DownArrow && _selectedIndex != _options.Count - 1)
-                    {
-                        _selectedIndex++;
-                    }
+                    _selectedIndex++;
                 }
-            } while (keyPressed != ConsoleKey.Enter);
-
-            _options[_selectedIndex].Action?.Invoke();
-            return _selectedIndex;
+            }
         }
+        catch (Exception ex)
+        {
+            AnsiConsole.WriteException(ex);
+        }
+    } while (keyPressed != ConsoleKey.Enter);
+
+    _options[_selectedIndex].Action?.Invoke();
+    return _selectedIndex;
+}
+
 
         private void DisplayOptions()
         {
