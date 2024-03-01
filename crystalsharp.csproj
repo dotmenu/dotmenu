@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Library</OutputType>
@@ -11,4 +11,9 @@
     <Description>A simple console menu library.</Description>
     <PackageTags>console menu</PackageTags>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Spectre.Console" Version="x.x.x" /> <!-- Replace x.x.x with the version you want to use -->
+  </ItemGroup>
+
 </Project>
