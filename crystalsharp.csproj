@@ -6,7 +6,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <PackageId>CrystalSharpMenu</PackageId>
-    <Version>2.0</Version>
+    <Version>2.0.1</Version>
     <Authors>Natesworks</Authors>
     <Description>A simple console menu library.</Description>
     <PackageTags>console menu</PackageTags>

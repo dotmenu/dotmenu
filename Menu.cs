@@ -1,9 +1,10 @@
-namespace CrystalSharp
+﻿namespace CrystalSharp
 {
     public class Menu
     {
         private int _selectedIndex;
         private List<Option> _options = new List<Option>();
+        private string _prompt = "";
         private ConsoleColor _fg = ConsoleColor.White;
         private ConsoleColor _bg = ConsoleColor.Black;
         private ConsoleColor _selectedFg = ConsoleColor.Black;
@@ -11,6 +12,12 @@ namespace CrystalSharp
         private Dictionary<ConsoleKey, int> _shortcutMap = new Dictionary<ConsoleKey, int>();
 
         public Menu(){}
+
+        public Menu Prompt(string prompt)
+        {
+            _prompt = prompt;
+            return this;
+        }
 
         public Menu Colors(ConsoleColor fg, ConsoleColor bg)
         {
@@ -73,6 +80,10 @@ namespace CrystalSharp
 
         private void DisplayOptions()
         {
+            if(!_prompt.Equals(""))
+            {
+                Console.WriteLine(_prompt);
+            }
             for (int i = 0; i < _options.Count; i++)
             {
                 string selectedOption = _options[i].Text;
