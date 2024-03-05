@@ -137,7 +137,7 @@ namespace CrystalSharp
     public class Option
     {
         public string Text { get; set; }
-        public Action Action { get; }
+        public Action Action { get; set; }
 
         public Option(string text, Action action)
         {
