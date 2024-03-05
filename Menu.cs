@@ -13,7 +13,7 @@ namespace CrystalSharp
         private Color _selectedBg = Color.White;
         private readonly Dictionary<ConsoleKey, int> _shortcutMap = new Dictionary<ConsoleKey, int>();
 
-        public Menu Prompt(string prompt)
+        public Menu SetPrompt(string prompt)
         {
             _prompt = prompt;
             return this;
@@ -33,20 +33,33 @@ namespace CrystalSharp
             return this;
         }
 
-        public Menu Shortcut(ConsoleKey key, int optionIndex)
+        public Menu AddOption(string text, Action action, ConsoleKey? shortcut = null)
         {
-            _shortcutMap[key] = optionIndex;
+            _options.Add(new Option(text, action));
+            if (shortcut.HasValue)
+            {
+                _shortcutMap[shortcut.Value] = _options.Count - 1;
+            }
             return this;
         }
 
-        public Menu AddOption(string text, Action action)
+        public Menu EditOptions(Action<List<Option>> editAction)
         {
-            _options.Add(new Option(text, action));
+            editAction?.Invoke(_options);
             return this;
         }
 
         public int Run()
         {
+            if (_options.Count == 0)
+            {
+                if (!string.IsNullOrEmpty(_prompt))
+                {
+                    AnsiConsole.WriteLine(_prompt);
+                }
+                return -1;
+            }
+
             ConsoleKey keyPressed;
             do
             {
