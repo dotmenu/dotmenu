@@ -1,4 +1,5 @@
-using Spectre.Console;
+using System;
+using System.Collections.Generic;
 
 namespace CrystalSharp
 {
@@ -7,10 +8,10 @@ namespace CrystalSharp
         private int _selectedIndex;
         private readonly List<Option> _options = new List<Option>();
         private string _prompt = "";
-        private Color _fg = Color.White;
-        private Color _bg = Color.Black;
-        private Color _selectedFg = Color.Black;
-        private Color _selectedBg = Color.White;
+        private ConsoleColor _fg = ConsoleColor.White;
+        private ConsoleColor _bg = ConsoleColor.Black;
+        private ConsoleColor _selectedFg = ConsoleColor.Black;
+        private ConsoleColor _selectedBg = ConsoleColor.White;
         private readonly Dictionary<ConsoleKey, int> _shortcutMap = new Dictionary<ConsoleKey, int>();
 
         public Menu SetPrompt(string prompt)
@@ -19,14 +20,14 @@ namespace CrystalSharp
             return this;
         }
 
-        public Menu Colors(Color fg, Color bg)
+        public Menu Colors(ConsoleColor fg, ConsoleColor bg)
         {
             _fg = fg;
             _bg = bg;
             return this;
         }
 
-        public Menu ColorsWhenSelected(Color selectedFg, Color selectedBg)
+        public Menu ColorsWhenSelected(ConsoleColor selectedFg, ConsoleColor selectedBg)
         {
             _selectedFg = selectedFg;
             _selectedBg = selectedBg;
@@ -43,19 +44,13 @@ namespace CrystalSharp
             return this;
         }
 
-        public Menu EditOptions(Action<List<Option>> editAction)
-        {
-            editAction?.Invoke(_options);
-            return this;
-        }
-
         public int Run()
         {
             if (_options.Count == 0)
             {
                 if (!string.IsNullOrEmpty(_prompt))
                 {
-                    AnsiConsole.WriteLine(_prompt);
+                    Console.WriteLine(_prompt);
                 }
                 return -1;
             }
@@ -63,7 +58,7 @@ namespace CrystalSharp
             ConsoleKey keyPressed;
             do
             {
-                AnsiConsole.Console.Clear(); // Clear only the current console window
+                Console.Clear(); // Clear only the current console window
                 DisplayOptions();
 
                 ConsoleKeyInfo keyInfo = Console.ReadKey(true);
@@ -80,7 +75,7 @@ namespace CrystalSharp
                         }
                         else
                         {
-                            AnsiConsole.WriteLine("Invalid option.");
+                            Console.WriteLine("Invalid option.");
                         }
                     }
                     else
@@ -97,7 +92,7 @@ namespace CrystalSharp
                 }
                 catch (Exception ex)
                 {
-                    AnsiConsole.WriteException(ex);
+                    Console.WriteLine(ex.Message);
                 }
             } while (keyPressed != ConsoleKey.Enter);
 
@@ -109,7 +104,7 @@ namespace CrystalSharp
         {
             if (!string.IsNullOrEmpty(_prompt))
             {
-                AnsiConsole.WriteLine(_prompt);
+                Console.WriteLine(_prompt);
             }
 
             for (int i = 0; i < _options.Count; i++)
@@ -118,19 +113,30 @@ namespace CrystalSharp
 
                 if (i == _selectedIndex)
                 {
-                    AnsiConsole.Render(new Markup($"[bg={_selectedBg.ToHex()} fg={_selectedFg.ToHex()}]{selectedOption}[/]").Centered());
+                    Console.BackgroundColor = _selectedBg;
+                    Console.ForegroundColor = _selectedFg;
+                    Console.WriteLine(selectedOption);
+                    Console.ResetColor();
                 }
                 else
                 {
-                    AnsiConsole.Render(new Markup($"[bg={_bg.ToHex()} fg={_fg.ToHex()}]{selectedOption}[/]").Centered());
+                    Console.BackgroundColor = _bg;
+                    Console.ForegroundColor = _fg;
+                    Console.WriteLine(selectedOption);
+                    Console.ResetColor();
                 }
             }
+        }
+
+        public void EditOptions(Action<List<Option>> editAction)
+        {
+            editAction?.Invoke(_options);
         }
     }
 
     public class Option
     {
-        public string Text { get; }
+        public string Text { get; set; }
         public Action Action { get; }
 
         public Option(string text, Action action)
