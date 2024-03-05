@@ -63,7 +63,7 @@ namespace CrystalSharp
             ConsoleKey keyPressed;
             do
             {
-                AnsiConsole.Clear();
+                AnsiConsole.Console.Clear(); // Clear only the current console window
                 DisplayOptions();
 
                 ConsoleKeyInfo keyInfo = Console.ReadKey(true);
@@ -111,20 +111,19 @@ namespace CrystalSharp
             {
                 AnsiConsole.WriteLine(_prompt);
             }
+
             for (int i = 0; i < _options.Count; i++)
             {
                 string selectedOption = _options[i].Text;
 
                 if (i == _selectedIndex)
                 {
-                    AnsiConsole.Markup($"[bg={_selectedBg.ToHex()} fg={_selectedFg.ToHex()}]{selectedOption}[/]");
+                    AnsiConsole.Render(new Markup($"[bg={_selectedBg.ToHex()} fg={_selectedFg.ToHex()}]{selectedOption}[/]").Centered());
                 }
                 else
                 {
-                    AnsiConsole.Markup($"[bg={_bg.ToHex()} fg={_fg.ToHex()}]{selectedOption}[/]");
+                    AnsiConsole.Render(new Markup($"[bg={_bg.ToHex()} fg={_fg.ToHex()}]{selectedOption}[/]").Centered());
                 }
-
-                Console.WriteLine();
             }
         }
     }
