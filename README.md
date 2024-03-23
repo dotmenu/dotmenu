@@ -1,3 +1,7 @@
+## Project renamed and moved
+
+The project has been renamed to Dotmenu and moved to https://github.com/dotmenu/dotmenu
+
 # CrystalSharp
 
 CrystalSharp is a C# package designed to simplify the creation of menus in console applications. With CrystalSharp, you can easily create interactive menus for user interaction.
