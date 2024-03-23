@@ -1,6 +1,6 @@
-# CrystalSharp
+# Dotmenu
 
-CrystalSharp is a C# package designed to simplify the creation of menus in console applications. With CrystalSharp, you can easily create interactive menus for user interaction.
+Dotmenu is a straightforward console menu library designed to streamline user interactions in console applications.
 
 ## Features
 
@@ -10,16 +10,16 @@ CrystalSharp is a C# package designed to simplify the creation of menus in conso
 
 ## Installation
 
-CrystalSharp can be added to your project with:
+Dotmenu can be added to your project with:
 
 ```bash
-dotnet add package CrystalSharpMenu
+dotnet add package Natesworks.Dotmenu
 ```
 
 ## Basic Example
 
 ```cs
-using CrystalSharp;
+using Dotmenu;
 
 class Program
 {
@@ -28,12 +28,12 @@ class Program
         Menu menu = new Menu();
 
         menu.SetPrompt("Select an option:");
-        menu.Colors(Color.Yellow, Color.DarkBlue);
-        menu.ColorsWhenSelected(Color.DarkBlue, Color.Yellow);
+        menu.Colors(Color.White, Color.Black);
+        menu.ColorsWhenSelected(Color.Black, Color.White);
 
         menu.AddOption("Option 1", () => Console.WriteLine("You selected Option 1"));
-        menu.AddOption("Option 2", () => Console.WriteLine("You selected Option 2"), ConsoleKey.D2);
-        menu.AddOption("Option 3", () => Console.WriteLine("You selected Option 3"), ConsoleKey.D3);
+        menu.AddOption("Option 2", () => Console.WriteLine("You selected Option 2"));
+        menu.AddOption("Option 3", () => Console.WriteLine("You selected Option 3"));
 
         menu.Run();
     }
@@ -42,4 +42,4 @@ class Program
 
 # Documentation
 
-Explore our wiki sections for guidance [here](https://github.com/natesworks/crystalsharp/wiki)
+Explore our wiki sections for guidance [here](https://github.com/dotmenu/dotmenu)
