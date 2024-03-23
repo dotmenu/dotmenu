@@ -13,6 +13,7 @@ namespace Natesworks.Dotmenu
         private ConsoleColor _selectedFg = ConsoleColor.Black;
         private ConsoleColor _selectedBg = ConsoleColor.White;
         private readonly Dictionary<ConsoleKey, int> _shortcutMap = new Dictionary<ConsoleKey, int>();
+        private int _textUpdateDelay = 1000;
 
         public Menu SetPrompt(string prompt)
         {
@@ -34,34 +35,39 @@ namespace Natesworks.Dotmenu
             return this;
         }
 
-        public Menu AddOption(string text, Action action, ConsoleKey? shortcut = null)
+        public Menu AddOption(Func<string> textFunction, Action action, ConsoleKey? shortcut = null)
         {
-            _options.Add(new Option(text, action));
+            _options.Add(new Option(textFunction, action));
             if (shortcut.HasValue)
             {
                 _shortcutMap[shortcut.Value] = _options.Count - 1;
             }
             return this;
         }
+        public Menu TextUpdateDelay(int textUpdateDelay)
+        {
+            _textUpdateDelay = textUpdateDelay;
+            return this;
+        }
 
         public int Run()
         {
-            if (_options.Count == 0)
+            ConsoleKey keyPressed = default;
+            var updateTask = Task.Run(async () =>
             {
-                if (!string.IsNullOrEmpty(_prompt))
+                do
                 {
-                    Console.WriteLine(_prompt);
-                }
-                return -1;
-            }
+                    Console.Clear();
+                    DisplayOptions();
+                    await Task.Delay(_textUpdateDelay);
+                } while (keyPressed != ConsoleKey.Enter);
+            });
 
-            ConsoleKey keyPressed;
             do
             {
-                Console.Clear(); // Clear only the current console window
-                DisplayOptions();
-
-                ConsoleKeyInfo keyInfo = Console.ReadKey(true);
+                var keyInfoTask = Task.Run(() => Console.ReadKey(true));
+                Task.WaitAny(updateTask, keyInfoTask);
+                var keyInfo = keyInfoTask.Result;
                 keyPressed = keyInfo.Key;
 
                 try
@@ -70,8 +76,7 @@ namespace Natesworks.Dotmenu
                     {
                         if (optionIndex >= 0 && optionIndex < _options.Count)
                         {
-                            _options[optionIndex].Action?.Invoke();
-                            return optionIndex;
+                            _selectedIndex = optionIndex;
                         }
                         else
                         {
@@ -100,6 +105,7 @@ namespace Natesworks.Dotmenu
             return _selectedIndex;
         }
 
+
         private void DisplayOptions()
         {
             if (!string.IsNullOrEmpty(_prompt))
@@ -109,7 +115,7 @@ namespace Natesworks.Dotmenu
 
             for (int i = 0; i < _options.Count; i++)
             {
-                string selectedOption = _options[i].Text;
+                string selectedOption = _options[i].GetText();
 
                 if (i == _selectedIndex)
                 {
@@ -128,6 +134,7 @@ namespace Natesworks.Dotmenu
             }
         }
 
+
         public void EditOptions(Action<List<Option>> editAction)
         {
             editAction?.Invoke(_options);
@@ -136,13 +143,18 @@ namespace Natesworks.Dotmenu
 
     public class Option
     {
-        public string Text { get; set; }
+        private readonly Func<string> _textFunction; 
         public Action Action { get; set; }
 
-        public Option(string text, Action action)
+        public Option(Func<string> textFunction, Action action)
         {
-            Text = text;
+            _textFunction = textFunction;
             Action = action;
+        }
+
+        public string GetText()
+        {
+            return _textFunction.Invoke();
         }
     }
 }
