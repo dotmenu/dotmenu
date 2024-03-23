@@ -42,4 +42,4 @@ class Program
 
 # Documentation
 
-Explore our wiki sections for guidance [here](https://github.com/dotmenu/dotmenu)
+Explore our wiki sections for guidance [here](https://github.com/dotmenu/dotmenu/wiki)
