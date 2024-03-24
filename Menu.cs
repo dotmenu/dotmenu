@@ -13,7 +13,7 @@ namespace Natesworks.Dotmenu
         private ConsoleColor _selectedFg = ConsoleColor.Black;
         private ConsoleColor _selectedBg = ConsoleColor.White;
         private readonly Dictionary<ConsoleKey, int> _shortcutMap = new Dictionary<ConsoleKey, int>();
-        private int _textUpdateDelay = 1000;
+        private int _textAutoUpdateDelay = 1000;
 
         public Menu SetPrompt(string prompt)
         {
@@ -44,9 +44,9 @@ namespace Natesworks.Dotmenu
             }
             return this;
         }
-        public Menu TextUpdateDelay(int textUpdateDelay)
+        public Menu textAutoUpdateDelay(int textAutoUpdateDelay)
         {
-            _textUpdateDelay = textUpdateDelay;
+            _textAutoUpdateDelay = textAutoUpdateDelay;
             return this;
         }
 
@@ -62,7 +62,7 @@ namespace Natesworks.Dotmenu
                     do
                     {
                         DisplayOptions();
-                        await Task.Delay(_textUpdateDelay, cancellationTokenSource.Token);
+                        await Task.Delay(_textAutoUpdateDelay, cancellationTokenSource.Token);
                     } while (!cancellationTokenSource.Token.IsCancellationRequested);
                 }
                 catch (TaskCanceledException){}
