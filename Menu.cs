@@ -50,28 +50,31 @@ namespace Natesworks.Dotmenu
             return this;
         }
 
+
         public int Run()
         {
             ConsoleKey keyPressed = default;
-            var updateTask = Task.Run(async () =>
+            CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
+            Task updateTask = Task.Run(async () =>
             {
-                do
+                try
                 {
-                    Console.Clear();
-                    DisplayOptions();
-                    await Task.Delay(_textUpdateDelay);
-                } while (keyPressed != ConsoleKey.Enter);
-            });
+                    do
+                    {
+                        DisplayOptions();
+                        await Task.Delay(_textUpdateDelay, cancellationTokenSource.Token);
+                    } while (!cancellationTokenSource.Token.IsCancellationRequested);
+                }
+                catch (TaskCanceledException){}
+            }, cancellationTokenSource.Token);
 
             do
             {
-                var keyInfoTask = Task.Run(() => Console.ReadKey(true));
-                Task.WaitAny(updateTask, keyInfoTask);
-                var keyInfo = keyInfoTask.Result;
-                keyPressed = keyInfo.Key;
-
                 try
                 {
+                    var keyInfo = Console.ReadKey(true);
+                    keyPressed = keyInfo.Key;
+
                     if (_shortcutMap.TryGetValue(keyPressed, out int optionIndex))
                     {
                         if (optionIndex >= 0 && optionIndex < _options.Count)
@@ -93,6 +96,7 @@ namespace Natesworks.Dotmenu
                         {
                             _selectedIndex++;
                         }
+                        DisplayOptions();
                     }
                 }
                 catch (Exception ex)
@@ -101,13 +105,15 @@ namespace Natesworks.Dotmenu
                 }
             } while (keyPressed != ConsoleKey.Enter);
 
+            cancellationTokenSource.Cancel();
+            updateTask.Wait();
             _options[_selectedIndex].Action?.Invoke();
             return _selectedIndex;
         }
 
-
         private void DisplayOptions()
         {
+            Console.Clear();
             if (!string.IsNullOrEmpty(_prompt))
             {
                 Console.WriteLine(_prompt);
