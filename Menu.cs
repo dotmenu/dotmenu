@@ -44,7 +44,7 @@ namespace Natesworks.Dotmenu
             }
             return this;
         }
-        public Menu textAutoUpdateDelay(int textAutoUpdateDelay)
+        public Menu TextAutoUpdateDelay(int textAutoUpdateDelay)
         {
             _textAutoUpdateDelay = textAutoUpdateDelay;
             return this;
