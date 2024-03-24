@@ -19,7 +19,7 @@ dotnet add package Natesworks.Dotmenu
 ## Basic Example
 
 ```cs
-using Dotmenu;
+using Natesworks.Dotmenu;
 
 class Program
 {
