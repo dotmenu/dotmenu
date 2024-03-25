@@ -17,31 +17,7 @@ Dotmenu can be added to your project with:
 dotnet add package Natesworks.Dotmenu
 ```
 
-## Basic Example
-
-```cs
-using Natesworks.Dotmenu;
-
-class Program
-{
-    static void Main(string[] args)
-    {
-        Menu menu = new Menu();
-
-        menu.SetPrompt("Select an option:");
-        menu.Colors(Color.White, Color.Black);
-        menu.ColorsWhenSelected(Color.Black, Color.White);
-
-        menu.AddOption("Option 1", () => Console.WriteLine("You selected Option 1"));
-        menu.AddOption("Option 2", () => Console.WriteLine("You selected Option 2"));
-        menu.AddOption("Option 3", () => Console.WriteLine("You selected Option 3"));
-
-        menu.Run();
-    }
-}
-```
-
-## Advanced example
+## Example
 
 ```cs
 using Natesworks.Dotmenu
