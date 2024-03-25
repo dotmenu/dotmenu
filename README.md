@@ -1,16 +1,5 @@
 # Dotmenu
 
-Dotmenu is a straightforward console menu library designed to streamline user interactions in console applications.
-
-## Features
-
-- Create customizable menus.
-- Assign keyboard shortcuts to menu options for quicker navigation.
-- Edit menu options dynamically during runtime.
-- Dynamic menu option text
-
-## Installation
-
 Dotmenu can be added to your project with:
 
 ```bash
