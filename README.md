@@ -28,7 +28,7 @@ class Program
 
     static void ShowSubMenu()
     {
-        var subMenu1 = new Menu()
+        var subMenu1 = Menu.New()
             .SetPrompt("Sub Menu 1")
             .AddOption(() => "Sub Option 1-1", () => Console.WriteLine("Sub Option 1-1 selected"))
             .AddOption(() => "Sub Option 1-2", () => Console.WriteLine("Sub Option 1-2 selected"))
