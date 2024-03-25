@@ -13,7 +13,7 @@ namespace Natesworks.Dotmenu
         private ConsoleColor _selectedFg = ConsoleColor.Black;
         private ConsoleColor _selectedBg = ConsoleColor.White;
         private readonly Dictionary<ConsoleKey, int> _shortcutMap = new Dictionary<ConsoleKey, int>();
-        private int _textAutoUpdateDelay = 1000;
+        private int _textAutoUpdateDelay = 1000000;
 
         public Menu SetPrompt(string prompt)
         {
