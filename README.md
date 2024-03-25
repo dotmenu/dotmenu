@@ -1,49 +1,44 @@
-## Project renamed and moved
+# Dotmenu
 
-The project has been renamed to Dotmenu and moved to https://github.com/dotmenu/dotmenu
-
-# CrystalSharp
-
-CrystalSharp is a C# package designed to simplify the creation of menus in console applications. With CrystalSharp, you can easily create interactive menus for user interaction.
-
-## Features
-
-- Create customizable menus.
-- Assign keyboard shortcuts to menu options for quicker navigation.
-- Edit menu options dynamically during runtime.
-
-## Installation
-
-CrystalSharp can be added to your project with:
+Dotmenu can be added to your project with:
 
 ```bash
-dotnet add package CrystalSharpMenu
+dotnet add package Natesworks.Dotmenu
 ```
 
-## Basic Example
+## Example
 
 ```cs
-using CrystalSharp;
+using Natesworks.Dotmenu
 
 class Program
 {
     static void Main(string[] args)
     {
-        Menu menu = new Menu();
+        var mainMenu = new Menu()
+            .SetPrompt("Main Menu")
+            .AddOption(() => "Option 1", () => Console.WriteLine("Option 1 selected"))
+            .AddOption(() => "Option 2", () => Console.WriteLine("Option 2 selected"))
+            .AddOption(() => "Sub Menu", () => ShowSubMenu());
+        while(true)
+        {
+            mainMenu.Run();
+        }
+    }
 
-        menu.SetPrompt("Select an option:");
-        menu.Colors(Color.Yellow, Color.DarkBlue);
-        menu.ColorsWhenSelected(Color.DarkBlue, Color.Yellow);
+    static void ShowSubMenu()
+    {
+        var subMenu1 = new Menu()
+            .SetPrompt("Sub Menu 1")
+            .AddOption(() => "Sub Option 1-1", () => Console.WriteLine("Sub Option 1-1 selected"))
+            .AddOption(() => "Sub Option 1-2", () => Console.WriteLine("Sub Option 1-2 selected"))
+            .AddOption(() => "Back", () => {});
 
-        menu.AddOption("Option 1", () => Console.WriteLine("You selected Option 1"));
-        menu.AddOption("Option 2", () => Console.WriteLine("You selected Option 2"), ConsoleKey.D2);
-        menu.AddOption("Option 3", () => Console.WriteLine("You selected Option 3"), ConsoleKey.D3);
-
-        menu.Run();
+        subMenu1.Run();
     }
 }
 ```
 
 # Documentation
 
-Explore our wiki sections for guidance [here](https://github.com/natesworks/crystalsharp/wiki)
+Explore our wiki sections for guidance [here](https://github.com/dotmenu/dotmenu/wiki)

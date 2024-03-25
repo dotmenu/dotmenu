@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.002.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "crystalsharp", "crystalsharp.csproj", "{AEF150E6-D66B-433F-822F-36B677739A0F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dotmenu", "dotmenu.csproj", "{F9658EF6-B672-4749-BFEC-E67CC8DFDE8E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{AEF150E6-D66B-433F-822F-36B677739A0F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{AEF150E6-D66B-433F-822F-36B677739A0F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{AEF150E6-D66B-433F-822F-36B677739A0F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{AEF150E6-D66B-433F-822F-36B677739A0F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F9658EF6-B672-4749-BFEC-E67CC8DFDE8E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F9658EF6-B672-4749-BFEC-E67CC8DFDE8E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F9658EF6-B672-4749-BFEC-E67CC8DFDE8E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F9658EF6-B672-4749-BFEC-E67CC8DFDE8E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {75FC842F-489F-4774-B3A5-A8D5B487E3D5}
+		SolutionGuid = {CEFF45BB-EAF5-4CE4-8DE0-E360506BB167}
 	EndGlobalSection
 EndGlobal

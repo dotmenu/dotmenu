@@ -2,18 +2,14 @@
 
   <PropertyGroup>
     <OutputType>Library</OutputType>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFrameworks>net8.0;net7.0;net6.0</TargetFrameworks>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <PackageId>CrystalSharpMenu</PackageId>
-    <Version>2.2.1</Version>
+    <PackageId>Natesworks.Dotmenu</PackageId>
+    <Version>1.1.2</Version>
     <Authors>Natesworks</Authors>
     <Description>A simple console menu library.</Description>
     <PackageTags>console menu</PackageTags>
   </PropertyGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Spectre.Console" Version="0.48.0" /> <!-- Replace x.x.x with the version you want to use -->
-  </ItemGroup>
 
 </Project>

@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace CrystalSharp
+namespace Natesworks.Dotmenu
 {
     public class Menu
     {
@@ -13,6 +13,7 @@ namespace CrystalSharp
         private ConsoleColor _selectedFg = ConsoleColor.Black;
         private ConsoleColor _selectedBg = ConsoleColor.White;
         private readonly Dictionary<ConsoleKey, int> _shortcutMap = new Dictionary<ConsoleKey, int>();
+        private int _textAutoUpdateDelay = 1000000;
 
         public Menu SetPrompt(string prompt)
         {
@@ -34,44 +35,51 @@ namespace CrystalSharp
             return this;
         }
 
-        public Menu AddOption(string text, Action action, ConsoleKey? shortcut = null)
+        public Menu AddOption(Func<string> textFunction, Action action, ConsoleKey? shortcut = null)
         {
-            _options.Add(new Option(text, action));
+            _options.Add(new Option(textFunction, action));
             if (shortcut.HasValue)
             {
                 _shortcutMap[shortcut.Value] = _options.Count - 1;
             }
             return this;
         }
+        public Menu TextAutoUpdateDelay(int textAutoUpdateDelay)
+        {
+            _textAutoUpdateDelay = textAutoUpdateDelay;
+            return this;
+        }
+
 
         public int Run()
         {
-            if (_options.Count == 0)
+            ConsoleKey keyPressed = default;
+            CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
+            Task updateTask = Task.Run(async () =>
             {
-                if (!string.IsNullOrEmpty(_prompt))
-                {
-                    Console.WriteLine(_prompt);
-                }
-                return -1;
-            }
-
-            ConsoleKey keyPressed;
-            do
-            {
-                Console.Clear(); // Clear only the current console window
-                DisplayOptions();
-
-                ConsoleKeyInfo keyInfo = Console.ReadKey(true);
-                keyPressed = keyInfo.Key;
-
                 try
                 {
+                    do
+                    {
+                        DisplayOptions();
+                        await Task.Delay(_textAutoUpdateDelay, cancellationTokenSource.Token);
+                    } while (!cancellationTokenSource.Token.IsCancellationRequested);
+                }
+                catch (TaskCanceledException){}
+            }, cancellationTokenSource.Token);
+
+            do
+            {
+                try
+                {
+                    var keyInfo = Console.ReadKey(true);
+                    keyPressed = keyInfo.Key;
+
                     if (_shortcutMap.TryGetValue(keyPressed, out int optionIndex))
                     {
                         if (optionIndex >= 0 && optionIndex < _options.Count)
                         {
-                            _options[optionIndex].Action?.Invoke();
-                            return optionIndex;
+                            _selectedIndex = optionIndex;
                         }
                         else
                         {
@@ -88,6 +96,7 @@ namespace CrystalSharp
                         {
                             _selectedIndex++;
                         }
+                        DisplayOptions();
                     }
                 }
                 catch (Exception ex)
@@ -96,12 +105,15 @@ namespace CrystalSharp
                 }
             } while (keyPressed != ConsoleKey.Enter);
 
+            cancellationTokenSource.Cancel();
+            updateTask.Wait();
             _options[_selectedIndex].Action?.Invoke();
             return _selectedIndex;
         }
 
         private void DisplayOptions()
         {
+            Console.Clear();
             if (!string.IsNullOrEmpty(_prompt))
             {
                 Console.WriteLine(_prompt);
@@ -109,7 +121,7 @@ namespace CrystalSharp
 
             for (int i = 0; i < _options.Count; i++)
             {
-                string selectedOption = _options[i].Text;
+                string selectedOption = _options[i].GetText();
 
                 if (i == _selectedIndex)
                 {
@@ -128,6 +140,7 @@ namespace CrystalSharp
             }
         }
 
+
         public void EditOptions(Action<List<Option>> editAction)
         {
             editAction?.Invoke(_options);
@@ -136,13 +149,18 @@ namespace CrystalSharp
 
     public class Option
     {
-        public string Text { get; set; }
+        private readonly Func<string> _textFunction; 
         public Action Action { get; set; }
 
-        public Option(string text, Action action)
+        public Option(Func<string> textFunction, Action action)
         {
-            Text = text;
+            _textFunction = textFunction;
             Action = action;
+        }
+
+        public string GetText()
+        {
+            return _textFunction.Invoke();
         }
     }
 }
