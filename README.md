@@ -15,7 +15,7 @@ class Program
 {
     static void Main(string[] args)
     {
-        var mainMenu = new Menu()
+        Menu mainMenu = Menu.New()
             .SetPrompt("Main Menu")
             .AddOption(() => "Option 1", () => Console.WriteLine("Option 1 selected"))
             .AddOption(() => "Option 2", () => Console.WriteLine("Option 2 selected"))
