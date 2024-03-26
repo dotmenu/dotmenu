@@ -160,7 +160,7 @@ namespace Natesworks.Dotmenu
         {
             editAction?.Invoke(_options);
         }
-        private void WriteOptions()
+	private void WriteOptions()
         {
             lock (_optionsBuilder)
             {
