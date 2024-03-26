@@ -15,6 +15,7 @@ namespace Natesworks.Dotmenu
         private int _textAutoUpdateDelay = 1000;
         private StringBuilder _optionsBuilder = new StringBuilder();
         private int _initialCursorY;
+        private string _noAnsiSelector = ">";
         private static readonly string _colorEscapeCode = "\x1b[38;2;{0};{1};{2}m\x1b[48;2;{3};{4};{5}m{6}\x1b[0m";
         private static readonly bool SupportsAnsi = SpectreConsoleColorSystemDetector.Detect() == ColorSystem.TrueColor;
         
@@ -64,7 +65,6 @@ namespace Natesworks.Dotmenu
             _selectedBg = selectedBg;
             return this;
         }
-
         /// <summary>
         /// Adds a new option to the menu.
         /// </summary>
@@ -87,6 +87,16 @@ namespace Natesworks.Dotmenu
         public Menu TextAutoUpdateDelay(int textAutoUpdateDelay)
         {
             _textAutoUpdateDelay = textAutoUpdateDelay;
+            return this;
+        }
+        /// <summary>
+        /// Sets the option selector that will be used, if ANSI is not supported.
+        /// '>' is set as a default selector.
+        /// </summary>
+        public Menu SetNoAnsiOptionSelector(string selector)
+        {
+            _noAnsiSelector = selector;
+
             return this;
         }
         /// <summary>
@@ -199,7 +209,8 @@ namespace Natesworks.Dotmenu
                     }
                     else
                     {
-                        _optionsBuilder.AppendLine(currentOption);
+                        string prefix = i == _selectedIndex && !SupportsAnsi ? _noAnsiSelector : " ";
+                        _optionsBuilder.AppendLine(prefix + currentOption);
                     }
                 }
 
