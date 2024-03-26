@@ -16,11 +16,12 @@ namespace Natesworks.Dotmenu
         private StringBuilder _optionsBuilder = new StringBuilder();
         private int _initialCursorY;
         private static readonly string _colorEscapeCode = "\x1b[38;2;{0};{1};{2}m\x1b[48;2;{3};{4};{5}m{6}\x1b[0m";
-	private static readonly bool SupportsAnsi = (Environment.OSVersion.Platform == PlatformID.Win32NT && Environment.OSVersion.Version.Major >= 10) || Environment.OSVersion.Platform == PlatformID.Unix;
+        private static readonly bool SupportsAnsi = SpectreConsoleColorSystemDetector.Detect() == ColorSystem.TrueColor;
         
         private Menu()
         {
             Console.Clear();
+
             _initialCursorY = Console.CursorTop;
         }
 
@@ -161,7 +162,7 @@ namespace Natesworks.Dotmenu
         {
             editAction?.Invoke(_options);
         }
-	private void WriteOptions()
+	    private void WriteOptions()
         {
             lock (_optionsBuilder)
             {
