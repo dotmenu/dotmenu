@@ -261,27 +261,27 @@ namespace Natesworks.Dotmenu
         /// </summary>
         public static OptionColor White = new OptionColor(255, 255, 255);
         /// <summary>
-        /// White color RGB(0, 0, 0).
+        /// Black color RGB(0, 0, 0).
         /// </summary>
         public static OptionColor Black = new OptionColor(0, 0, 0);
         /// <summary>
-        /// White color RGB(255, 0, 0).
+        /// Red color RGB(255, 0, 0).
         /// </summary>
         public static OptionColor Red = new OptionColor(255, 0, 0);
         /// <summary>
-        /// White color RGB(0, 255, 0).
+        /// Green color RGB(0, 255, 0).
         /// </summary>
         public static OptionColor Green = new OptionColor(0, 255, 0);
         /// <summary>
-        /// White color RGB((0, 0, 255).
+        /// Blue color RGB((0, 0, 255).
         /// </summary>
         public static OptionColor Blue = new OptionColor(0, 0, 255);
         /// <summary>
-        /// White color RGB(255, 0, 255).
+        /// Magenta color RGB(255, 0, 255).
         /// </summary>
         public static OptionColor Magenta = new OptionColor(255, 0, 255);
         /// <summary>
-        /// White color RGB(0, 255, 255).
+        /// Cyan color RGB(0, 255, 255).
         /// </summary>
         public static OptionColor Cyan = new OptionColor(0, 255, 255);
     }
