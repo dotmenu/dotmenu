@@ -23,27 +23,52 @@ namespace Natesworks.Dotmenu
             _initialCursorY = Console.CursorTop;
         }
 
+        /// <summary>
+        /// Creates a new Menu.
+        /// </summary>
         public static Menu New()
         {
             return new Menu();
         }
+        /// <summary>
+        /// Sets the menu prompt (optional).
+        /// </summary>
         public Menu SetPrompt(string prompt)
         {
             _prompt = prompt;
             return this;
         }
+        /// <summary>
+        /// Specifies colors for unselected options (optional).
+        /// If not called, default colors will be white for the foreground and black for the background.
+        /// </summary>
+        /// <param name="fg">Foreground color (text color).</param>
+        /// <param name="bg">Background color.</param>
         public Menu Colors(OptionColor fg, OptionColor bg)
         {
             _fg = fg;
             _bg = bg;
             return this;
         }
+        /// <summary>
+        /// Specifies colors for selected options (optional).
+        /// If not called, default colors will be black for the foreground and white for the background.
+        /// </summary>
+        /// <param name="selectedFg">Foreground color (text color).</param>
+        /// <param name="selectedBg">Background color.</param>
         public Menu ColorsWhenSelected(OptionColor selectedFg, OptionColor selectedBg)
         {
             _selectedFg = selectedFg;
             _selectedBg = selectedBg;
             return this;
         }
+
+        /// <summary>
+        /// Adds a new option to the menu.
+        /// </summary>
+        /// <param name="textFunction"></param>
+        /// <param name="action">Action to be performed after the option is chosen.</param>
+        /// <param name="shortcut">A key to bind to this option (optional).</param>
         public Menu AddOption(Func<string> textFunction, Action action, ConsoleKey? shortcut = null)
         {
             _options.Add(new Option(textFunction, action));
@@ -53,11 +78,19 @@ namespace Natesworks.Dotmenu
             }
             return this;
         }
+        /// <summary>
+        /// Specifies how much time passes between menu auto-updates (in milliseconds).
+        /// By default value is set to 1000.
+        /// </summary>
         public Menu TextAutoUpdateDelay(int textAutoUpdateDelay)
         {
             _textAutoUpdateDelay = textAutoUpdateDelay;
             return this;
         }
+        /// <summary>
+        /// Runs menu and starts a task that updates menu at regular time intervals.
+        /// </summary>
+        /// <returns>Index of option selected by the user.</returns>
         public int Run()
         {
             ConsoleKey keyPressed = default;
@@ -120,6 +153,9 @@ namespace Natesworks.Dotmenu
             _options[_selectedIndex].Action?.Invoke();
             return _selectedIndex;
         }
+        /// <summary>
+        /// Allows for edition of options after menu is ran.
+        /// </summary>
         public void EditOptions(Action<List<Option>> editAction)
         {
             editAction?.Invoke(_options);
@@ -174,12 +210,24 @@ namespace Natesworks.Dotmenu
         }
     }
 
+
+    /// <summary>
+    /// Represents a menu's option.
+    /// </summary>
     public class Option
     {
+        /// <summary>
+        /// Action to be performed after this option is chosen.
+        /// </summary>
         public Action Action { get; set; }
 
         private readonly Func<string> _textFunction;
 
+        /// <summary>
+        /// Create a new Option, with action provided.
+        /// </summary>
+        /// <param name="textFunction"></param>
+        /// <param name="action">Action triggered after this option is chosen.</param>
         public Option(Func<string> textFunction, Action action)
         {
             _textFunction = textFunction;
@@ -192,6 +240,9 @@ namespace Natesworks.Dotmenu
         }
     }
 
+    /// <summary>
+    /// Represents a RGB color and provides some default color values.
+    /// </summary>
     public struct OptionColor
     {
         public byte R { get; set; }
@@ -205,12 +256,33 @@ namespace Natesworks.Dotmenu
             B = b;
         }
 
+        /// <summary>
+        /// White color RGB(255, 255, 255).
+        /// </summary>
         public static OptionColor White = new OptionColor(255, 255, 255);
+        /// <summary>
+        /// White color RGB(0, 0, 0).
+        /// </summary>
         public static OptionColor Black = new OptionColor(0, 0, 0);
+        /// <summary>
+        /// White color RGB(255, 0, 0).
+        /// </summary>
         public static OptionColor Red = new OptionColor(255, 0, 0);
+        /// <summary>
+        /// White color RGB(0, 255, 0).
+        /// </summary>
         public static OptionColor Green = new OptionColor(0, 255, 0);
+        /// <summary>
+        /// White color RGB((0, 0, 255).
+        /// </summary>
         public static OptionColor Blue = new OptionColor(0, 0, 255);
+        /// <summary>
+        /// White color RGB(255, 0, 255).
+        /// </summary>
         public static OptionColor Magenta = new OptionColor(255, 0, 255);
+        /// <summary>
+        /// White color RGB(0, 255, 255).
+        /// </summary>
         public static OptionColor Cyan = new OptionColor(0, 255, 255);
     }
 }
