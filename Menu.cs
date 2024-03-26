@@ -171,23 +171,33 @@ namespace Natesworks.Dotmenu
 
                 for (int i = 0; i < _options.Count; i++)
                 {
-                    string selectedOption = _options[i].GetText();
+                    string currentOption = _options[i].GetText();
 
+                    OptionColor fgColor;
+                    OptionColor bgColor;
+                    
                     if (i == _selectedIndex)
                     {
-                        _optionsBuilder.AppendLine(
-                            string.Format(_colorEscapeCode,
-                            _selectedFg.R, _selectedFg.G, _selectedFg.B,
-                            _selectedBg.R, _selectedBg.G, _selectedBg.B,
-                            selectedOption));
+                        fgColor = _selectedFg;
+                        bgColor = _selectedBg;
                     }
                     else
                     {
+                        fgColor = _fg;
+                        bgColor = _bg;
+                    }
+
+                    if (SupportsAnsi)
+                    {
                         _optionsBuilder.AppendLine(
-                           string.Format(_colorEscapeCode,
-                           _fg.R, _fg.G, _fg.B,
-                           _bg.R, _bg.G, _bg.B,
-                           selectedOption));
+                            string.Format(_colorEscapeCode,
+                            fgColor.R, fgColor.G, fgColor.B,
+                            bgColor.R, bgColor.G, bgColor.B,
+                            currentOption));
+                    }
+                    else
+                    {
+                        _optionsBuilder.AppendLine(currentOption);
                     }
                 }
 
