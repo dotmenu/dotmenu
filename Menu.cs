@@ -12,7 +12,7 @@ namespace Natesworks.Dotmenu
         private OptionColor _selectedFg = OptionColor.Black;
         private OptionColor _selectedBg = OptionColor.White;
         private readonly Dictionary<ConsoleKey, int> _shortcutMap = new Dictionary<ConsoleKey, int>();
-        private int _textAutoUpdateDelay = 1000;
+        private readonly List<(string, string, Func<string>)> _optionTextValues = new List<(string, string, Func<string>)>();
         private StringBuilder _optionsBuilder = new StringBuilder();
         private int _initialCursorY;
         private string _optionPrefix = " ";
@@ -20,7 +20,7 @@ namespace Natesworks.Dotmenu
         private string _noAnsiSelector = ">";
         private static readonly string _colorEscapeCode = "\x1b[38;2;{0};{1};{2}m\x1b[48;2;{3};{4};{5}m{6}\x1b[0m";
         private static readonly bool SupportsAnsi = SpectreConsoleColorSystemDetector.Detect() == ColorSystem.TrueColor;
-        
+
         private Menu()
         {
             Console.Clear();
@@ -76,19 +76,12 @@ namespace Natesworks.Dotmenu
         public Menu AddOption(Func<string> textFunction, Action action, ConsoleKey? shortcut = null)
         {
             _options.Add(new Option(textFunction, action));
+            string val = textFunction.Invoke();
+            _optionTextValues.Add(new (val, val, textFunction));
             if (shortcut.HasValue)
             {
                 _shortcutMap[shortcut.Value] = _options.Count - 1;
             }
-            return this;
-        }
-        /// <summary>
-        /// Specifies how much time passes between menu auto-updates (in milliseconds).
-        /// By default, this value is set to 1000.
-        /// </summary>
-        public Menu TextAutoUpdateDelay(int textAutoUpdateDelay)
-        {
-            _textAutoUpdateDelay = textAutoUpdateDelay;
             return this;
         }
         /// <summary>
@@ -119,7 +112,7 @@ namespace Natesworks.Dotmenu
         {
             if (string.IsNullOrEmpty(prefix))
                 return this;
-            
+
             _optionPrefix = prefix;
 
             return this;
@@ -138,8 +131,25 @@ namespace Natesworks.Dotmenu
                 {
                     do
                     {
-                        WriteOptions();
-                        await Task.Delay(_textAutoUpdateDelay, cancellationTokenSource.Token);
+                        bool update = false;
+                        
+                        for (int i = 0; i < _optionTextValues.Count; i++)
+                        {
+                            var oldNewText = _optionTextValues[i];
+
+                            oldNewText.Item2 = oldNewText.Item3.Invoke();
+                            
+                            if (oldNewText.Item1 != oldNewText.Item2)
+                            {
+                                update = true;
+                                oldNewText.Item1 = oldNewText.Item2;
+                            }
+                        }
+
+                        if (update)
+                            WriteOptions();
+
+                        await Task.Delay(500, cancellationTokenSource.Token);
                     } while (!cancellationTokenSource.Token.IsCancellationRequested);
                 }
                 catch (TaskCanceledException) { }
@@ -197,7 +207,7 @@ namespace Natesworks.Dotmenu
         {
             editAction?.Invoke(_options);
         }
-	    private void WriteOptions()
+        private void WriteOptions()
         {
             lock (_optionsBuilder)
             {
@@ -212,7 +222,7 @@ namespace Natesworks.Dotmenu
 
                     OptionColor fgColor;
                     OptionColor bgColor;
-                    
+
                     if (i == _selectedIndex)
                     {
                         fgColor = _selectedFg;
