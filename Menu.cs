@@ -15,6 +15,8 @@ namespace Natesworks.Dotmenu
         private int _textAutoUpdateDelay = 1000;
         private StringBuilder _optionsBuilder = new StringBuilder();
         private int _initialCursorY;
+        private string _optionPrefix = " ";
+        private string _selector = ">";
         private string _noAnsiSelector = ">";
         private static readonly string _colorEscapeCode = "\x1b[38;2;{0};{1};{2}m\x1b[48;2;{3};{4};{5}m{6}\x1b[0m";
         private static readonly bool SupportsAnsi = SpectreConsoleColorSystemDetector.Detect() == ColorSystem.TrueColor;
@@ -90,12 +92,35 @@ namespace Natesworks.Dotmenu
             return this;
         }
         /// <summary>
-        /// Sets the option selector that will be used, if ANSI is not supported.
+        /// Sets options selector (optional).
+        /// If not called, '>' will be the default selector.
+        /// </summary>
+        public Menu SetOptionSelector(string selector)
+        {
+            _selector = selector;
+
+            return this;
+        }
+        /// <summary>
+        /// Sets the option selector that will be used, if ANSI is not supported (optional).
         /// '>' is set as a default selector.
         /// </summary>
         public Menu SetNoAnsiOptionSelector(string selector)
         {
             _noAnsiSelector = selector;
+
+            return this;
+        }
+        /// <summary>
+        /// Sets prefix that will be displayed with each of unselected options (optional).
+        /// Prefix cannot be empty.
+        /// </summary>
+        public Menu SetOptionPrefix(string prefix)
+        {
+            if (string.IsNullOrEmpty(prefix))
+                return this;
+            
+            _optionPrefix = prefix;
 
             return this;
         }
@@ -201,15 +226,17 @@ namespace Natesworks.Dotmenu
 
                     if (SupportsAnsi)
                     {
+                        string fullOptionText = (i == _selectedIndex ? _selector : _optionPrefix) + currentOption;
+
                         _optionsBuilder.AppendLine(
                             string.Format(_colorEscapeCode,
                             fgColor.R, fgColor.G, fgColor.B,
                             bgColor.R, bgColor.G, bgColor.B,
-                            currentOption));
+                            fullOptionText));
                     }
                     else
                     {
-                        string prefix = i == _selectedIndex && !SupportsAnsi ? _noAnsiSelector : " ";
+                        string prefix = i == _selectedIndex && !SupportsAnsi ? _noAnsiSelector : _optionPrefix;
                         _optionsBuilder.AppendLine(prefix + currentOption);
                     }
                 }
