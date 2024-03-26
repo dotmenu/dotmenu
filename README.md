@@ -1,5 +1,8 @@
-# Dotmenu
+# About Dotmenu
+A straightforward console menu library designed to streamline user interactions in console applications.
+Works on Windows 10/11 and Linux (MacOS not tested).
 
+## Installation
 Dotmenu can be added to your project with:
 
 ```bash
