@@ -68,7 +68,7 @@ namespace Natesworks.Dotmenu
         /// </summary>
         /// <param name="textFunction">Function providing text content for this option.</param>
         /// <param name="action">Action to be performed after the option is chosen.</param>
-        /// <param name="shortcut">A key to bind to this option (optional).</param>
+        /// <param name="shortcut">A key to bind with this option (optional).</param>
         public Menu AddOption(Func<string> textFunction, Action action, ConsoleKey? shortcut = null)
         {
             _options.Add(new Option(textFunction, action));
@@ -80,7 +80,7 @@ namespace Natesworks.Dotmenu
         }
         /// <summary>
         /// Specifies how much time passes between menu auto-updates (in milliseconds).
-        /// By default value is set to 1000.
+        /// By default, this value is set to 1000.
         /// </summary>
         public Menu TextAutoUpdateDelay(int textAutoUpdateDelay)
         {
@@ -212,7 +212,7 @@ namespace Natesworks.Dotmenu
 
 
     /// <summary>
-    /// Represents a menu's option.
+    /// Represents a menu option.
     /// </summary>
     public class Option
     {
@@ -224,7 +224,7 @@ namespace Natesworks.Dotmenu
         private readonly Func<string> _textFunction;
 
         /// <summary>
-        /// Create a new Option, with action provided.
+        /// Create a new Option, with source function and action provided.
         /// </summary>
         /// <param name="textFunction">Function providing text content for this option.</param>
         /// <param name="action">Action triggered after this option is chosen.</param>
