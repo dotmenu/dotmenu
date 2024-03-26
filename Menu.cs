@@ -66,7 +66,7 @@ namespace Natesworks.Dotmenu
         /// <summary>
         /// Adds a new option to the menu.
         /// </summary>
-        /// <param name="textFunction"></param>
+        /// <param name="textFunction">Function providing text content for this option.</param>
         /// <param name="action">Action to be performed after the option is chosen.</param>
         /// <param name="shortcut">A key to bind to this option (optional).</param>
         public Menu AddOption(Func<string> textFunction, Action action, ConsoleKey? shortcut = null)
@@ -226,7 +226,7 @@ namespace Natesworks.Dotmenu
         /// <summary>
         /// Create a new Option, with action provided.
         /// </summary>
-        /// <param name="textFunction"></param>
+        /// <param name="textFunction">Function providing text content for this option.</param>
         /// <param name="action">Action triggered after this option is chosen.</param>
         public Option(Func<string> textFunction, Action action)
         {
