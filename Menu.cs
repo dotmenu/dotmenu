@@ -155,7 +155,7 @@ namespace Natesworks.Dotmenu
                 catch (TaskCanceledException) { }
             }, cancellationTokenSource.Token);
 
-            WriteOptions(); // Display menu options initially
+            WriteOptions();
 
             do
             {
@@ -197,7 +197,7 @@ namespace Natesworks.Dotmenu
 
             cancellationTokenSource.Cancel();
             updateTask.Wait();
-            Console.Clear(); // Clear the console after the user chooses an option
+            Console.Clear();
             Console.SetCursorPosition(0, _initialCursorY + _options.Count + 1);
             _options[_selectedIndex].Action?.Invoke();
             return _selectedIndex;
