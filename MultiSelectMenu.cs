@@ -6,8 +6,8 @@ namespace Natesworks.DotMenu
     public class MultiSelectMenu
     {
         private int _selectedIndex;
-        private readonly List<Option> _options = new List<Option>();
-        public List<string> selectedOptions = new List<string>();
+        public readonly List<Option> options = new List<Option>();
+        public List<int> selectedOptions = new List<int>();
         private string _prompt = "";
         private OptionColor _fg = OptionColor.White;
         private OptionColor _bg = OptionColor.Black;
@@ -18,7 +18,7 @@ namespace Natesworks.DotMenu
         private StringBuilder _optionsBuilder = new StringBuilder();
         private int _initialCursorY;
         private string _optionPrefix = "";
-        private string _selector = "";
+        private string _selectedOptionPrefix = "[x]";
         private static readonly string _colorEscapeCode = "\x1b[38;2;{0};{1};{2}m\x1b[48;2;{3};{4};{5}m{6}\x1b[0m";
         private Action _enterAction;
 
@@ -76,23 +76,13 @@ namespace Natesworks.DotMenu
         /// <param name="shortcut">A key to bind with this option (optional).</param>
         public MultiSelectMenu AddOption(Func<string> textFunction, ConsoleKey? shortcut = null)
         {
-            _options.Add(new Option(textFunction));
+            options.Add(new Option(textFunction));
             string val = textFunction.Invoke();
             _optionTextValues.Add(new (val, val, textFunction));
             if (shortcut.HasValue)
             {
-                _shortcutMap[shortcut.Value] = _options.Count - 1;
+                _shortcutMap[shortcut.Value] = options.Count - 1;
             }
-            return this;
-        }
-        /// <summary>
-        /// Sets options selector (optional).
-        /// If not called, '>' will be the default selector.
-        /// </summary>
-        public MultiSelectMenu SetOptionSelector(string selector)
-        {
-            _selector = selector;
-
             return this;
         }
         /// <summary>
@@ -167,7 +157,7 @@ namespace Natesworks.DotMenu
 
                     if (_shortcutMap.TryGetValue(keyPressed, out int optionIndex))
                     {
-                        if (optionIndex >= 0 && optionIndex < _options.Count)
+                        if (optionIndex >= 0 && optionIndex < options.Count)
                         {
                             _selectedIndex = optionIndex;
                             Console.SetCursorPosition(0, 0);
@@ -183,16 +173,15 @@ namespace Natesworks.DotMenu
                         {
                             _selectedIndex--;
                         }
-                        if (keyPressed == ConsoleKey.DownArrow && _selectedIndex < _options.Count - 1)
+                        if (keyPressed == ConsoleKey.DownArrow && _selectedIndex < options.Count - 1)
                         {
                             _selectedIndex++;
                         }
                         if (keyPressed == ConsoleKey.Tab)
                         {
-                            if (_selectedIndex >= 0 && _selectedIndex < _options.Count)
+                            if (_selectedIndex >= 0 && _selectedIndex < options.Count)
                             {
-                                string selectedOption = _options[_selectedIndex].GetText();
-                                selectedOptions.Add(selectedOption);
+                                selectedOptions.Add(_selectedIndex);
                             }
                         }
                         if (keyPressed == ConsoleKey.Enter)
@@ -211,7 +200,7 @@ namespace Natesworks.DotMenu
             cancellationTokenSource.Cancel();
             updateTask.Wait();
             Console.Clear();
-            Console.SetCursorPosition(0, _initialCursorY + _options.Count + 1);
+            Console.SetCursorPosition(0, _initialCursorY + options.Count + 1);
             return _selectedIndex;
         }
 
@@ -220,7 +209,7 @@ namespace Natesworks.DotMenu
         /// </summary>
         public void EditOptions(Action<List<Option>> editAction)
         {
-            editAction?.Invoke(_options);
+            editAction?.Invoke(options);
         }
 
         private void WriteOptions()
@@ -232,39 +221,20 @@ namespace Natesworks.DotMenu
                     _optionsBuilder.AppendLine(_prompt);
                 }
 
-                for (int i = 0; i < _options.Count; i++)
+                for (int i = 0; i < options.Count; i++)
                 {
-                    string currentOption = _options[i].GetText();
+                    string currentOption = options[i].GetText();
 
                     OptionColor fgColor;
                     OptionColor bgColor;
 
-                    if (i == _selectedIndex)
+                    if(selectedOptions.Contains(i))
                     {
-                        fgColor = _selectedFg;
-                        bgColor = _selectedBg;
-                        if (Menu.SupportsAnsi)
-                        {
-                            _optionsBuilder.AppendLine(
-                                string.Format(_colorEscapeCode,
-                                fgColor.R, fgColor.G, fgColor.B,
-                                bgColor.R, bgColor.G, bgColor.B,
-                                _selector + currentOption));
-                        }
-                        else
-                        {
-                            _optionsBuilder.AppendLine(_selector + currentOption);
-                        }
+                        _optionsBuilder.AppendLine(_selectedOptionPrefix + currentOption);
                     }
                     else
                     {
-                        fgColor = _fg;
-                        bgColor = _bg;
-                        _optionsBuilder.AppendLine(
-                            string.Format(_colorEscapeCode,
-                            fgColor.R, fgColor.G, fgColor.B,
-                            bgColor.R, bgColor.G, bgColor.B,
-                            _optionPrefix + currentOption));
+                        _optionsBuilder.AppendLine(_optionPrefix + currentOption);
                     }
                 }
 
