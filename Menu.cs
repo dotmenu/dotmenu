@@ -112,6 +112,11 @@ namespace Natesworks.Dotmenu
         /// <returns>Index of option selected by the user.</returns>
         public int Run()
         {
+            if (!Menu.AnsiSupport)
+            {   
+                Console.WriteLine("Please use a terminal that supports ANSI escape codes.");
+                return -1;
+            }
             ConsoleKey keyPressed = default;
             CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
             Task updateTask = Task.Run(async () =>
@@ -218,18 +223,11 @@ namespace Natesworks.Dotmenu
                     {
                         fgColor = _selectedFg;
                         bgColor = _selectedBg;
-                        if (SupportsAnsi)
-                        {
-                            _optionsBuilder.AppendLine(
-                                string.Format(_colorEscapeCode,
-                                fgColor.R, fgColor.G, fgColor.B,
-                                bgColor.R, bgColor.G, bgColor.B,
-                                _selector + currentOption));
-                        }
-                        else
-                        {
-                            _optionsBuilder.AppendLine(_selector + currentOption);
-                        }
+                        _optionsBuilder.AppendLine(
+                        string.Format(_colorEscapeCode,
+                        fgColor.R, fgColor.G, fgColor.B,
+                        bgColor.R, bgColor.G, bgColor.B,
+                        _selector + currentOption));
                     }
                     else
                     {
