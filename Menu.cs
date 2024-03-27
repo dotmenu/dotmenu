@@ -16,7 +16,7 @@ namespace Natesworks.Dotmenu
         private StringBuilder _optionsBuilder = new StringBuilder();
         private int _initialCursorY;
         private string _optionPrefix = " ";
-        private string _selector = ">";
+        private string _selector = "";
         private string _noAnsiSelector = ">";
         private static readonly string _colorEscapeCode = "\x1b[38;2;{0};{1};{2}m\x1b[48;2;{3};{4};{5}m{6}\x1b[0m";
         private static readonly bool SupportsAnsi = SpectreConsoleColorSystemDetector.Detect() == ColorSystem.TrueColor;
@@ -345,4 +345,4 @@ namespace Natesworks.Dotmenu
         /// </summary>
         public static OptionColor Cyan = new OptionColor(0, 255, 255);
     }
-}
+    }
