@@ -114,6 +114,11 @@ namespace Natesworks.DotMenu
         /// <returns>Index of option selected by the user.</returns>
         public int Run()
         {
+            if (!Menu.AnsiSupport)
+            {
+                Console.WriteLine("Please use a terminal that supports ANSI escape codes.");
+                return -1;
+            }
             ConsoleKey keyPressed = default;
             CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
             Task updateTask = Task.Run(async () =>
