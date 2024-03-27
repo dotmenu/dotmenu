@@ -132,13 +132,13 @@ namespace Natesworks.Dotmenu
                     do
                     {
                         bool update = false;
-                        
+
                         for (int i = 0; i < _optionTextValues.Count; i++)
                         {
                             var oldNewText = _optionTextValues[i];
 
                             oldNewText.Item2 = oldNewText.Item3.Invoke();
-                            
+
                             if (oldNewText.Item1 != oldNewText.Item2)
                             {
                                 update = true;
@@ -154,6 +154,8 @@ namespace Natesworks.Dotmenu
                 }
                 catch (TaskCanceledException) { }
             }, cancellationTokenSource.Token);
+
+            WriteOptions(); // Display menu options initially
 
             do
             {
@@ -195,7 +197,7 @@ namespace Natesworks.Dotmenu
 
             cancellationTokenSource.Cancel();
             updateTask.Wait();
-            Console.Clear();
+            Console.Clear(); // Clear the console after the user chooses an option
             Console.SetCursorPosition(0, _initialCursorY + _options.Count + 1);
             _options[_selectedIndex].Action?.Invoke();
             return _selectedIndex;
