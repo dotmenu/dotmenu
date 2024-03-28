@@ -13,12 +13,15 @@ namespace Natesworks.DotMenu
         private OptionColor bg = OptionColor.Black;
         private OptionColor selectedFg = OptionColor.Black;
         private OptionColor selectedBg = OptionColor.White;
+        private OptionColor _checkedFg = OptionColor.White;
+        private OptionColor _checkedBg = OptionColor.Black;
         private readonly Dictionary<ConsoleKey, int> _shortcutMap = new Dictionary<ConsoleKey, int>();
         private readonly List<(string, string, Func<string>)> _optionTextValues = new List<(string, string, Func<string>)>();
         private StringBuilder _optionsBuilder = new StringBuilder();
         private int _initialCursorY;
         private string _optionPrefix = "";
-        private string _selectedOptionPrefix = "[x]";
+        private string _selectedOptionPrefix = "";
+        private string _checkedOptionPrefix = "[x]";
         private static readonly string _colorEscapeCode = "\x1b[38;2;{0};{1};{2}m\x1b[48;2;{3};{4};{5}m{6}\x1b[0m";
         private Action _enterAction;
 
@@ -68,6 +71,12 @@ namespace Natesworks.DotMenu
             selectedBg = this.selectedBg;
             return this;
         }
+        public MultiSelectMenu ColorsWhenChecked(OptionColor checkedFg, OptionColor checkedBg)
+        {
+            _checkedFg = this.selectedFg;
+            selectedBg = this.selectedBg;
+            return this;
+        }
         /// <summary>
         /// Adds a new option to the MultiSelectMenu.
         /// </summary>
@@ -89,12 +98,21 @@ namespace Natesworks.DotMenu
         /// Sets prefix that will be displayed with each of unselected options (optional).
         /// Prefix cannot be empty.
         /// </summary>
-        public MultiSelectMenu SetOptionPrefix(string prefix)
+        public MultiSelectMenu SetOptionPrefix(string optionPrefix)
         {
-            if (string.IsNullOrEmpty(prefix))
+            if (string.IsNullOrEmpty(optionPrefix))
                 return this;
 
-            _optionPrefix = prefix;
+            _optionPrefix = optionPrefix;
+
+            return this;
+        }
+        public MultiSelectMenu SetCheckedOptionPrefix(string prefix)
+        {
+            if (string.IsNullOrEmpty(_checkedOptionPrefix))
+                return this;
+
+            _checkedOptionPrefix = prefix;
 
             return this;
         }
@@ -186,7 +204,13 @@ namespace Natesworks.DotMenu
                         {
                             if (_selectedIndex >= 0 && _selectedIndex < options.Count)
                             {
-                                selectedOptions.Add(_selectedIndex);
+                                if(selectedOptions.Contains(_selectedIndex))
+                                {
+                                    selectedOptions.Remove(_selectedIndex);
+                                } else
+                                {
+                                    selectedOptions.Add(_selectedIndex);
+                                }
                             }
                         }
                         WriteOptions();
@@ -232,10 +256,10 @@ namespace Natesworks.DotMenu
                     OptionColor fgColor;
                     OptionColor bgColor;
 
-                    if (selectedOptions.Contains(i))
+                    if (selectedOptions.Contains(i) && _selectedIndex != i)
                     {
-                        fgColor = selectedFg;
-                        bgColor = selectedBg;
+                        fgColor = _checkedFg;
+                        bgColor = _checkedBg;
                     }
                     else if (i == _selectedIndex)
                     {
@@ -274,23 +298,21 @@ namespace Natesworks.DotMenu
 
             return maxLength + _selectedOptionPrefix.Length;
         }
-
         private string GetOptionText(int index, string optionText, List<int> selectedOptions, int maxOptionLength)
         {
             string fullOptionText = optionText;
+            string prefix = _optionPrefix;
 
             if (selectedOptions.Contains(index))
             {
-                fullOptionText = _selectedOptionPrefix + fullOptionText;
+                prefix += _checkedOptionPrefix;
             }
             else if (index == _selectedIndex)
             {
-                fullOptionText = _optionPrefix + _selectedOptionPrefix + fullOptionText;
+                prefix += _selectedOptionPrefix;
             }
-            else
-            {
-                fullOptionText = _optionPrefix + fullOptionText;
-            }
+
+            fullOptionText = prefix + fullOptionText;
 
             int paddingSpaces = maxOptionLength - fullOptionText.Length;
             if (paddingSpaces > 0)
@@ -300,6 +322,7 @@ namespace Natesworks.DotMenu
 
             return fullOptionText;
         }
+
         private void UpdateConsole()
         {
             byte[] buffer = Encoding.ASCII.GetBytes(_optionsBuilder.ToString());
