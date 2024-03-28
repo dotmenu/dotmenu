@@ -189,10 +189,6 @@ namespace Natesworks.DotMenu
                                 selectedOptions.Add(_selectedIndex);
                             }
                         }
-                        if (keyPressed == ConsoleKey.Enter)
-                        {
-                            _enterAction?.Invoke();
-                        }
                         WriteOptions();
                     }
                 }
@@ -204,8 +200,9 @@ namespace Natesworks.DotMenu
 
             cancellationTokenSource.Cancel();
             updateTask.Wait();
-            Console.Clear();
             Console.SetCursorPosition(0, _initialCursorY + options.Count + 1);
+            Console.Clear();
+            _enterAction?.Invoke();
             return _selectedIndex;
         }
 

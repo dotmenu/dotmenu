@@ -7,10 +7,10 @@ namespace Natesworks.Dotmenu
         private int _selectedIndex;
         private readonly List<Option> _options = new List<Option>();
         private string _prompt = "";
-        private OptionColor _fg = OptionColor.White;
-        private OptionColor _bg = OptionColor.Black;
-        private OptionColor _selectedFg = OptionColor.Black;
-        private OptionColor _selectedBg = OptionColor.White;
+        public OptionColor fg = OptionColor.White;
+        public OptionColor bg = OptionColor.Black;
+        public OptionColor selectedFg = OptionColor.Black;
+        public OptionColor selectedBg = OptionColor.White;
         private readonly Dictionary<ConsoleKey, int> _shortcutMap = new Dictionary<ConsoleKey, int>();
         private readonly List<(string, string, Func<string>)> _optionTextValues = new List<(string, string, Func<string>)>();
         private StringBuilder _optionsBuilder = new StringBuilder();
@@ -50,8 +50,8 @@ namespace Natesworks.Dotmenu
         /// <param name="bg">Background color.</param>
         public Menu Colors(OptionColor fg, OptionColor bg)
         {
-            _fg = fg;
-            _bg = bg;
+            this.fg = fg;
+            this.bg = bg;
             return this;
         }
         /// <summary>
@@ -62,8 +62,8 @@ namespace Natesworks.Dotmenu
         /// <param name="selectedBg">Background color.</param>
         public Menu ColorsWhenSelected(OptionColor selectedFg, OptionColor selectedBg)
         {
-            _selectedFg = selectedFg;
-            _selectedBg = selectedBg;
+            this.selectedFg = selectedFg;
+            this.selectedBg = selectedBg;
             return this;
         }
         /// <summary>
@@ -112,11 +112,6 @@ namespace Natesworks.Dotmenu
         /// <returns>Index of option selected by the user.</returns>
         public int Run()
         {
-            if (!Menu.SupportsAnsi)
-            {   
-                Console.WriteLine("Please use a terminal that supports ANSI escape codes.");
-                return -1;
-            }
             ConsoleKey keyPressed = default;
             CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
             Task updateTask = Task.Run(async () =>
@@ -191,8 +186,8 @@ namespace Natesworks.Dotmenu
 
             cancellationTokenSource.Cancel();
             updateTask.Wait();
-            Console.Clear();
             Console.SetCursorPosition(0, _initialCursorY + _options.Count + 1);
+            Console.Clear();
             _options[_selectedIndex].Action?.Invoke();
             return _selectedIndex;
         }
@@ -221,18 +216,25 @@ namespace Natesworks.Dotmenu
 
                     if (i == _selectedIndex)
                     {
-                        fgColor = _selectedFg;
-                        bgColor = _selectedBg;
-                        _optionsBuilder.AppendLine(
-                        string.Format(_colorEscapeCode,
-                        fgColor.R, fgColor.G, fgColor.B,
-                        bgColor.R, bgColor.G, bgColor.B,
-                        _selector + currentOption));
+                        fgColor = selectedFg;
+                        bgColor = selectedBg;
+                        if (SupportsAnsi)
+                        {
+                            _optionsBuilder.AppendLine(
+                                string.Format(_colorEscapeCode,
+                                fgColor.R, fgColor.G, fgColor.B,
+                                bgColor.R, bgColor.G, bgColor.B,
+                                _selector + currentOption));
+                        }
+                        else
+                        {
+                            _optionsBuilder.AppendLine(_selector + currentOption);
+                        }
                     }
                     else
                     {
-                        fgColor = _fg;
-                        bgColor = _bg;
+                        fgColor = fg;
+                        bgColor = bg;
                         _optionsBuilder.AppendLine(
                             string.Format(_colorEscapeCode,
                             fgColor.R, fgColor.G, fgColor.B,
