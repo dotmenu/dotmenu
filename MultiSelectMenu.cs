@@ -223,6 +223,8 @@ namespace Natesworks.DotMenu
                     _optionsBuilder.AppendLine(_prompt);
                 }
 
+                int maxOptionLength = GetMaxOptionLength();
+
                 for (int i = 0; i < options.Count; i++)
                 {
                     string currentOption = options[i].GetText();
@@ -250,26 +252,53 @@ namespace Natesworks.DotMenu
                         string.Format(_colorEscapeCode,
                         fgColor.R, fgColor.G, fgColor.B,
                         bgColor.R, bgColor.G, bgColor.B,
-                        GetOptionText(i, currentOption, selectedOptions)));
+                        GetOptionText(i, currentOption, selectedOptions, maxOptionLength)));
                 }
 
                 UpdateConsole();
             }
         }
-        private string GetOptionText(int index, string optionText, List<int> selectedOptions)
+
+        private int GetMaxOptionLength()
         {
+            int maxLength = 0;
+
+            foreach (var option in options)
+            {
+                int optionLength = option.GetText().Length;
+                if (optionLength > maxLength)
+                {
+                    maxLength = optionLength;
+                }
+            }
+
+            return maxLength + _selectedOptionPrefix.Length;
+        }
+
+        private string GetOptionText(int index, string optionText, List<int> selectedOptions, int maxOptionLength)
+        {
+            string fullOptionText = optionText;
+
             if (selectedOptions.Contains(index))
             {
-                return _selectedOptionPrefix + optionText;
+                fullOptionText = _selectedOptionPrefix + fullOptionText;
             }
             else if (index == _selectedIndex)
             {
-                return _optionPrefix + _selectedOptionPrefix + optionText;
+                fullOptionText = _optionPrefix + _selectedOptionPrefix + fullOptionText;
             }
             else
             {
-                return _optionPrefix + optionText;
+                fullOptionText = _optionPrefix + fullOptionText;
             }
+
+            int paddingSpaces = maxOptionLength - fullOptionText.Length;
+            if (paddingSpaces > 0)
+            {
+                fullOptionText += new string(' ', paddingSpaces);
+            }
+
+            return fullOptionText;
         }
         private void UpdateConsole()
         {
