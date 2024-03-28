@@ -112,7 +112,7 @@ namespace Natesworks.Dotmenu
         /// <returns>Index of option selected by the user.</returns>
         public int Run()
         {
-            if (!Menu.AnsiSupport)
+            if (!Menu.SupportsAnsi)
             {   
                 Console.WriteLine("Please use a terminal that supports ANSI escape codes.");
                 return -1;
