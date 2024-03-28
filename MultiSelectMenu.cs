@@ -74,7 +74,7 @@ namespace Natesworks.DotMenu
         public MultiSelectMenu ColorsWhenChecked(OptionColor checkedFg, OptionColor checkedBg)
         {
             _checkedFg = this.selectedFg;
-            selectedBg = this.selectedBg;
+            _checkedBg = this.selectedBg;
             return this;
         }
         /// <summary>
