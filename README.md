@@ -1,6 +1,6 @@
 # About Dotmenu
 A straightforward console menu library designed to streamline user interactions in console applications.
-Works on Windows 10/11 and Linux (MacOS not tested).
+Works on every terminal that supports ANSI escale codes.
 
 ## Installation
 Dotmenu can be added to your project with:
