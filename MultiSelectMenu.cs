@@ -9,10 +9,10 @@ namespace Natesworks.DotMenu
         public readonly List<Option> options = new List<Option>();
         public List<int> selectedOptions = new List<int>();
         private string _prompt = "";
-        private OptionColor _fg = OptionColor.White;
-        private OptionColor _bg = OptionColor.Black;
-        private OptionColor _selectedFg = OptionColor.Black;
-        private OptionColor _selectedBg = OptionColor.White;
+        private OptionColor fg = OptionColor.White;
+        private OptionColor bg = OptionColor.Black;
+        private OptionColor selectedFg = OptionColor.Black;
+        private OptionColor selectedBg = OptionColor.White;
         private readonly Dictionary<ConsoleKey, int> _shortcutMap = new Dictionary<ConsoleKey, int>();
         private readonly List<(string, string, Func<string>)> _optionTextValues = new List<(string, string, Func<string>)>();
         private StringBuilder _optionsBuilder = new StringBuilder();
@@ -52,8 +52,8 @@ namespace Natesworks.DotMenu
         /// <param name="bg">Background color.</param>
         public MultiSelectMenu Colors(OptionColor fg, OptionColor bg)
         {
-            _fg = fg;
-            _bg = bg;
+            fg = this.fg;
+            bg = this.bg;
             return this;
         }
         /// <summary>
@@ -64,8 +64,8 @@ namespace Natesworks.DotMenu
         /// <param name="selectedBg">Background color.</param>
         public MultiSelectMenu ColorsWhenSelected(OptionColor selectedFg, OptionColor selectedBg)
         {
-            _selectedFg = selectedFg;
-            _selectedBg = selectedBg;
+            selectedFg = this.selectedFg;
+            selectedBg = this.selectedBg;
             return this;
         }
         /// <summary>
@@ -102,7 +102,7 @@ namespace Natesworks.DotMenu
         /// The action 
         /// </summary>
         /// <param name="enterAction">The action to run.</param>
-        public MultiSelectMenu SetActionOnEnter(Action enterAction)
+        public MultiSelectMenu ActionOnEnter(Action enterAction)
         {
             _enterAction = enterAction;
             return this;
@@ -230,17 +230,45 @@ namespace Natesworks.DotMenu
                     OptionColor fgColor;
                     OptionColor bgColor;
 
-                    if(selectedOptions.Contains(i))
+                    if (selectedOptions.Contains(i))
                     {
-                        _optionsBuilder.AppendLine(_selectedOptionPrefix + currentOption);
+                        fgColor = selectedFg;
+                        bgColor = selectedBg;
+                    }
+                    else if (i == _selectedIndex)
+                    {
+                        fgColor = selectedFg;
+                        bgColor = selectedBg;
                     }
                     else
                     {
-                        _optionsBuilder.AppendLine(_optionPrefix + currentOption);
+                        fgColor = fg;
+                        bgColor = bg;
                     }
+
+                    _optionsBuilder.AppendLine(
+                        string.Format(_colorEscapeCode,
+                        fgColor.R, fgColor.G, fgColor.B,
+                        bgColor.R, bgColor.G, bgColor.B,
+                        GetOptionText(i, currentOption, selectedOptions)));
                 }
 
                 UpdateConsole();
+            }
+        }
+        private string GetOptionText(int index, string optionText, List<int> selectedOptions)
+        {
+            if (selectedOptions.Contains(index))
+            {
+                return _selectedOptionPrefix + optionText;
+            }
+            else if (index == _selectedIndex)
+            {
+                return _optionPrefix + _selectedOptionPrefix + optionText;
+            }
+            else
+            {
+                return _optionPrefix + optionText;
             }
         }
         private void UpdateConsole()
