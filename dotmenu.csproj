@@ -10,6 +10,8 @@
     <Authors>Natesworks</Authors>
     <Description>A simple console menu library.</Description>
     <PackageTags>console menu</PackageTags>
+    <RepositoryUrl>https://github.com/dotmenu/dotmenu.git</RepositoryUrl> 
+    <RepositoryType>git</RepositoryType> 
   </PropertyGroup>
 
 </Project>
