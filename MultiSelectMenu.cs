@@ -102,7 +102,7 @@ namespace Natesworks.DotMenu
         /// The action 
         /// </summary>
         /// <param name="enterAction">The action to run.</param>
-        public MultiSelectMenu ActionOnEnter(Action enterAction)
+        public MultiSelectMenu SetActionOnEnter(Action enterAction)
         {
             _enterAction = enterAction;
             return this;
