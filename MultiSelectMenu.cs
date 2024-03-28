@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 using Natesworks.Dotmenu;
 
@@ -74,7 +75,7 @@ namespace Natesworks.DotMenu
         public MultiSelectMenu ColorsWhenChecked(OptionColor checkedFg, OptionColor checkedBg)
         {
             _checkedFg = this.selectedFg;
-            _checkedBg = this.selectedBg;
+            selectedBg = this.selectedBg;
             return this;
         }
         /// <summary>
@@ -247,10 +248,9 @@ namespace Natesworks.DotMenu
                     _optionsBuilder.AppendLine(_prompt);
                 }
 
-                int maxOptionLength = GetMaxOptionLength();
-
                 for (int i = 0; i < options.Count; i++)
                 {
+                    int maxOptionLength = Console.BufferWidth - options[i].GetText().Length;
                     string currentOption = options[i].GetText();
 
                     OptionColor fgColor;
@@ -272,33 +272,21 @@ namespace Natesworks.DotMenu
                         bgColor = bg;
                     }
 
-                    _optionsBuilder.AppendLine(
+                    var optionTuple = GetOptionText(i, currentOption, maxOptionLength);
+
+                    _optionsBuilder.Append(
                         string.Format(_colorEscapeCode,
                         fgColor.R, fgColor.G, fgColor.B,
                         bgColor.R, bgColor.G, bgColor.B,
-                        GetOptionText(i, currentOption, selectedOptions, maxOptionLength)));
+                        optionTuple.optionText));
+                    _optionsBuilder.Append(new string(' ', optionTuple.whitespaceCount + options[i].GetText().Length));
                 }
 
                 UpdateConsole();
             }
         }
 
-        private int GetMaxOptionLength()
-        {
-            int maxLength = 0;
-
-            foreach (var option in options)
-            {
-                int optionLength = option.GetText().Length;
-                if (optionLength > maxLength)
-                {
-                    maxLength = optionLength;
-                }
-            }
-
-            return maxLength + _selectedOptionPrefix.Length;
-        }
-        private string GetOptionText(int index, string optionText, List<int> selectedOptions, int maxOptionLength)
+        private (string optionText, int whitespaceCount) GetOptionText(int index, string optionText, int maxOptionLength)
         {
             string fullOptionText = optionText;
             string prefix = _optionPrefix;
@@ -315,12 +303,8 @@ namespace Natesworks.DotMenu
             fullOptionText = prefix + fullOptionText;
 
             int paddingSpaces = maxOptionLength - fullOptionText.Length;
-            if (paddingSpaces > 0)
-            {
-                fullOptionText += new string(' ', paddingSpaces);
-            }
 
-            return fullOptionText;
+            return (fullOptionText, paddingSpaces);
         }
 
         private void UpdateConsole()
