@@ -1,3 +1,4 @@
+[![License: GPL v2](https://img.shields.io/badge/License-GPL_v2-blue.svg)](https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html)
 # About Dotmenu
 A straightforward console menu library designed to streamline user interactions in console applications.
 Works on every terminal that supports ANSI escale codes.
