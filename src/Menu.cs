@@ -73,9 +73,9 @@ namespace Natesworks.DotMenu
         /// <param name="textFunction">Function providing text content for this option.</param>
         /// <param name="action">Action to be performed after the option is chosen.</param>
         /// <param name="shortcut">A key to bind with this option (optional).</param>
-        public Menu AddOption(Func<string> textFunction, Action action, ConsoleKey? shortcut = null)
+        public Menu AddOption(Func<string> textFunction, Action action, ConsoleKey? shortcut = null, bool? hidden = false, bool? disabled = false)
         {
-            _options.Add(new Option(textFunction, action));
+            _options.Add(new Option(textFunction, action, hidden, disabled));
             string val = textFunction.Invoke();
             _optionTextValues.Add(new(val, val, textFunction));
             if (shortcut.HasValue)
@@ -192,13 +192,6 @@ namespace Natesworks.DotMenu
             _options[_selectedIndex].Action?.Invoke();
             return _selectedIndex;
         }
-        /// <summary>
-        /// Allows for edition of options after menu is ran.
-        /// </summary>
-        public void EditOptions(Action<List<Option>> editAction)
-        {
-            editAction?.Invoke(_options);
-        }
         protected virtual void WriteOptions()
         {
             lock (_optionsBuilder)
@@ -210,35 +203,38 @@ namespace Natesworks.DotMenu
 
                 for (int i = 0; i < _options.Count; i++)
                 {
-                    int maxOptionLength = Console.BufferWidth - _options[i].GetText().Length;
-                    string currentOption = _options[i].GetText();
-
-                    OptionColor fgColor;
-                    OptionColor bgColor;
-                    var optionTuple = GetOptionText(i, currentOption, maxOptionLength);
-
-                    if (i == _selectedIndex)
+                    if(_options[i]._disabled.HasValue && _options[i]._disabled.Value == false)
                     {
-                        fgColor = selectedFg;
-                        bgColor = selectedBg;
-                        _optionsBuilder.Append(
-                            string.Format(_colorEscapeCode,
-                            fgColor.R, fgColor.G, fgColor.B,
-                            bgColor.R, bgColor.G, bgColor.B,
-                            _selector + currentOption));
-                        _optionsBuilder.Append(new string(' ', optionTuple.whitespaceCount + _options[i].GetText().Length));
-                    }
-                    else
-                    {
-                        fgColor = fg;
-                        bgColor = bg;
+                        int maxOptionLength = Console.BufferWidth - _options[i].GetText().Length;
+                        string currentOption = _options[i].GetText();
 
-                        _optionsBuilder.Append(
-                            string.Format(_colorEscapeCode,
-                            fgColor.R, fgColor.G, fgColor.B,
-                            bgColor.R, bgColor.G, bgColor.B,
-                            _optionPrefix + currentOption));
-                        _optionsBuilder.Append(new string(' ', optionTuple.whitespaceCount + _options[i].GetText().Length));
+                        OptionColor fgColor;
+                        OptionColor bgColor;
+                        var optionTuple = GetOptionText(i, currentOption, maxOptionLength);
+
+                        if (i == _selectedIndex)
+                        {
+                            fgColor = selectedFg;
+                            bgColor = selectedBg;
+                            _optionsBuilder.Append(
+                                string.Format(_colorEscapeCode,
+                                fgColor.R, fgColor.G, fgColor.B,
+                                bgColor.R, bgColor.G, bgColor.B,
+                                _selector + currentOption));
+                            _optionsBuilder.Append(new string(' ', optionTuple.whitespaceCount + _options[i].GetText().Length));
+                        }
+                        else
+                        {
+                            fgColor = fg;
+                            bgColor = bg;
+
+                            _optionsBuilder.Append(
+                                string.Format(_colorEscapeCode,
+                                fgColor.R, fgColor.G, fgColor.B,
+                                bgColor.R, bgColor.G, bgColor.B,
+                                _optionPrefix + currentOption));
+                            _optionsBuilder.Append(new string(' ', optionTuple.whitespaceCount + _options[i].GetText().Length));
+                        }
                     }
                 }
 
@@ -277,5 +273,10 @@ namespace Natesworks.DotMenu
 
             _optionsBuilder.Clear();
         }
+        public void EditOptions(Action<List<Option>> editAction)
+        {
+            editAction?.Invoke(_options);
+        }
+
     }
 }

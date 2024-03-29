@@ -10,6 +10,8 @@ namespace Natesworks.DotMenu
         private string _selectedOptionPrefix = "";
         private string _checkedOptionPrefix = "[x]";
         private Action _enterAction = () => { };
+        private readonly List<int> _hiddenOptions = new List<int>();
+        private readonly List<int> _disabledOptions = new List<int>();
 
         public MultiSelectMenu()
         {
@@ -37,9 +39,9 @@ namespace Natesworks.DotMenu
         /// <param name="textFunction">Function providing text content for this option.</param>
         /// <param name="action">Action to be performed after the option is chosen.</param>
         /// <param name="shortcut">A key to bind with this option (optional).</param>
-        public MultiSelectMenu AddOption(Func<string> textFunction, ConsoleKey? shortcut = null)
+        public MultiSelectMenu AddOption(Func<string> textFunction, ConsoleKey? shortcut = null, bool? hidden = false, bool? disabled = false)
         {
-            _options.Add(new Option(textFunction, () => { }));
+            _options.Add(new Option(textFunction, () => { }, hidden, disabled));
             string val = textFunction.Invoke();
             _optionTextValues.Add(new(val, val, textFunction));
             if (shortcut.HasValue)
@@ -182,36 +184,39 @@ namespace Natesworks.DotMenu
 
                 for (int i = 0; i < _options.Count; i++)
                 {
-                    int maxOptionLength = Console.BufferWidth - _options[i].GetText().Length;
-                    string currentOption = _options[i].GetText();
-
-                    OptionColor fgColor;
-                    OptionColor bgColor;
-
-                    if (_selectedOptions.Contains(i) && _selectedIndex != i)
+                    if(!_hiddenOptions.Contains(i))
                     {
-                        fgColor = _checkedFg;
-                        bgColor = _checkedBg;
-                    }
-                    else if (i == _selectedIndex)
-                    {
-                        fgColor = selectedFg;
-                        bgColor = selectedBg;
-                    }
-                    else
-                    {
-                        fgColor = fg;
-                        bgColor = bg;
-                    }
+                        int maxOptionLength = Console.BufferWidth - _options[i].GetText().Length;
+                        string currentOption = _options[i].GetText();
 
-                    var optionTuple = GetOptionText(i, currentOption, maxOptionLength);
+                        OptionColor fgColor;
+                        OptionColor bgColor;
 
-                    _optionsBuilder.Append(
-                        string.Format(_colorEscapeCode,
-                        fgColor.R, fgColor.G, fgColor.B,
-                        bgColor.R, bgColor.G, bgColor.B,
-                        optionTuple.optionText));
-                    _optionsBuilder.Append(new string(' ', optionTuple.whitespaceCount + _options[i].GetText().Length));
+                        if (_selectedOptions.Contains(i) && _selectedIndex != i)
+                        {
+                            fgColor = _checkedFg;
+                            bgColor = _checkedBg;
+                        }
+                        else if (i == _selectedIndex)
+                        {
+                            fgColor = selectedFg;
+                            bgColor = selectedBg;
+                        }
+                        else
+                        {
+                            fgColor = fg;
+                            bgColor = bg;
+                        }
+
+                        var optionTuple = GetOptionText(i, currentOption, maxOptionLength);
+
+                        _optionsBuilder.Append(
+                            string.Format(_colorEscapeCode,
+                            fgColor.R, fgColor.G, fgColor.B,
+                            bgColor.R, bgColor.G, bgColor.B,
+                            optionTuple.optionText));
+                        _optionsBuilder.Append(new string(' ', optionTuple.whitespaceCount + _options[i].GetText().Length));
+                    }
                 }
 
                 UpdateConsole();
