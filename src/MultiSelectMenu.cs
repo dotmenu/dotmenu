@@ -2,29 +2,16 @@ using System.Text;
 
 namespace Natesworks.DotMenu
 {
-    public class MultiSelectMenu
+    public class MultiSelectMenu : Menu
     {
-        private int _selectedIndex;
-        public readonly List<Option> options = new List<Option>();
-        public List<int> selectedOptions = new List<int>();
-        private string _prompt = "";
-        private OptionColor fg = OptionColor.White;
-        private OptionColor bg = OptionColor.Black;
-        private OptionColor selectedFg = OptionColor.Black;
-        private OptionColor selectedBg = OptionColor.White;
+        public List<int> _selectedOptions = new List<int>();
         private OptionColor _checkedFg = OptionColor.White;
         private OptionColor _checkedBg = OptionColor.Black;
-        private readonly Dictionary<ConsoleKey, int> _shortcutMap = new Dictionary<ConsoleKey, int>();
-        private readonly List<(string, string, Func<string>)> _optionTextValues = new List<(string, string, Func<string>)>();
-        private StringBuilder _optionsBuilder = new StringBuilder();
-        private int _initialCursorY;
-        private string _optionPrefix = "";
         private string _selectedOptionPrefix = "";
         private string _checkedOptionPrefix = "[x]";
-        private static readonly string _colorEscapeCode = "\x1b[38;2;{0};{1};{2}m\x1b[48;2;{3};{4};{5}m{6}\x1b[0m";
         private Action _enterAction = () => { };
 
-        private MultiSelectMenu()
+        public MultiSelectMenu()
         {
             Console.Clear();
 
@@ -34,46 +21,14 @@ namespace Natesworks.DotMenu
         /// <summary>
         /// Creates a new MultiSelectMenu.
         /// </summary>
-        public static MultiSelectMenu New()
+        public static new MultiSelectMenu New()
         {
             return new MultiSelectMenu();
         }
-        /// <summary>
-        /// Sets the MultiSelectMenu prompt (optional).
-        /// </summary>
-        public MultiSelectMenu SetPrompt(string prompt)
-        {
-            _prompt = prompt;
-            return this;
-        }
-        /// <summary>
-        /// Specifies colors for unselected options (optional).
-        /// If not called, default colors will be white for the foreground and black for the background.
-        /// </summary>
-        /// <param name="fg">Foreground color (text color).</param>
-        /// <param name="bg">Background color.</param>
-        public MultiSelectMenu Colors(OptionColor fg, OptionColor bg)
-        {
-            fg = this.fg;
-            bg = this.bg;
-            return this;
-        }
-        /// <summary>
-        /// Specifies colors for selected options (optional).
-        /// If not called, default colors will be black for the foreground and white for the background.
-        /// </summary>
-        /// <param name="selectedFg">Foreground color (text color).</param>
-        /// <param name="selectedBg">Background color.</param>
-        public MultiSelectMenu ColorsWhenSelected(OptionColor selectedFg, OptionColor selectedBg)
-        {
-            selectedFg = this.selectedFg;
-            selectedBg = this.selectedBg;
-            return this;
-        }
         public MultiSelectMenu ColorsWhenChecked(OptionColor checkedFg, OptionColor checkedBg)
         {
-            _checkedFg = this.selectedFg;
-            selectedBg = this.selectedBg;
+            _checkedFg = checkedFg;
+            _checkedBg = checkedBg;
             return this;
         }
         /// <summary>
@@ -84,26 +39,13 @@ namespace Natesworks.DotMenu
         /// <param name="shortcut">A key to bind with this option (optional).</param>
         public MultiSelectMenu AddOption(Func<string> textFunction, ConsoleKey? shortcut = null)
         {
-            options.Add(new Option(textFunction, () => { }));
+            _options.Add(new Option(textFunction, () => { }));
             string val = textFunction.Invoke();
             _optionTextValues.Add(new(val, val, textFunction));
             if (shortcut.HasValue)
             {
-                _shortcutMap[shortcut.Value] = options.Count - 1;
+                _shortcutMap[shortcut.Value] = _options.Count - 1;
             }
-            return this;
-        }
-        /// <summary>
-        /// Sets prefix that will be displayed with each of unselected options (optional).
-        /// Prefix cannot be empty.
-        /// </summary>
-        public MultiSelectMenu SetOptionPrefix(string optionPrefix)
-        {
-            if (string.IsNullOrEmpty(optionPrefix))
-                return this;
-
-            _optionPrefix = optionPrefix;
-
             return this;
         }
         public MultiSelectMenu SetCheckedOptionPrefix(string prefix)
@@ -129,9 +71,9 @@ namespace Natesworks.DotMenu
         /// Runs MultiSelectMenu and starts a task that updates the menu text.
         /// </summary>
         /// <returns>Index of option selected by the user.</returns>
-        public int Run()
+        public override int Run()
         {
-            if (!Menu.SupportsAnsi)
+            if (!SupportsAnsi)
             {
                 Console.WriteLine("Please use a terminal that supports ANSI escape codes.");
                 return -1;
@@ -179,7 +121,7 @@ namespace Natesworks.DotMenu
 
                     if (_shortcutMap.TryGetValue(keyPressed, out int optionIndex))
                     {
-                        if (optionIndex >= 0 && optionIndex < options.Count)
+                        if (optionIndex >= 0 && optionIndex < _options.Count)
                         {
                             _selectedIndex = optionIndex;
                             Console.SetCursorPosition(0, 0);
@@ -195,21 +137,21 @@ namespace Natesworks.DotMenu
                         {
                             _selectedIndex--;
                         }
-                        if (keyPressed == ConsoleKey.DownArrow && _selectedIndex < options.Count - 1)
+                        if (keyPressed == ConsoleKey.DownArrow && _selectedIndex < _options.Count - 1)
                         {
                             _selectedIndex++;
                         }
                         if (keyPressed == ConsoleKey.Tab)
                         {
-                            if (_selectedIndex >= 0 && _selectedIndex < options.Count)
+                            if (_selectedIndex >= 0 && _selectedIndex < _options.Count)
                             {
-                                if (selectedOptions.Contains(_selectedIndex))
+                                if (_selectedOptions.Contains(_selectedIndex))
                                 {
-                                    selectedOptions.Remove(_selectedIndex);
+                                    _selectedOptions.Remove(_selectedIndex);
                                 }
                                 else
                                 {
-                                    selectedOptions.Add(_selectedIndex);
+                                    _selectedOptions.Add(_selectedIndex);
                                 }
                             }
                         }
@@ -224,21 +166,12 @@ namespace Natesworks.DotMenu
 
             cancellationTokenSource.Cancel();
             updateTask.Wait();
-            Console.SetCursorPosition(0, _initialCursorY + options.Count + 1);
+            Console.SetCursorPosition(0, _initialCursorY + _options.Count + 1);
             Console.Clear();
             _enterAction?.Invoke();
             return _selectedIndex;
         }
-
-        /// <summary>
-        /// Allows for edition of options after MultiSelectMenu is ran.
-        /// </summary>
-        public void EditOptions(Action<List<Option>> editAction)
-        {
-            editAction?.Invoke(options);
-        }
-
-        private void WriteOptions()
+        protected override void WriteOptions()
         {
             lock (_optionsBuilder)
             {
@@ -247,15 +180,15 @@ namespace Natesworks.DotMenu
                     _optionsBuilder.AppendLine(_prompt);
                 }
 
-                for (int i = 0; i < options.Count; i++)
+                for (int i = 0; i < _options.Count; i++)
                 {
-                    int maxOptionLength = Console.BufferWidth - options[i].GetText().Length;
-                    string currentOption = options[i].GetText();
+                    int maxOptionLength = Console.BufferWidth - _options[i].GetText().Length;
+                    string currentOption = _options[i].GetText();
 
                     OptionColor fgColor;
                     OptionColor bgColor;
 
-                    if (selectedOptions.Contains(i) && _selectedIndex != i)
+                    if (_selectedOptions.Contains(i) && _selectedIndex != i)
                     {
                         fgColor = _checkedFg;
                         bgColor = _checkedBg;
@@ -278,19 +211,18 @@ namespace Natesworks.DotMenu
                         fgColor.R, fgColor.G, fgColor.B,
                         bgColor.R, bgColor.G, bgColor.B,
                         optionTuple.optionText));
-                    _optionsBuilder.Append(new string(' ', optionTuple.whitespaceCount + options[i].GetText().Length));
+                    _optionsBuilder.Append(new string(' ', optionTuple.whitespaceCount + _options[i].GetText().Length));
                 }
 
                 UpdateConsole();
             }
         }
-
         private (string optionText, int whitespaceCount) GetOptionText(int index, string optionText, int maxOptionLength)
         {
             string fullOptionText = optionText;
             string prefix = _optionPrefix;
 
-            if (selectedOptions.Contains(index))
+            if (_selectedOptions.Contains(index))
             {
                 prefix += _checkedOptionPrefix;
             }
@@ -304,21 +236,6 @@ namespace Natesworks.DotMenu
             int paddingSpaces = maxOptionLength - fullOptionText.Length;
 
             return (fullOptionText, paddingSpaces);
-        }
-
-        private void UpdateConsole()
-        {
-            byte[] buffer = Encoding.ASCII.GetBytes(_optionsBuilder.ToString());
-
-            Console.SetCursorPosition(0, _initialCursorY);
-            Console.CursorVisible = false;
-
-            using (Stream sOut = Console.OpenStandardOutput(Console.WindowHeight * Console.WindowHeight))
-            {
-                sOut.Write(buffer, 0, buffer.Length);
-            }
-
-            _optionsBuilder.Clear();
         }
     }
 }

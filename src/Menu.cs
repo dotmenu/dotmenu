@@ -5,23 +5,23 @@ namespace Natesworks.DotMenu
 {
     public class Menu
     {
-        private int _selectedIndex;
-        private readonly List<Option> _options = new List<Option>();
-        private string _prompt = "";
-        public OptionColor fg = OptionColor.White;
-        public OptionColor bg = OptionColor.Black;
-        public OptionColor selectedFg = OptionColor.Black;
-        public OptionColor selectedBg = OptionColor.White;
-        private readonly Dictionary<ConsoleKey, int> _shortcutMap = new Dictionary<ConsoleKey, int>();
-        private readonly List<(string, string, Func<string>)> _optionTextValues = new List<(string, string, Func<string>)>();
-        private StringBuilder _optionsBuilder = new StringBuilder();
-        private int _initialCursorY;
-        private string _optionPrefix = "";
-        private string _selector = "";
-        private static readonly string _colorEscapeCode = "\x1b[38;2;{0};{1};{2}m\x1b[48;2;{3};{4};{5}m{6}\x1b[0m";
+        protected int _selectedIndex;
+        protected readonly List<Option> _options = new List<Option>();
+        protected string _prompt = "";
+        protected OptionColor fg = OptionColor.White;
+        protected OptionColor bg = OptionColor.Black;
+        protected OptionColor selectedFg = OptionColor.Black;
+        protected OptionColor selectedBg = OptionColor.White;
+        protected readonly Dictionary<ConsoleKey, int> _shortcutMap = new Dictionary<ConsoleKey, int>();
+        protected readonly List<(string, string, Func<string>)> _optionTextValues = new List<(string, string, Func<string>)>();
+        protected StringBuilder _optionsBuilder = new StringBuilder();
+        protected int _initialCursorY;
+        protected string _optionPrefix = "";
+        protected string _selector = "";
+        protected static readonly string _colorEscapeCode = "\x1b[38;2;{0};{1};{2}m\x1b[48;2;{3};{4};{5}m{6}\x1b[0m";
         public static readonly bool SupportsAnsi = SpectreConsoleColorSystemDetector.Detect() == ColorSystem.TrueColor;
 
-        private Menu()
+        public Menu()
         {
             Console.Clear();
 
@@ -111,7 +111,7 @@ namespace Natesworks.DotMenu
         /// Runs menu and starts a task that updates menu at regular time intervals.
         /// </summary>
         /// <returns>Index of option selected by the user.</returns>
-        public int Run()
+        public virtual int Run()
         {
             ConsoleKey keyPressed = default;
             CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
@@ -187,8 +187,8 @@ namespace Natesworks.DotMenu
 
             cancellationTokenSource.Cancel();
             updateTask.Wait();
-            Console.SetCursorPosition(0, _initialCursorY + _options.Count + 1);
             Console.Clear();
+            Console.SetCursorPosition(0, _initialCursorY + _options.Count + 1);
             _options[_selectedIndex].Action?.Invoke();
             return _selectedIndex;
         }
@@ -199,7 +199,7 @@ namespace Natesworks.DotMenu
         {
             editAction?.Invoke(_options);
         }
-        private void WriteOptions()
+        protected virtual void WriteOptions()
         {
             lock (_optionsBuilder)
             {
@@ -247,7 +247,7 @@ namespace Natesworks.DotMenu
                 UpdateConsole();
             }
         }
-        private void UpdateConsole()
+        protected void UpdateConsole()
         {
             byte[] buffer = Encoding.ASCII.GetBytes(_optionsBuilder.ToString());
 
