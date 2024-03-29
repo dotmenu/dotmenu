@@ -210,43 +210,59 @@ namespace Natesworks.DotMenu
 
                 for (int i = 0; i < _options.Count; i++)
                 {
+                    int maxOptionLength = Console.BufferWidth - _options[i].GetText().Length;
                     string currentOption = _options[i].GetText();
 
                     OptionColor fgColor;
                     OptionColor bgColor;
+                    var optionTuple = GetOptionText(i, currentOption, maxOptionLength);
 
                     if (i == _selectedIndex)
                     {
                         fgColor = selectedFg;
                         bgColor = selectedBg;
-                        if (SupportsAnsi)
-                        {
-                            _optionsBuilder.AppendLine(
-                                string.Format(_colorEscapeCode,
-                                fgColor.R, fgColor.G, fgColor.B,
-                                bgColor.R, bgColor.G, bgColor.B,
-                                _selector + currentOption));
-                        }
-                        else
-                        {
-                            _optionsBuilder.AppendLine(_selector + currentOption);
-                        }
+                        _optionsBuilder.Append(
+                            string.Format(_colorEscapeCode,
+                            fgColor.R, fgColor.G, fgColor.B,
+                            bgColor.R, bgColor.G, bgColor.B,
+                            _selector + currentOption));
+                        _optionsBuilder.Append(new string(' ', optionTuple.whitespaceCount + _options[i].GetText().Length));
                     }
                     else
                     {
                         fgColor = fg;
                         bgColor = bg;
-                        _optionsBuilder.AppendLine(
+
+                        _optionsBuilder.Append(
                             string.Format(_colorEscapeCode,
                             fgColor.R, fgColor.G, fgColor.B,
                             bgColor.R, bgColor.G, bgColor.B,
                             _optionPrefix + currentOption));
+                        _optionsBuilder.Append(new string(' ', optionTuple.whitespaceCount + _options[i].GetText().Length));
                     }
                 }
 
                 UpdateConsole();
             }
         }
+
+        private (string optionText, int whitespaceCount) GetOptionText(int index, string optionText, int maxOptionLength)
+        {
+            string fullOptionText = optionText;
+            string prefix = _optionPrefix;
+
+            if (index == _selectedIndex)
+            {
+                prefix += _selector;
+            }
+
+            fullOptionText = prefix + fullOptionText;
+
+            int paddingSpaces = maxOptionLength - fullOptionText.Length;
+
+            return (fullOptionText, paddingSpaces);
+        }
+
         protected void UpdateConsole()
         {
             byte[] buffer = Encoding.ASCII.GetBytes(_optionsBuilder.ToString());
