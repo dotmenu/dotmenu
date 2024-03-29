@@ -1,6 +1,4 @@
-using System.ComponentModel.DataAnnotations;
 using System.Text;
-using Natesworks.Dotmenu;
 
 namespace Natesworks.DotMenu
 {
@@ -24,7 +22,7 @@ namespace Natesworks.DotMenu
         private string _selectedOptionPrefix = "";
         private string _checkedOptionPrefix = "[x]";
         private static readonly string _colorEscapeCode = "\x1b[38;2;{0};{1};{2}m\x1b[48;2;{3};{4};{5}m{6}\x1b[0m";
-        private Action _enterAction;
+        private Action _enterAction = () => { };
 
         private MultiSelectMenu()
         {
@@ -86,9 +84,9 @@ namespace Natesworks.DotMenu
         /// <param name="shortcut">A key to bind with this option (optional).</param>
         public MultiSelectMenu AddOption(Func<string> textFunction, ConsoleKey? shortcut = null)
         {
-            options.Add(new Option(textFunction));
+            options.Add(new Option(textFunction, () => { }));
             string val = textFunction.Invoke();
-            _optionTextValues.Add(new (val, val, textFunction));
+            _optionTextValues.Add(new(val, val, textFunction));
             if (shortcut.HasValue)
             {
                 _shortcutMap[shortcut.Value] = options.Count - 1;
@@ -205,10 +203,11 @@ namespace Natesworks.DotMenu
                         {
                             if (_selectedIndex >= 0 && _selectedIndex < options.Count)
                             {
-                                if(selectedOptions.Contains(_selectedIndex))
+                                if (selectedOptions.Contains(_selectedIndex))
                                 {
                                     selectedOptions.Remove(_selectedIndex);
-                                } else
+                                }
+                                else
                                 {
                                     selectedOptions.Add(_selectedIndex);
                                 }
@@ -320,29 +319,6 @@ namespace Natesworks.DotMenu
             }
 
             _optionsBuilder.Clear();
-        }
-    }
-
-
-    /// <summary>
-    /// Represents a MultiSelectMenu option.
-    /// </summary>
-    public class Option
-    {
-        private readonly Func<string> _textFunction;
-
-        /// <summary>
-        /// Create a new Option, with source function and action provided.
-        /// </summary>
-        /// <param name="textFunction">Function providing text content for this option.</param>
-        public Option(Func<string> textFunction)
-        {
-            _textFunction = textFunction;
-        }
-
-        public string GetText()
-        {
-            return _textFunction.Invoke();
         }
     }
 }
