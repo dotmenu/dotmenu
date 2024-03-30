@@ -10,37 +10,36 @@ Dotmenu can be added to your project with:
 dotnet add package Natesworks.Dotmenu
 ```
 
-## Example
+## Menu Example
 
 ```cs
-using Natesworks.Dotmenu
+var menu = Menu.New();
+menu.SetPrompt("Select an option:");
+menu.Colors(OptionColor.Green, OptionColor.Blue);
+menu.ColorsWhenSelected(OptionColor.Blue, OptionColor.Green);
+menu.SetOptionSelector(">");
 
-class Program
-{
-    static void Main(string[] args)
-    {
-        Menu mainMenu = Menu.New()
-            .SetPrompt("Main Menu")
-            .AddOption(() => "Option 1", () => Console.WriteLine("Option 1 selected"))
-            .AddOption(() => "Option 2", () => Console.WriteLine("Option 2 selected"))
-            .AddOption(() => "Sub Menu", () => ShowSubMenu());
-        while(true)
-        {
-            mainMenu.Run();
-        }
-    }
+menu.AddOption(
+    () => "Option 1",
+    () => Console.WriteLine("Option 1 selected"),
+    fg: OptionColor.Green,
+    bg: OptionColor.Black,
+    optionPrefix: "Custom Prefix: "
+);
 
-    static void ShowSubMenu()
-    {
-        var subMenu1 = Menu.New()
-            .SetPrompt("Sub Menu 1")
-            .AddOption(() => "Sub Option 1-1", () => Console.WriteLine("Sub Option 1-1 selected"))
-            .AddOption(() => "Sub Option 1-2", () => Console.WriteLine("Sub Option 1-2 selected"))
-            .AddOption(() => "Back", () => {});
+menu.AddOption(
+    () => "Hidden Option",
+    () => Console.WriteLine("Hidden option selected"),
+    hidden: true
+);
 
-        subMenu1.Run();
-    }
-}
+menu.AddOption(
+    () => "Option 3",
+    () => Console.WriteLine("Option 3 selected"),
+    ConsoleKey.D3
+);
+
+menu.Run();
 ```
 
 # Documentation
