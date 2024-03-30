@@ -74,9 +74,9 @@ namespace Natesworks.DotMenu
         /// <param name="action">Action to be performed after the option is chosen.</param>
         /// <param name="shortcut">A key to bind with this option (optional).</param>
         /// <param name="hidden">If the option should be hidden.</param> 
-        public Menu AddOption(Func<string> textFunction, Action action, ConsoleKey? shortcut = null, bool? hidden = false, bool? disabled = false, OptionColor? fg = null, OptionColor? bg = null, OptionColor? selectedFg = null, OptionColor? selectedBg = null)
+        public Menu AddOption(Func<string> textFunction, Action action, ConsoleKey? shortcut = null, bool? hidden = false, bool? disabled = false, OptionColor? fg = null, OptionColor? bg = null, OptionColor? selectedFg = null, OptionColor? selectedBg = null, string? optionPrefix = null, string? selector = null)
         {
-            options.Add(new Option(textFunction, action, hidden, disabled, fg, bg, selectedFg, selectedBg));
+            options.Add(new Option(textFunction, action, hidden, disabled, fg, bg, selectedFg, selectedBg, optionPrefix, selector));
             string val = textFunction.Invoke();
             _optionTextValues.Add(new(val, val, textFunction));
             if (shortcut.HasValue)
@@ -217,21 +217,33 @@ namespace Natesworks.DotMenu
 
                         OptionColor fgColor;
                         OptionColor bgColor;
+                        string prefix;
+                        string selector;
                         var optionTuple = GetOptionText(i, currentOption, maxOptionLength);
 
                         if (i == _selectedIndex)
                         {
+                            selector = _selector;
+                            if(options[i].selector != null)
+                            {
+                                selector = options[i].selector;
+                            }
                             fgColor = options[i].selectedFg ?? selectedFg;
                             bgColor = options[i].selectedBg ?? selectedBg;
                             _optionsBuilder.Append(
                                 string.Format(_colorEscapeCode,
                                 fgColor.R, fgColor.G, fgColor.B,
                                 bgColor.R, bgColor.G, bgColor.B,
-                                _selector + currentOption));
+                                selector + currentOption));
                             _optionsBuilder.Append(new string(' ', optionTuple.whitespaceCount + options[i].GetText().Length));
                         }
                         else
                         {
+                            prefix = _optionPrefix;
+                            if(options[i].selector != null)
+                            {
+                                prefix = options[i].optionPrefix;
+                            }
                             fgColor = options[i].fg ?? fg;
                             bgColor = options[i].bg ?? bg;
 
@@ -239,7 +251,7 @@ namespace Natesworks.DotMenu
                                 string.Format(_colorEscapeCode,
                                 fgColor.R, fgColor.G, fgColor.B,
                                 bgColor.R, bgColor.G, bgColor.B,
-                                _optionPrefix + currentOption));
+                                prefix + currentOption));
                             _optionsBuilder.Append(new string(' ', optionTuple.whitespaceCount + options[i].GetText().Length));
                         }
                     }

@@ -17,13 +17,15 @@ public class Option
     public OptionColor? bg;
     public OptionColor? selectedFg;
     public OptionColor? selectedBg;
+    public string? optionPrefix;
+    public string? selector;
 
     /// <summary>
     /// Create a new Option, with source function and action provided.
     /// </summary>
     /// <param name="textFunction">Function providing text content for this option.</param>
     /// <param name="action">Action triggered after this option is chosen.</param>
-    public Option(Func<string> textFunction, Action action, bool? hidden, bool? disabled, OptionColor? fg, OptionColor? bg, OptionColor? selectedFg, OptionColor? selectedBg)
+    public Option(Func<string> textFunction, Action action, bool? hidden, bool? disabled, OptionColor? fg, OptionColor? bg, OptionColor? selectedFg, OptionColor? selectedBg, string? optionPrefix, string? selector)
     {
         this.textFunction = textFunction;
         Action = action;
@@ -33,6 +35,8 @@ public class Option
         this.fg = fg;
         this.selectedFg = selectedFg;
         this.selectedBg = selectedBg;
+        this.optionPrefix = optionPrefix;
+        this.selector = selector;
     }
 
     public void SetText(Func<string> textFunction)
