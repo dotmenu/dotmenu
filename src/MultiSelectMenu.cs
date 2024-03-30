@@ -41,12 +41,12 @@ namespace Natesworks.DotMenu
         /// <param name="shortcut">A key to bind with this option (optional).</param>
         public MultiSelectMenu AddOption(Func<string> textFunction, Action action, ConsoleKey? shortcut = null, bool? hidden = false, bool? disabled = false, OptionColor? fg = null, OptionColor? bg = null, OptionColor? selectedFg = null, OptionColor? selectedBg = null)
         {
-            _options.Add(new Option(textFunction, action, hidden, disabled, fg, bg, selectedFg, selectedBg));
+            options.Add(new Option(textFunction, action, hidden, disabled, fg, bg, selectedFg, selectedBg));
             string val = textFunction.Invoke();
             _optionTextValues.Add(new(val, val, textFunction));
             if (shortcut.HasValue)
             {
-                _shortcutMap[shortcut.Value] = _options.Count - 1;
+                _shortcutMap[shortcut.Value] = options.Count - 1;
             }
             return this;
         }
@@ -123,7 +123,7 @@ namespace Natesworks.DotMenu
 
                     if (_shortcutMap.TryGetValue(keyPressed, out int optionIndex))
                     {
-                        if (optionIndex >= 0 && optionIndex < _options.Count)
+                        if (optionIndex >= 0 && optionIndex < options.Count)
                         {
                             _selectedIndex = optionIndex;
                             Console.SetCursorPosition(0, 0);
@@ -139,13 +139,13 @@ namespace Natesworks.DotMenu
                         {
                             _selectedIndex--;
                         }
-                        if (keyPressed == ConsoleKey.DownArrow && _selectedIndex < _options.Count - 1)
+                        if (keyPressed == ConsoleKey.DownArrow && _selectedIndex < options.Count - 1)
                         {
                             _selectedIndex++;
                         }
                         if (keyPressed == ConsoleKey.Tab)
                         {
-                            if (_selectedIndex >= 0 && _selectedIndex < _options.Count)
+                            if (_selectedIndex >= 0 && _selectedIndex < options.Count)
                             {
                                 if (_selectedOptions.Contains(_selectedIndex))
                                 {
@@ -168,7 +168,7 @@ namespace Natesworks.DotMenu
 
             cancellationTokenSource.Cancel();
             updateTask.Wait();
-            Console.SetCursorPosition(0, _initialCursorY + _options.Count + 1);
+            Console.SetCursorPosition(0, _initialCursorY + options.Count + 1);
             Console.Clear();
             _enterAction?.Invoke();
             return _selectedIndex;
@@ -182,12 +182,12 @@ namespace Natesworks.DotMenu
                     _optionsBuilder.AppendLine(_prompt);
                 }
 
-                for (int i = 0; i < _options.Count; i++)
+                for (int i = 0; i < options.Count; i++)
                 {
                     if(!_hiddenOptions.Contains(i))
                     {
-                        int maxOptionLength = Console.BufferWidth - _options[i].GetText().Length;
-                        string currentOption = _options[i].GetText();
+                        int maxOptionLength = Console.BufferWidth - options[i].GetText().Length;
+                        string currentOption = options[i].GetText();
 
                         OptionColor fgColor;
                         OptionColor bgColor;
@@ -215,7 +215,7 @@ namespace Natesworks.DotMenu
                             fgColor.R, fgColor.G, fgColor.B,
                             bgColor.R, bgColor.G, bgColor.B,
                             optionTuple.optionText));
-                        _optionsBuilder.Append(new string(' ', optionTuple.whitespaceCount + _options[i].GetText().Length));
+                        _optionsBuilder.Append(new string(' ', optionTuple.whitespaceCount + options[i].GetText().Length));
                     }
                 }
 
