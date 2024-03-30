@@ -157,7 +157,7 @@ namespace Natesworks.DotMenu
 
                     if (_shortcutMap.TryGetValue(keyPressed, out int optionIndex))
                     {
-                        if (optionIndex >= 0 && optionIndex < _options.Count)
+                        if (optionIndex >= 0 && optionIndex < _options.Count && !_options[optionIndex].hidden.Value)
                         {
                             _selectedIndex = optionIndex;
                             Console.SetCursorPosition(0, 0);
@@ -169,13 +169,19 @@ namespace Natesworks.DotMenu
                     }
                     else
                     {
-                        if (keyPressed == ConsoleKey.UpArrow && _selectedIndex > 0)
+                        if (keyPressed == ConsoleKey.UpArrow)
                         {
-                            _selectedIndex--;
+                            do
+                            {
+                                _selectedIndex = (_selectedIndex - 1 + _options.Count) % _options.Count;
+                            } while (_options[_selectedIndex].hidden.Value);
                         }
-                        if (keyPressed == ConsoleKey.DownArrow && _selectedIndex < _options.Count - 1)
+                        if (keyPressed == ConsoleKey.DownArrow)
                         {
-                            _selectedIndex++;
+                            do
+                            {
+                                _selectedIndex = (_selectedIndex + 1) % _options.Count;
+                            } while (_options[_selectedIndex].hidden.Value);
                         }
                         WriteOptions();
                     }
