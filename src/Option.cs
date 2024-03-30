@@ -39,6 +39,19 @@ public class Option
         this.selector = selector;
     }
 
+    public Option(Func<string> textFunction, bool? hidden, bool? disabled, OptionColor? fg, OptionColor? bg, OptionColor? selectedFg, OptionColor? selectedBg, string? optionPrefix, string? selector)
+    {
+        this.textFunction = textFunction;
+        this.hidden = hidden;
+        this.disabled = disabled;
+        this.bg = bg;
+        this.fg = fg;
+        this.selectedFg = selectedFg;
+        this.selectedBg = selectedBg;
+        this.optionPrefix = optionPrefix;
+        this.selector = selector;
+    }
+
     public void SetText(Func<string> textFunction)
     {
         this.textFunction = textFunction;

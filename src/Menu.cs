@@ -210,50 +210,29 @@ namespace Natesworks.DotMenu
 
                 for (int i = 0; i < options.Count; i++)
                 {
-                    if(options[i].hidden.Value == false)
+                    if (!options[i].hidden.Value)
                     {
-                        int maxOptionLength = Console.BufferWidth - options[i].GetText().Length;
-                        string currentOption = options[i].GetText();
+                        var (fullOptionText, paddingSpaces) = GetOptionText(i, options[i].GetText(), Console.BufferWidth);
 
                         OptionColor fgColor;
                         OptionColor bgColor;
-                        string prefix;
-                        string selector;
-                        var optionTuple = GetOptionText(i, currentOption, maxOptionLength);
 
                         if (i == _selectedIndex)
                         {
-                            selector = _selector;
-                            if(options[i].selector != null)
-                            {
-                                selector = options[i].selector;
-                            }
                             fgColor = options[i].selectedFg ?? selectedFg;
                             bgColor = options[i].selectedBg ?? selectedBg;
-                            _optionsBuilder.Append(
-                                string.Format(_colorEscapeCode,
-                                fgColor.R, fgColor.G, fgColor.B,
-                                bgColor.R, bgColor.G, bgColor.B,
-                                selector + currentOption));
-                            _optionsBuilder.Append(new string(' ', optionTuple.whitespaceCount + options[i].GetText().Length));
                         }
                         else
                         {
-                            prefix = _optionPrefix;
-                            if(options[i].selector != null)
-                            {
-                                prefix = options[i].optionPrefix;
-                            }
                             fgColor = options[i].fg ?? fg;
                             bgColor = options[i].bg ?? bg;
-
-                            _optionsBuilder.Append(
-                                string.Format(_colorEscapeCode,
-                                fgColor.R, fgColor.G, fgColor.B,
-                                bgColor.R, bgColor.G, bgColor.B,
-                                prefix + currentOption));
-                            _optionsBuilder.Append(new string(' ', optionTuple.whitespaceCount + options[i].GetText().Length));
                         }
+
+                        _optionsBuilder.Append(string.Format(_colorEscapeCode,
+                            fgColor.R, fgColor.G, fgColor.B,
+                            bgColor.R, bgColor.G, bgColor.B,
+                            fullOptionText));
+                        _optionsBuilder.Append(new string(' ', paddingSpaces));
                     }
                 }
 
@@ -263,17 +242,20 @@ namespace Natesworks.DotMenu
 
         private (string optionText, int whitespaceCount) GetOptionText(int index, string optionText, int maxOptionLength)
         {
-            string fullOptionText = optionText;
-            string prefix = _optionPrefix;
+            string prefix = options[index].optionPrefix ?? _optionPrefix;
+            string selector = options[index].selector ?? _selector;
 
+            string fullOptionText = optionText;
             if (index == _selectedIndex)
             {
-                prefix += _selector;
+                fullOptionText = selector + fullOptionText;
+            }
+            else
+            {
+                fullOptionText = prefix + fullOptionText;
             }
 
-            fullOptionText = prefix + fullOptionText;
-
-            int paddingSpaces = maxOptionLength - fullOptionText.Length;
+            int paddingSpaces = Math.Max(0, maxOptionLength - fullOptionText.Length);
 
             return (fullOptionText, paddingSpaces);
         }

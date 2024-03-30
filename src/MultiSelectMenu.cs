@@ -39,9 +39,9 @@ namespace Natesworks.DotMenu
         /// <param name="textFunction">Function providing text content for this option.</param>
         /// <param name="action">Action to be performed after the option is chosen.</param>
         /// <param name="shortcut">A key to bind with this option (optional).</param>
-        public MultiSelectMenu AddOption(Func<string> textFunction, Action action, ConsoleKey? shortcut = null, bool? hidden = false, bool? disabled = false, OptionColor? fg = null, OptionColor? bg = null, OptionColor? selectedFg = null, OptionColor? selectedBg = null, string? optionPrefix = null, string? selector = null)
+        public MultiSelectMenu AddOption(Func<string> textFunction, ConsoleKey? shortcut = null, bool? hidden = false, bool? disabled = false, OptionColor? fg = null, OptionColor? bg = null, OptionColor? selectedFg = null, OptionColor? selectedBg = null, string? optionPrefix = null, string? selector = null)
         {
-            options.Add(new Option(textFunction, action, hidden, disabled, fg, bg, selectedFg, selectedBg, optionPrefix, selector));
+            options.Add(new Option(textFunction, hidden, disabled, fg, bg, selectedFg, selectedBg, optionPrefix, selector));
             string val = textFunction.Invoke();
             _optionTextValues.Add(new(val, val, textFunction));
             if (shortcut.HasValue)
@@ -50,6 +50,7 @@ namespace Natesworks.DotMenu
             }
             return this;
         }
+
         public MultiSelectMenu SetCheckedOptionPrefix(string prefix)
         {
             if (string.IsNullOrEmpty(_checkedOptionPrefix))
@@ -184,50 +185,34 @@ namespace Natesworks.DotMenu
 
                 for (int i = 0; i < options.Count; i++)
                 {
-                    if(!_hiddenOptions.Contains(i))
+                    if (!options[i].hidden.Value)
                     {
-                        int maxOptionLength = Console.BufferWidth - options[i].GetText().Length;
-                        string currentOption = options[i].GetText();
+                            var (fullOptionText, paddingSpaces) = GetOptionText(i, options[i].GetText(), Console.BufferWidth);
+                            OptionColor fgColor;
+                            OptionColor bgColor;
 
-                        OptionColor fgColor;
-                        OptionColor bgColor;
-                        string prefix;
-                        string selector;
-
-                        if (_selectedOptions.Contains(i) && _selectedIndex != i)
-                        {
-                            fgColor = _checkedFg;
-                            bgColor = _checkedBg;
-                        }
-                        else if (i == _selectedIndex)
-                        {
-                            selector = _selector;
-                            if(options[i].selector != null)
+                            if (_selectedOptions.Contains(i))
                             {
-                                selector = options[i].selector;
+                                fgColor = options[i].selectedFg ?? selectedFg;
+                                bgColor = options[i].selectedBg ?? selectedBg;
                             }
-                            fgColor = selectedFg;
-                            bgColor = selectedBg;
-                        }
-                        else
-                        {
-                            fgColor = fg;
-                            bgColor = bg;
-                            prefix = _optionPrefix;
-                            if(options[i].selector != null)
+                            else if (i == _selectedIndex)
                             {
-                                prefix = options[i].optionPrefix;
+                                fgColor = options[i].selectedFg ?? selectedFg;
+                                bgColor = options[i].selectedBg ?? selectedBg;
                             }
-                        }
+                            else
+                            {
+                                fgColor = options[i].fg ?? fg;
+                                bgColor = options[i].bg ?? bg;
+                            }
 
-                        var optionTuple = GetOptionText(i, currentOption, maxOptionLength);
-
-                        _optionsBuilder.Append(
-                            string.Format(_colorEscapeCode,
-                            fgColor.R, fgColor.G, fgColor.B,
-                            bgColor.R, bgColor.G, bgColor.B,
-                            optionTuple.optionText));
-                        _optionsBuilder.Append(new string(' ', optionTuple.whitespaceCount + options[i].GetText().Length));
+                            _optionsBuilder.Append(
+                                string.Format(_colorEscapeCode,
+                                fgColor.R, fgColor.G, fgColor.B,
+                                bgColor.R, bgColor.G, bgColor.B,
+                                fullOptionText));
+                            _optionsBuilder.Append(new string(' ', paddingSpaces + options[i].GetText().Length));
                     }
                 }
 
@@ -236,8 +221,10 @@ namespace Natesworks.DotMenu
         }
         private (string optionText, int whitespaceCount) GetOptionText(int index, string optionText, int maxOptionLength)
         {
+            string prefix = options[index].optionPrefix ?? _optionPrefix;
+            string selector = options[index].selector ?? _selector;
+
             string fullOptionText = optionText;
-            string prefix = _optionPrefix;
 
             if (_selectedOptions.Contains(index))
             {
@@ -245,7 +232,7 @@ namespace Natesworks.DotMenu
             }
             else if (index == _selectedIndex)
             {
-                prefix += _selectedOptionPrefix;
+                prefix = selector;
             }
 
             fullOptionText = prefix + fullOptionText;
