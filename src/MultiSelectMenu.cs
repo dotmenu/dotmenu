@@ -191,6 +191,8 @@ namespace Natesworks.DotMenu
 
                         OptionColor fgColor;
                         OptionColor bgColor;
+                        string prefix;
+                        string selector;
 
                         if (_selectedOptions.Contains(i) && _selectedIndex != i)
                         {
@@ -199,6 +201,11 @@ namespace Natesworks.DotMenu
                         }
                         else if (i == _selectedIndex)
                         {
+                            selector = _selector;
+                            if(options[i].selector != null)
+                            {
+                                selector = options[i].selector;
+                            }
                             fgColor = selectedFg;
                             bgColor = selectedBg;
                         }
@@ -206,6 +213,11 @@ namespace Natesworks.DotMenu
                         {
                             fgColor = fg;
                             bgColor = bg;
+                            prefix = _optionPrefix;
+                            if(options[i].selector != null)
+                            {
+                                prefix = options[i].optionPrefix;
+                            }
                         }
 
                         var optionTuple = GetOptionText(i, currentOption, maxOptionLength);
