@@ -6,7 +6,7 @@ namespace Natesworks.DotMenu
     public class Menu
     {
         protected int _selectedIndex;
-        protected readonly List<Option> _options = new List<Option>();
+        public List<Option> _options = new List<Option>();
         protected string _prompt = "";
         protected OptionColor fg = OptionColor.White;
         protected OptionColor bg = OptionColor.Black;
