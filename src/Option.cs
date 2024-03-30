@@ -10,9 +10,9 @@ public class Option
     /// </summary>
     public Action Action { get; set; }
 
-    private readonly Func<string> _textFunction;
-    public bool? _hidden;
-    public bool? _disabled;
+    public Func<string> textFunction;
+    public bool? hidden;
+    public bool? disabled;
     public OptionColor? fg;
     public OptionColor? bg;
     public OptionColor? selectedFg;
@@ -25,19 +25,24 @@ public class Option
     /// <param name="action">Action triggered after this option is chosen.</param>
     public Option(Func<string> textFunction, Action action, bool? hidden, bool? disabled, OptionColor? fg, OptionColor? bg, OptionColor? selectedFg, OptionColor? selectedBg)
     {
-        _textFunction = textFunction;
+        this.textFunction = textFunction;
         Action = action;
-        _hidden = hidden;
-        _disabled = disabled;
+        this.hidden = hidden;
+        this.disabled = disabled;
         this.bg = bg;
         this.fg = fg;
         this.selectedFg = selectedFg;
         this.selectedBg = selectedBg;
     }
 
+    public void SetText(Func<string> textFunction)
+    {
+        this.textFunction = textFunction;
+    }
+
     public string GetText()
     {
-        return _textFunction.Invoke();
+        return textFunction.Invoke();
     }
 
     public void SetAction(Action action)
@@ -45,8 +50,18 @@ public class Option
         Action = action;
     }
 
+    public Action GetAction()
+    {
+        return Action;
+    }
+
     public void SetHidden(bool hidden)
     {
-        _hidden = hidden;
+        this.hidden = hidden;
+    }
+
+    public bool? GetHidden()
+    {
+        return hidden;
     }
 }

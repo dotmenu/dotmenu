@@ -204,7 +204,7 @@ namespace Natesworks.DotMenu
 
                 for (int i = 0; i < _options.Count; i++)
                 {
-                    if(_options[i]._hidden.Value == false)
+                    if(_options[i].hidden.Value == false)
                     {
                         int maxOptionLength = Console.BufferWidth - _options[i].GetText().Length;
                         string currentOption = _options[i].GetText();
@@ -274,10 +274,5 @@ namespace Natesworks.DotMenu
 
             _optionsBuilder.Clear();
         }
-        public void EditOptions(Action<List<Option>> editAction)
-        {
-            editAction?.Invoke(_options);
-        }
-
     }
 }
