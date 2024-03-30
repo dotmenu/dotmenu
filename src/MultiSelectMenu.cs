@@ -237,7 +237,7 @@ namespace Natesworks.DotMenu
 
             fullOptionText = prefix + fullOptionText;
 
-            int paddingSpaces = maxOptionLength - fullOptionText.Length;
+            int paddingSpaces = Math.Max(0, maxOptionLength - fullOptionText.Length);
 
             return (fullOptionText, paddingSpaces);
         }
