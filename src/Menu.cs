@@ -74,9 +74,9 @@ namespace Natesworks.DotMenu
         /// <param name="action">Action to be performed after the option is chosen.</param>
         /// <param name="shortcut">A key to bind with this option (optional).</param>
         /// <param name="hidden">If the option should be hidden.</param> 
-        public Menu AddOption(Func<string> textFunction, Action action, ConsoleKey? shortcut = null, bool? hidden = false, bool? disabled = false)
+        public Menu AddOption(Func<string> textFunction, Action action, ConsoleKey? shortcut = null, bool? hidden = false, bool? disabled = false, OptionColor? fg = null, OptionColor? bg = null, OptionColor? selectedFg = null, OptionColor? selectedBg = null)
         {
-            _options.Add(new Option(textFunction, action, hidden, disabled));
+            _options.Add(new Option(textFunction, action, hidden, disabled, fg, bg, selectedFg, selectedBg));
             string val = textFunction.Invoke();
             _optionTextValues.Add(new(val, val, textFunction));
             if (shortcut.HasValue)
@@ -204,7 +204,7 @@ namespace Natesworks.DotMenu
 
                 for (int i = 0; i < _options.Count; i++)
                 {
-                    if(_options[i]._disabled.HasValue && _options[i]._disabled.Value == false)
+                    if(_options[i]._hidden.Value == false)
                     {
                         int maxOptionLength = Console.BufferWidth - _options[i].GetText().Length;
                         string currentOption = _options[i].GetText();
@@ -215,8 +215,8 @@ namespace Natesworks.DotMenu
 
                         if (i == _selectedIndex)
                         {
-                            fgColor = selectedFg;
-                            bgColor = selectedBg;
+                            fgColor = _options[i].selectedFg ?? selectedFg;
+                            bgColor = _options[i].selectedBg ?? selectedBg;
                             _optionsBuilder.Append(
                                 string.Format(_colorEscapeCode,
                                 fgColor.R, fgColor.G, fgColor.B,
@@ -226,8 +226,8 @@ namespace Natesworks.DotMenu
                         }
                         else
                         {
-                            fgColor = fg;
-                            bgColor = bg;
+                            fgColor = _options[i].fg ?? fg;
+                            bgColor = _options[i].bg ?? bg;
 
                             _optionsBuilder.Append(
                                 string.Format(_colorEscapeCode,

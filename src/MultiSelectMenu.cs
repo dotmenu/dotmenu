@@ -39,9 +39,9 @@ namespace Natesworks.DotMenu
         /// <param name="textFunction">Function providing text content for this option.</param>
         /// <param name="action">Action to be performed after the option is chosen.</param>
         /// <param name="shortcut">A key to bind with this option (optional).</param>
-        public MultiSelectMenu AddOption(Func<string> textFunction, ConsoleKey? shortcut = null, bool? hidden = false, bool? disabled = false)
+        public MultiSelectMenu AddOption(Func<string> textFunction, Action action, ConsoleKey? shortcut = null, bool? hidden = false, bool? disabled = false, OptionColor? fg = null, OptionColor? bg = null, OptionColor? selectedFg = null, OptionColor? selectedBg = null)
         {
-            _options.Add(new Option(textFunction, () => { }, hidden, disabled));
+            _options.Add(new Option(textFunction, action, hidden, disabled, fg, bg, selectedFg, selectedBg));
             string val = textFunction.Invoke();
             _optionTextValues.Add(new(val, val, textFunction));
             if (shortcut.HasValue)
