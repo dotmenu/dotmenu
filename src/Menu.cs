@@ -6,7 +6,7 @@ namespace Natesworks.DotMenu
     public class Menu
     {
         protected int _selectedIndex;
-        public List<Option> _options = new List<Option>();
+        public List<Option> options = new List<Option>();
         protected string _prompt = "";
         protected OptionColor fg = OptionColor.White;
         protected OptionColor bg = OptionColor.Black;
@@ -76,12 +76,12 @@ namespace Natesworks.DotMenu
         /// <param name="hidden">If the option should be hidden.</param> 
         public Menu AddOption(Func<string> textFunction, Action action, ConsoleKey? shortcut = null, bool? hidden = false, bool? disabled = false, OptionColor? fg = null, OptionColor? bg = null, OptionColor? selectedFg = null, OptionColor? selectedBg = null)
         {
-            _options.Add(new Option(textFunction, action, hidden, disabled, fg, bg, selectedFg, selectedBg));
+            options.Add(new Option(textFunction, action, hidden, disabled, fg, bg, selectedFg, selectedBg));
             string val = textFunction.Invoke();
             _optionTextValues.Add(new(val, val, textFunction));
             if (shortcut.HasValue)
             {
-                _shortcutMap[shortcut.Value] = _options.Count - 1;
+                _shortcutMap[shortcut.Value] = options.Count - 1;
             }
             return this;
         }
@@ -157,7 +157,7 @@ namespace Natesworks.DotMenu
 
                     if (_shortcutMap.TryGetValue(keyPressed, out int optionIndex))
                     {
-                        if (optionIndex >= 0 && optionIndex < _options.Count && !_options[optionIndex].hidden.Value)
+                        if (optionIndex >= 0 && optionIndex < options.Count && !options[optionIndex].hidden.Value)
                         {
                             _selectedIndex = optionIndex;
                             Console.SetCursorPosition(0, 0);
@@ -173,15 +173,15 @@ namespace Natesworks.DotMenu
                         {
                             do
                             {
-                                _selectedIndex = (_selectedIndex - 1 + _options.Count) % _options.Count;
-                            } while (_options[_selectedIndex].hidden.Value);
+                                _selectedIndex = (_selectedIndex - 1 + options.Count) % options.Count;
+                            } while (options[_selectedIndex].hidden.Value);
                         }
                         if (keyPressed == ConsoleKey.DownArrow)
                         {
                             do
                             {
-                                _selectedIndex = (_selectedIndex + 1) % _options.Count;
-                            } while (_options[_selectedIndex].hidden.Value);
+                                _selectedIndex = (_selectedIndex + 1) % options.Count;
+                            } while (options[_selectedIndex].hidden.Value);
                         }
                         WriteOptions();
                     }
@@ -195,8 +195,8 @@ namespace Natesworks.DotMenu
             cancellationTokenSource.Cancel();
             updateTask.Wait();
             Console.Clear();
-            Console.SetCursorPosition(0, _initialCursorY + _options.Count + 1);
-            _options[_selectedIndex].Action?.Invoke();
+            Console.SetCursorPosition(0, _initialCursorY + options.Count + 1);
+            options[_selectedIndex].Action?.Invoke();
             return _selectedIndex;
         }
         protected virtual void WriteOptions()
@@ -208,12 +208,12 @@ namespace Natesworks.DotMenu
                     _optionsBuilder.AppendLine(_prompt);
                 }
 
-                for (int i = 0; i < _options.Count; i++)
+                for (int i = 0; i < options.Count; i++)
                 {
-                    if(_options[i].hidden.Value == false)
+                    if(options[i].hidden.Value == false)
                     {
-                        int maxOptionLength = Console.BufferWidth - _options[i].GetText().Length;
-                        string currentOption = _options[i].GetText();
+                        int maxOptionLength = Console.BufferWidth - options[i].GetText().Length;
+                        string currentOption = options[i].GetText();
 
                         OptionColor fgColor;
                         OptionColor bgColor;
@@ -221,26 +221,26 @@ namespace Natesworks.DotMenu
 
                         if (i == _selectedIndex)
                         {
-                            fgColor = _options[i].selectedFg ?? selectedFg;
-                            bgColor = _options[i].selectedBg ?? selectedBg;
+                            fgColor = options[i].selectedFg ?? selectedFg;
+                            bgColor = options[i].selectedBg ?? selectedBg;
                             _optionsBuilder.Append(
                                 string.Format(_colorEscapeCode,
                                 fgColor.R, fgColor.G, fgColor.B,
                                 bgColor.R, bgColor.G, bgColor.B,
                                 _selector + currentOption));
-                            _optionsBuilder.Append(new string(' ', optionTuple.whitespaceCount + _options[i].GetText().Length));
+                            _optionsBuilder.Append(new string(' ', optionTuple.whitespaceCount + options[i].GetText().Length));
                         }
                         else
                         {
-                            fgColor = _options[i].fg ?? fg;
-                            bgColor = _options[i].bg ?? bg;
+                            fgColor = options[i].fg ?? fg;
+                            bgColor = options[i].bg ?? bg;
 
                             _optionsBuilder.Append(
                                 string.Format(_colorEscapeCode,
                                 fgColor.R, fgColor.G, fgColor.B,
                                 bgColor.R, bgColor.G, bgColor.B,
                                 _optionPrefix + currentOption));
-                            _optionsBuilder.Append(new string(' ', optionTuple.whitespaceCount + _options[i].GetText().Length));
+                            _optionsBuilder.Append(new string(' ', optionTuple.whitespaceCount + options[i].GetText().Length));
                         }
                     }
                 }
