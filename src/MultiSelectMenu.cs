@@ -8,7 +8,7 @@ namespace Natesworks.DotMenu
         private OptionColor _checkedFg = OptionColor.White;
         private OptionColor _checkedBg = OptionColor.Black;
         private string _selectedOptionPrefix = "";
-        private string _checkedOptionPrefix = "[x]";
+        private string _checkedOptionPrefix = "[x] ";
         private Action _enterAction = () => { };
         private readonly List<int> _hiddenOptions = new List<int>();
         private readonly List<int> _disabledOptions = new List<int>();
