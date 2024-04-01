@@ -74,6 +74,11 @@ namespace Natesworks.DotMenu
         /// Runs MultiSelectMenu and starts a task that updates the menu text.
         /// </summary>
         /// <returns>Index of option selected by the user.</returns>
+
+        public List<int> GetCheckedOptions()
+        {
+             return _selectedOptions;
+        }
         public override int Run()
         {
             if (!SupportsAnsi)
