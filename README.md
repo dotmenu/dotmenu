@@ -2,7 +2,7 @@
 ![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/dotmenu/dotmenu/dotnet.yml)
 # About Dotmenu
 A straightforward console menu library designed to streamline user interactions in console applications.
-Works on every terminal that supports ANSI escale codes.
+Works on every terminal that supports ANSI escape codes.
 
 ## Installation
 Dotmenu can be added to your project with:
