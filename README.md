@@ -45,4 +45,4 @@ menu.Run();
 
 # Documentation
 
-Explore our wiki sections for guidance [here](https://github.com/dotmenu/dotmenu/wiki)
+Explore our wiki sections for guidance [here](https://dotmenu.natesworks.com)
