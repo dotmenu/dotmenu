@@ -1,4 +1,3 @@
-using Natesworks.Dotmenu;
 using System.Text;
 
 namespace Natesworks.DotMenu
@@ -19,7 +18,7 @@ namespace Natesworks.DotMenu
         protected string _optionPrefix = "";
         protected string _selector = "";
         protected static readonly string _colorEscapeCode = "\x1b[38;2;{0};{1};{2}m\x1b[48;2;{3};{4};{5}m{6}\x1b[0m";
-        public static readonly bool SupportsAnsi = SpectreConsoleColorSystemDetector.Detect() == ColorSystem.TrueColor;
+        public static readonly bool SupportsAnsi = AnsiDetector.SupportsAnsi;
 
         public Menu()
         {
