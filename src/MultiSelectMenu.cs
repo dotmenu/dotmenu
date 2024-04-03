@@ -1,6 +1,6 @@
 using System.Text;
 
-namespace Natesworks.DotMenu
+namespace dotmenu
 {
     public class MultiSelectMenu : Menu
     {
