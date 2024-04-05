@@ -217,7 +217,7 @@ namespace dotmenu
                                 fgColor.R, fgColor.G, fgColor.B,
                                 bgColor.R, bgColor.G, bgColor.B,
                                 fullOptionText));
-                            _optionsBuilder.Append(new string(' ', paddingSpaces + options[i].GetText().Length));
+                            _optionsBuilder.Append(new string(' ', paddingSpaces));
                     }
                 }
 
