@@ -170,7 +170,7 @@ namespace dotmenu
                 {
                     Console.WriteLine(ex.Message);
                 }
-            } while (keyPressed != ConsoleKey.Enter);
+            } while (keyPressed != _altEnterKey);
 
             cancellationTokenSource.Cancel();
             updateTask.Wait();
