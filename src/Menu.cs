@@ -115,6 +115,13 @@ namespace dotmenu
 
             return this;
         }
+
+        public Menu SetSelectedIndex(int selectedIndex)
+        {
+            _selectedIndex = selectedIndex;
+            
+            return this;
+        }
         /// <summary>
         /// Runs menu and starts a task that updates menu at regular time intervals.
         /// </summary>
