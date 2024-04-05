@@ -17,6 +17,7 @@ namespace dotmenu
         protected int _initialCursorY;
         protected string _optionPrefix = "";
         protected string _selector = "";
+        protected ConsoleKey _altEnterKey = ConsoleKey.Enter;
         protected static readonly string _colorEscapeCode = "\x1b[38;2;{0};{1};{2}m\x1b[48;2;{3};{4};{5}m{6}\x1b[0m";
         public static readonly bool SupportsAnsi = AnsiDetector.SupportsAnsi;
 
@@ -107,6 +108,13 @@ namespace dotmenu
 
             return this;
         }
+
+        public Menu SetAltEnterKey(ConsoleKey altEnterKey)
+        {
+            _altEnterKey = altEnterKey;
+
+            return this;
+        }
         /// <summary>
         /// Runs menu and starts a task that updates menu at regular time intervals.
         /// </summary>
@@ -189,7 +197,7 @@ namespace dotmenu
                 {
                     Console.WriteLine(ex.Message);
                 }
-            } while (keyPressed != ConsoleKey.Enter);
+            } while (keyPressed != _altEnterKey);
 
             cancellationTokenSource.Cancel();
             updateTask.Wait();
