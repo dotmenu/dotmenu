@@ -13,10 +13,10 @@ public static partial class MenuExtensions
     /// <returns>The menu with the added option.</returns>
     /// <exception cref="ArgumentNullException">
     ///     <paramref name="menu"/> is <see langword="null"/> -or-
-    ///     Validation the created option throws <see cref="ArgumentNullException"/>.
+    ///     validation the created option throws <see cref="ArgumentNullException"/>.
     /// </exception>
     /// <exception cref="ArgumentException">
-    ///     Validation the created option throws <see cref="ArgumentException"/>.
+    ///     validation the created option throws <see cref="ArgumentException"/>.
     /// </exception>
     public static Menu AddOption<TOption>(this Menu menu)
         where TOption : Option, new()
