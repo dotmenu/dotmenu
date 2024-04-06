@@ -27,6 +27,12 @@ namespace dotmenu
         {
             return new MultiSelectMenu();
         }
+        /// <summary>
+        /// Sets the foreground and background colors when an option is checked.
+        /// </summary>
+        /// <param name="checkedFg">The foreground color for checked options.</param>
+        /// <param name="checkedBg">The background color for checked options.</param>
+        /// <returns>The current instance of MultiSelectMenu.</returns>
         public MultiSelectMenu ColorsWhenChecked(OptionColor checkedFg, OptionColor checkedBg)
         {
             _checkedFg = checkedFg;
@@ -37,8 +43,15 @@ namespace dotmenu
         /// Adds a new option to the MultiSelectMenu.
         /// </summary>
         /// <param name="textFunction">Function providing text content for this option.</param>
-        /// <param name="action">Action to be performed after the option is chosen.</param>
         /// <param name="shortcut">A key to bind with this option (optional).</param>
+        /// <param name="hidden">Specifies whether the option should be hidden (optional).</param>
+        /// <param name="fg">The foreground color for this option (optional).</param>
+        /// <param name="bg">The background color for this option (optional).</param>
+        /// <param name="selectedFg">The foreground color when this option is selected (optional).</param>
+        /// <param name="selectedBg">The background color when this option is selected (optional).</param>
+        /// <param name="optionPrefix">The prefix to be displayed before the option text (optional).</param>
+        /// <param name="selector">The selector to be displayed when the option is selected (optional).</param>
+        /// <returns>The current instance of MultiSelectMenu.</returns>
         public MultiSelectMenu AddOption(Func<string> textFunction, ConsoleKey? shortcut = null, bool? hidden = false, bool? disabled = false, OptionColor? fg = null, OptionColor? bg = null, OptionColor? selectedFg = null, OptionColor? selectedBg = null, string? optionPrefix = null, string? selector = null)
         {
             options.Add(new Option(textFunction, hidden, disabled, fg, bg, selectedFg, selectedBg, optionPrefix, selector));
@@ -51,6 +64,11 @@ namespace dotmenu
             return this;
         }
 
+        /// <summary>
+        /// Sets the prefix for checked options.
+        /// </summary>
+        /// <param name="prefix">The prefix to be displayed before checked options.</param>
+        /// <returns>The current instance of MultiSelectMenu.</returns>
         public MultiSelectMenu SetCheckedOptionPrefix(string prefix)
         {
             if (string.IsNullOrEmpty(_checkedOptionPrefix))
@@ -61,9 +79,10 @@ namespace dotmenu
             return this;
         }
         /// <summary>
-        /// The action 
+        /// Sets the action to be performed when Enter key is pressed.
         /// </summary>
-        /// <param name="enterAction">The action to run.</param>
+        /// <param name="enterAction">The action to be performed when Enter key is pressed.</param>
+        /// <returns>The current instance of MultiSelectMenu.</returns>
         public MultiSelectMenu ActionOnEnter(Action enterAction)
         {
             _enterAction = enterAction;
@@ -71,14 +90,16 @@ namespace dotmenu
         }
 
         /// <summary>
-        /// Runs MultiSelectMenu and starts a task that updates the menu text.
+        /// Gets the list of indices of checked options.
         /// </summary>
-        /// <returns>Index of option selected by the user.</returns>
-
         public List<int> GetCheckedOptions()
         {
              return _selectedOptions;
         }
+        /// <summary>
+        /// Runs the MultiSelectMenu and starts a task that updates the menu text.
+        /// </summary>
+        /// <returns>Index of option selected by the user.</returns>
         public override int Run()
         {
             if (!SupportsAnsi)
@@ -188,6 +209,9 @@ namespace dotmenu
                 return _selectedIndex;
             }
         }
+        /// <summary>
+        /// Writes the options to the console.
+        /// </summary>
         protected override void WriteOptions()
         {
             lock (_optionsBuilder)
@@ -228,13 +252,20 @@ namespace dotmenu
                 UpdateConsole();
             }
         }
+        /// <summary>
+        /// Retrieves the formatted option text and the count of whitespace for padding.
+        /// </summary>
+        /// <param name="index">The index of the option.</param>
+        /// <param name="optionText">The text content of the option.</param>
+        /// <param name="maxOptionLength">The maximum length allowed for an option.</param>
+        /// <returns>A tuple containing the formatted option text and the count of whitespace for padding.</returns>
         private (string optionText, int whitespaceCount) GetOptionText(int index, string optionText, int maxOptionLength)
         {
             string prefix = options[index].optionPrefix ?? _optionPrefix;
             string selector = options[index].selector ?? _selector;
 
             string fullOptionText = optionText;
-            
+
             if (_selectedOptions.Contains(index))
             {
                 prefix = _checkedOptionPrefix;
