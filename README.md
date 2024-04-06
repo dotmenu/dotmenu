@@ -40,7 +40,7 @@ menu.AddOption(
 );
 menu.Run();
 ```
-![](https://i.ibb.co/8XR37T5/image.png)
+![](https://github.com/dotmenu/dotmenu/raw/main/screenshots/menu.png)
 
 ## MultiSelectMenu Example
 
@@ -77,7 +77,7 @@ menu.ActionOnEnter(() =>
 menu.Run();
 ```
 
-![](https://i.ibb.co/BGqvHVk/image.png)
+![](https://github.com/dotmenu/dotmenu/raw/main/screenshots/multiselectmenu.png)
 
 # Documentation
 
