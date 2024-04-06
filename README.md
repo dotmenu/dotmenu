@@ -51,20 +51,17 @@ menu.SetOptionSelector(">");
 
 menu.AddOption(
     () => "Option 1",
-    () => Console.WriteLine("Option 1 selected"),
     bg: OptionColor.Blue,
     optionPrefix: "Custom Prefix: "
 );
 
 menu.AddOption(
     () => "Hidden Option",
-    () => Console.WriteLine("Hidden option selected"),
     hidden: true
 );
 
 menu.AddOption(
     () => "Option 3",
-    () => menu.options[1].SetHidden(false),
     ConsoleKey.A
 );
 
