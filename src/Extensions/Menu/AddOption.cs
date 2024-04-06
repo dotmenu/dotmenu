@@ -51,7 +51,8 @@ public static partial class MenuExtensions
         string? selector = null)
     {
         ArgumentNullException.ThrowIfNull(menu, nameof(menu));
-        ArgumentException.ThrowIfNullOrWhiteSpace(text, nameof(text));
+        if (string.IsNullOrWhiteSpace(text))
+            throw new ArgumentException("The text must be a non-empty string.", nameof(text));
         
         var option = new Option(text, action, hidden, disabled, fg, bg, selectedFg, selectedBg, optionPrefix, selector);
         option.Validate();

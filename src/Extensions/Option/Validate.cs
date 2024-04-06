@@ -22,6 +22,7 @@ public static partial class OptionExtensions
         ArgumentNullException.ThrowIfNull(option.TextFunction, nameof(option.TextFunction));
 
         var text = option.TextFunction.Invoke();
-        ArgumentException.ThrowIfNullOrWhiteSpace(text);
+        if (string.IsNullOrWhiteSpace(text))
+            throw new ArgumentException("The text function must return a non-empty string.", nameof(option));
     }
 }
