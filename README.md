@@ -14,17 +14,16 @@ dotnet add package Natesworks.Dotmenu
 ## Menu Example
 
 ```cs
+using dotmenu;
 var menu = Menu.New();
 menu.SetPrompt("Select an option:");
-menu.Colors(OptionColor.Green, OptionColor.Blue);
-menu.ColorsWhenSelected(OptionColor.Blue, OptionColor.Green);
 menu.SetOptionSelector(">");
 
 menu.AddOption(
     () => "Option 1",
     () => Console.WriteLine("Option 1 selected"),
-    fg: OptionColor.Green,
-    bg: OptionColor.Black,
+    fg: OptionColor.White,
+    bg: OptionColor.Blue,
     optionPrefix: "Custom Prefix: "
 );
 
@@ -37,11 +36,11 @@ menu.AddOption(
 menu.AddOption(
     () => "Option 3",
     () => Console.WriteLine("Option 3 selected"),
-    ConsoleKey.D3
+    shortcut:ConsoleKey.A
 );
-
 menu.Run();
 ```
+![](https://i.ibb.co/8XR37T5/image.png)
 
 # Documentation
 
