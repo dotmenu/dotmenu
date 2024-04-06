@@ -143,13 +143,19 @@ namespace dotmenu
                         }
                         else
                         {
-                            if (keyPressed == ConsoleKey.UpArrow && _selectedIndex > 0)
+                            if (keyPressed == ConsoleKey.UpArrow)
                             {
-                                _selectedIndex--;
+                                do
+                                {
+                                    _selectedIndex = (_selectedIndex - 1 + options.Count) % options.Count;
+                                } while (options[_selectedIndex].hidden.Value);
                             }
-                            if (keyPressed == ConsoleKey.DownArrow && _selectedIndex < options.Count - 1)
+                            if (keyPressed == ConsoleKey.DownArrow)
                             {
-                                _selectedIndex++;
+                                do
+                                {
+                                    _selectedIndex = (_selectedIndex + 1) % options.Count;
+                                } while (options[_selectedIndex].hidden.Value);
                             }
                             if (keyPressed == ConsoleKey.Tab)
                             {
