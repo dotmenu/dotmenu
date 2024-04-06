@@ -50,6 +50,51 @@ public class Option
     }
 
     /// <summary>
+    /// Creates a new <see cref="Option" /> with the provided text.
+    /// </summary>
+    /// <param name="text">The text to be displayed for this option.</param>
+    /// <param name="action">The action to be performed after this option is chosen.</param>
+    /// <param name="hidden">
+    ///     <see langword="true"/> if the option is hidden; otherwise, <see langword="false"/>.
+    /// </param>
+    /// <param name="disabled">
+    ///     <see langword="true"/> if the option is disabled; otherwise, <see langword="false"/>.
+    /// </param>
+    /// <param name="fg">The foreground color of this option.</param>
+    /// <param name="bg">The background color of this option.</param>
+    /// <param name="selectedFg">The foreground color of this option when selected.</param>
+    /// <param name="selectedBg">The background color of this option when selected.</param>
+    /// <param name="optionPrefix">
+    ///     The value to be displayed before the text of this option when it is not selected.
+    /// </param>
+    /// <param name="selector">
+    ///     The value to be displayed before the text of this option when it is selected.
+    /// </param>
+    public Option(
+        string text,
+        Action? action = null,
+        bool? hidden = null,
+        bool? disabled = null,
+        OptionColor? fg = null,
+        OptionColor? bg = null,
+        OptionColor? selectedFg = null,
+        OptionColor? selectedBg = null,
+        string? optionPrefix = null,
+        string? selector = null)
+    {
+        TextFunction = () => text;
+        Action = action;
+        Hidden = hidden;
+        Disabled = disabled;
+        Fg = fg;
+        Bg = bg;
+        SelectedFg = selectedFg;
+        SelectedBg = selectedBg;
+        OptionPrefix = optionPrefix;
+        Selector = selector;
+    }
+
+    /// <summary>
     /// Sets the text function for this option.
     /// </summary>
     /// <param name="textFunction">The function providing text content for this option.</param>
