@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Library</OutputType>
+    <TargetFrameworks>net8.0;net7.0;net6.0</TargetFrameworks>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <PackageId>Natesworks.Dotmenu</PackageId>
+    <Version>2.1</Version>
+    <Authors>Natesworks</Authors>
+    <Description>A simple console menu library.</Description>
+    <PackageTags>console menu</PackageTags>
+    <RepositoryUrl>https://github.com/dotmenu/dotmenu.git</RepositoryUrl> 
+    <RepositoryType>git</RepositoryType> 
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+<PackageLicenseFile>LICENSE</PackageLicenseFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\..\README.md" Pack="true" PackagePath="" />
+    <None Include="..\..\LICENSE" Pack="true" PackagePath=""/>
+    <None Include="..\..\resources\screenshots\*" Pack="false" Link=".resources\screenshots\%(Filename)%(Extension)" />
+  </ItemGroup>
+
+</Project>
