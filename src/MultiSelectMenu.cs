@@ -196,12 +196,7 @@ namespace dotmenu
                             OptionColor fgColor;
                             OptionColor bgColor;
 
-                            if (_selectedOptions.Contains(i))
-                            {
-                                fgColor = options[i].selectedFg ?? selectedFg;
-                                bgColor = options[i].selectedBg ?? selectedBg;
-                            }
-                            else if (i == _selectedIndex)
+                            if (i == _selectedIndex)
                             {
                                 fgColor = options[i].selectedFg ?? selectedFg;
                                 bgColor = options[i].selectedBg ?? selectedBg;
