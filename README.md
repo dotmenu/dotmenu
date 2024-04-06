@@ -44,4 +44,4 @@ menu.Run();
 
 # Documentation
 
-Explore our wiki sections for guidance [here](https://dotmenu.natesworks.com)
+For more documentation on both Menus and MultiSelectMenus please read the wiki at [dotmenu.natesworks.com](https://dotmenu.natesworks.com)
