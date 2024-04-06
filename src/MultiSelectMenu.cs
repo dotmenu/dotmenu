@@ -86,98 +86,101 @@ namespace dotmenu
                 Console.WriteLine("Please use a terminal that supports ANSI escape codes.");
                 return -1;
             }
-            ConsoleKey keyPressed = default;
-            CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
-            Task updateTask = Task.Run(async () =>
+            while(true)
             {
-                try
+                ConsoleKey keyPressed = default;
+                CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
+                Task updateTask = Task.Run(async () =>
                 {
-                    do
+                    try
                     {
-                        bool update = false;
-
-                        for (int i = 0; i < _optionTextValues.Count; i++)
+                        do
                         {
-                            var oldNewText = _optionTextValues[i];
+                            bool update = false;
 
-                            oldNewText.Item2 = oldNewText.Item3.Invoke();
-
-                            if (oldNewText.Item1 != oldNewText.Item2)
+                            for (int i = 0; i < _optionTextValues.Count; i++)
                             {
-                                update = true;
-                                oldNewText.Item1 = oldNewText.Item2;
+                                var oldNewText = _optionTextValues[i];
+
+                                oldNewText.Item2 = oldNewText.Item3.Invoke();
+
+                                if (oldNewText.Item1 != oldNewText.Item2)
+                                {
+                                    update = true;
+                                    oldNewText.Item1 = oldNewText.Item2;
+                                }
                             }
-                        }
 
-                        if (update)
-                            WriteOptions();
+                            if (update)
+                                WriteOptions();
 
-                        await Task.Delay(500, cancellationTokenSource.Token);
-                    } while (!cancellationTokenSource.Token.IsCancellationRequested);
-                }
-                catch (TaskCanceledException) { }
-            }, cancellationTokenSource.Token);
+                            await Task.Delay(500, cancellationTokenSource.Token);
+                        } while (!cancellationTokenSource.Token.IsCancellationRequested);
+                    }
+                    catch (TaskCanceledException) { }
+                }, cancellationTokenSource.Token);
 
-            WriteOptions();
+                WriteOptions();
 
-            do
-            {
-                try
+                do
                 {
-                    var keyInfo = Console.ReadKey(true);
-                    keyPressed = keyInfo.Key;
-
-                    if (_shortcutMap.TryGetValue(keyPressed, out int optionIndex))
+                    try
                     {
-                        if (optionIndex >= 0 && optionIndex < options.Count)
+                        var keyInfo = Console.ReadKey(true);
+                        keyPressed = keyInfo.Key;
+
+                        if (_shortcutMap.TryGetValue(keyPressed, out int optionIndex))
                         {
-                            _selectedIndex = optionIndex;
-                            Console.SetCursorPosition(0, 0);
+                            if (optionIndex >= 0 && optionIndex < options.Count)
+                            {
+                                _selectedIndex = optionIndex;
+                                Console.SetCursorPosition(0, 0);
+                            }
+                            else
+                            {
+                                Console.WriteLine("Invalid option.");
+                            }
                         }
                         else
                         {
-                            Console.WriteLine("Invalid option.");
-                        }
-                    }
-                    else
-                    {
-                        if (keyPressed == ConsoleKey.UpArrow && _selectedIndex > 0)
-                        {
-                            _selectedIndex--;
-                        }
-                        if (keyPressed == ConsoleKey.DownArrow && _selectedIndex < options.Count - 1)
-                        {
-                            _selectedIndex++;
-                        }
-                        if (keyPressed == ConsoleKey.Tab)
-                        {
-                            if (_selectedIndex >= 0 && _selectedIndex < options.Count)
+                            if (keyPressed == ConsoleKey.UpArrow && _selectedIndex > 0)
                             {
-                                if (_selectedOptions.Contains(_selectedIndex))
+                                _selectedIndex--;
+                            }
+                            if (keyPressed == ConsoleKey.DownArrow && _selectedIndex < options.Count - 1)
+                            {
+                                _selectedIndex++;
+                            }
+                            if (keyPressed == ConsoleKey.Tab)
+                            {
+                                if (_selectedIndex >= 0 && _selectedIndex < options.Count)
                                 {
-                                    _selectedOptions.Remove(_selectedIndex);
-                                }
-                                else
-                                {
-                                    _selectedOptions.Add(_selectedIndex);
+                                    if (_selectedOptions.Contains(_selectedIndex))
+                                    {
+                                        _selectedOptions.Remove(_selectedIndex);
+                                    }
+                                    else
+                                    {
+                                        _selectedOptions.Add(_selectedIndex);
+                                    }
                                 }
                             }
+                            WriteOptions();
                         }
-                        WriteOptions();
                     }
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex.Message);
-                }
-            } while (keyPressed != _altEnterKey);
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                    }
+                } while (keyPressed != _altEnterKey);
 
-            cancellationTokenSource.Cancel();
-            updateTask.Wait();
-            Console.SetCursorPosition(0, _initialCursorY + options.Count + 1);
-            Console.Clear();
-            _enterAction?.Invoke();
-            return _selectedIndex;
+                cancellationTokenSource.Cancel();
+                updateTask.Wait();
+                Console.SetCursorPosition(0, _initialCursorY + options.Count + 1);
+                Console.Clear();
+                _enterAction?.Invoke();
+                return _selectedIndex;
+            }
         }
         protected override void WriteOptions()
         {
