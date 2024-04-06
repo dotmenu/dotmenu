@@ -48,10 +48,7 @@ public sealed class GuessScene
 
         var displayString = new string(_placeholder);
         WriteCentered(displayString);
-
-        var consoleHeight = Console.WindowHeight;
-        Console.SetCursorPosition(0, consoleHeight - 1);
-        Console.Write("Lives: {0}", _lives);
+        WriteLowerLeft($"Lives Remaining: {_lives}");
     }
 
     private void HandlePlayerGuess()
