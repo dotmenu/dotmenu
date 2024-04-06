@@ -38,6 +38,8 @@ namespace dotmenu
         /// <summary>
         /// Sets the menu prompt (optional).
         /// </summary>
+        /// <param name="prompt">The prompt to be displayed.</param>
+        /// <returns>The current instance of Menu.</returns>
         public Menu SetPrompt(string prompt)
         {
             _prompt = prompt;
@@ -49,6 +51,7 @@ namespace dotmenu
         /// </summary>
         /// <param name="fg">Foreground color (text color).</param>
         /// <param name="bg">Background color.</param>
+        /// <returns>The current instance of Menu.</returns>
         public Menu Colors(OptionColor fg, OptionColor bg)
         {
             this.fg = fg;
@@ -61,6 +64,7 @@ namespace dotmenu
         /// </summary>
         /// <param name="selectedFg">Foreground color (text color).</param>
         /// <param name="selectedBg">Background color.</param>
+        /// <returns>The current instance of Menu.</returns>
         public Menu ColorsWhenSelected(OptionColor selectedFg, OptionColor selectedBg)
         {
             this.selectedFg = selectedFg;
@@ -73,7 +77,14 @@ namespace dotmenu
         /// <param name="textFunction">Function providing text content for this option.</param>
         /// <param name="action">Action to be performed after the option is chosen.</param>
         /// <param name="shortcut">A key to bind with this option (optional).</param>
-        /// <param name="hidden">If the option should be hidden.</param> 
+        /// <param name="hidden">Specifies whether the option should be hidden (optional).</param>
+        /// <param name="fg">The foreground color for this option (optional).</param>
+        /// <param name="bg">The background color for this option (optional).</param>
+        /// <param name="selectedFg">The foreground color when this option is selected (optional).</param>
+        /// <param name="selectedBg">The background color when this option is selected (optional).</param>
+        /// <param name="optionPrefix">The prefix to be displayed before the option text (optional).</param>
+        /// <param name="selector">The selector to be displayed when the option is selected (optional).</param>
+        /// <returns>The current instance of Menu.</returns>
         public Menu AddOption(Func<string> textFunction, Action action, ConsoleKey? shortcut = null, bool? hidden = false, bool? disabled = false, OptionColor? fg = null, OptionColor? bg = null, OptionColor? selectedFg = null, OptionColor? selectedBg = null, string? optionPrefix = null, string? selector = null)
         {
             options.Add(new Option(textFunction, action, hidden, disabled, fg, bg, selectedFg, selectedBg, optionPrefix, selector));
@@ -89,6 +100,8 @@ namespace dotmenu
         /// Sets options selector (optional).
         /// If not called, '>' will be the default selector.
         /// </summary>
+        /// <param name="selector">The selector to be displayed before the option text.</param>
+        /// <returns>The current instance of Menu.</returns>
         public Menu SetOptionSelector(string selector)
         {
             _selector = selector;
@@ -99,6 +112,8 @@ namespace dotmenu
         /// Sets prefix that will be displayed with each of unselected options (optional).
         /// Prefix cannot be empty.
         /// </summary>
+        /// <param name="prefix">The prefix to be displayed before the option text.</param>
+        /// <returns>The current instance of Menu.</returns>
         public Menu SetOptionPrefix(string prefix)
         {
             if (string.IsNullOrEmpty(prefix))
@@ -108,14 +123,22 @@ namespace dotmenu
 
             return this;
         }
-
+        /// <summary>
+        /// Sets the alternative Enter key.
+        /// </summary>
+        /// <param name="altEnterKey">The alternative Enter key to be set.</param>
+        /// <returns>The current instance of Menu.</returns>
         public Menu SetAltEnterKey(ConsoleKey altEnterKey)
         {
             _altEnterKey = altEnterKey;
 
             return this;
         }
-
+        /// <summary>
+        /// Sets the selected index of the menu.
+        /// </summary>
+        /// <param name="selectedIndex">The index of the option to be selected.</param>
+        /// <returns>The current instance of Menu.</returns>
         public Menu SetSelectedIndex(int selectedIndex)
         {
             _selectedIndex = selectedIndex;
@@ -221,6 +244,9 @@ namespace dotmenu
                 return _selectedIndex;
             }
         }
+        /// <summary>
+        /// Writes the options to the console.
+        /// </summary>
         protected virtual void WriteOptions()
         {
             lock (_optionsBuilder)
@@ -261,7 +287,10 @@ namespace dotmenu
                 UpdateConsole();
             }
         }
-
+        /// <summary>
+        /// Gets the option text along with the prefix and whitespace count to remove previous text.
+        /// </summary>
+        /// <returns>Tuple containing option text and whitespace count.</returns>
         private (string optionText, int whitespaceCount) GetOptionText(int index, string optionText, int maxOptionLength)
         {
             string prefix = options[index].optionPrefix ?? _optionPrefix;
@@ -281,7 +310,9 @@ namespace dotmenu
 
             return (fullOptionText, paddingSpaces);
         }
-
+        /// <summary>
+        /// Updates the console.
+        /// </summary>
         protected void UpdateConsole()
         {
             byte[] buffer = Encoding.ASCII.GetBytes(_optionsBuilder.ToString());
