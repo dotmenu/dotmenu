@@ -1,84 +1,105 @@
 ﻿namespace dotmenu;
 
-/// <summary>
-/// Represents a menu option.
-/// </summary>
 public class Option
 {
-    /// <summary>
-    /// Action to be performed after this option is chosen.
-    /// </summary>
-    public Action Action { get; set; }
-
-    public Func<string> textFunction;
-    public bool? hidden;
-    public bool? disabled;
-    public OptionColor? fg;
-    public OptionColor? bg;
-    public OptionColor? selectedFg;
-    public OptionColor? selectedBg;
-    public string? optionPrefix;
-    public string? selector;
+    public Action? Action { get; set; }
+    public Func<string>? TextFunction { get; set; }
+    public bool? Hidden { get; set; }
+    public bool? Disabled { get; set; }
+    public OptionColor? Fg { get; set; }
+    public OptionColor? Bg { get; set; }
+    public OptionColor? SelectedFg { get; set; }
+    public OptionColor? SelectedBg { get; set; }
+    public string? OptionPrefix { get; set; }
+    public string? Selector { get; set; }
 
     /// <summary>
-    /// Create a new Option, with source function and action provided.
+    /// Creates a new Option with the provided text function and action.
     /// </summary>
     /// <param name="textFunction">Function providing text content for this option.</param>
     /// <param name="action">Action triggered after this option is chosen.</param>
-    public Option(Func<string> textFunction, Action action, bool? hidden, bool? disabled, OptionColor? fg, OptionColor? bg, OptionColor? selectedFg, OptionColor? selectedBg, string? optionPrefix, string? selector)
+    public Option(Func<string>? textFunction, Action? action, bool? hidden, bool? disabled, OptionColor? fg, OptionColor? bg, OptionColor? selectedFg, OptionColor? selectedBg, string? optionPrefix, string? selector)
     {
-        this.textFunction = textFunction;
+        TextFunction = textFunction;
         Action = action;
-        this.hidden = hidden;
-        this.disabled = disabled;
-        this.bg = bg;
-        this.fg = fg;
-        this.selectedFg = selectedFg;
-        this.selectedBg = selectedBg;
-        this.optionPrefix = optionPrefix;
-        this.selector = selector;
+        Hidden = hidden;
+        Disabled = disabled;
+        Fg = fg;
+        Bg = bg;
+        SelectedFg = selectedFg;
+        SelectedBg = selectedBg;
+        OptionPrefix = optionPrefix;
+        Selector = selector;
     }
 
-    public Option(Func<string> textFunction, bool? hidden, bool? disabled, OptionColor? fg, OptionColor? bg, OptionColor? selectedFg, OptionColor? selectedBg, string? optionPrefix, string? selector)
+    /// <summary>
+    /// Creates a new Option with the provided text function.
+    /// </summary>
+    /// <param name="textFunction">Function providing text content for this option.</param>
+    public Option(Func<string>? textFunction, bool? hidden, bool? disabled, OptionColor? fg, OptionColor? bg, OptionColor? selectedFg, OptionColor? selectedBg, string? optionPrefix, string? selector)
     {
-        this.textFunction = textFunction;
-        this.hidden = hidden;
-        this.disabled = disabled;
-        this.bg = bg;
-        this.fg = fg;
-        this.selectedFg = selectedFg;
-        this.selectedBg = selectedBg;
-        this.optionPrefix = optionPrefix;
-        this.selector = selector;
+        TextFunction = textFunction;
+        Hidden = hidden;
+        Disabled = disabled;
+        Fg = fg;
+        Bg = bg;
+        SelectedFg = selectedFg;
+        SelectedBg = selectedBg;
+        OptionPrefix = optionPrefix;
+        Selector = selector;
     }
 
-    public void SetText(Func<string> textFunction)
+    /// <summary>
+    /// Sets the text function for this option.
+    /// </summary>
+    /// <param name="textFunction">The function providing text content for this option.</param>
+    public void SetTextFunction(Func<string>? textFunction)
     {
-        this.textFunction = textFunction;
+        TextFunction = textFunction;
     }
 
-    public string GetText()
+    /// <summary>
+    /// Gets the text content of this option using the text function.
+    /// </summary>
+    /// <returns>The text content of this option.</returns>
+    public string? GetText()
     {
-        return textFunction.Invoke();
+        return TextFunction?.Invoke();
     }
 
-    public void SetAction(Action action)
+    /// <summary>
+    /// Sets the action to be performed after this option is chosen.
+    /// </summary>
+    /// <param name="action">The action to be performed.</param>
+    public void SetAction(Action? action)
     {
         Action = action;
     }
 
-    public Action GetAction()
+    /// <summary>
+    /// Gets the action to be performed after this option is chosen.
+    /// </summary>
+    /// <returns>The action to be performed.</returns>
+    public Action? GetAction()
     {
         return Action;
     }
 
-    public void SetHidden(bool hidden)
+    /// <summary>
+    /// Sets whether this option is hidden.
+    /// </summary>
+    /// <param name="hidden">True if the option is hidden; otherwise, false.</param>
+    public void SetHidden(bool? hidden)
     {
-        this.hidden = hidden;
+        Hidden = hidden;
     }
 
+    /// <summary>
+    /// Gets whether this option is hidden.
+    /// </summary>
+    /// <returns>True if the option is hidden; otherwise, false.</returns>
     public bool? GetHidden()
     {
-        return hidden;
+        return Hidden;
     }
 }

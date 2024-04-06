@@ -213,7 +213,7 @@ namespace dotmenu
 
                         if (_shortcutMap.TryGetValue(keyPressed, out int optionIndex))
                         {
-                            if (optionIndex >= 0 && optionIndex < options.Count && !options[optionIndex].hidden.HasValue)
+                            if (optionIndex >= 0 && optionIndex < options.Count && !options[optionIndex].Hidden.HasValue)
                             {
                                 _selectedIndex = optionIndex;
                                 Console.SetCursorPosition(0, 0);
@@ -230,14 +230,14 @@ namespace dotmenu
                                 do
                                 {
                                     _selectedIndex = (_selectedIndex - 1 + options.Count) % options.Count;
-                                } while (options[_selectedIndex].hidden.HasValue);
+                                } while (options[_selectedIndex].Hidden.HasValue);
                             }
                             if (keyPressed == ConsoleKey.DownArrow)
                             {
                                 do
                                 {
                                     _selectedIndex = (_selectedIndex + 1) % options.Count;
-                                } while (options[_selectedIndex].hidden.HasValue);
+                                } while (options[_selectedIndex].Hidden.HasValue);
                             }
                             WriteOptions();
                         }
@@ -270,7 +270,7 @@ namespace dotmenu
 
                 for (int i = 0; i < options.Count; i++)
                 {
-                    if (!options[i].hidden.HasValue)
+                    if (!options[i].Hidden.HasValue)
                     {
                         var (fullOptionText, paddingSpaces) = GetOptionText(i, options[i].GetText(), Console.BufferWidth);
 
@@ -279,13 +279,13 @@ namespace dotmenu
 
                         if (i == _selectedIndex)
                         {
-                            fgColor = options[i].selectedFg ?? selectedFg;
-                            bgColor = options[i].selectedBg ?? selectedBg;
+                            fgColor = options[i].SelectedFg ?? selectedFg;
+                            bgColor = options[i].SelectedBg ?? selectedBg;
                         }
                         else
                         {
-                            fgColor = options[i].fg ?? fg;
-                            bgColor = options[i].bg ?? bg;
+                            fgColor = options[i].Fg ?? fg;
+                            bgColor = options[i].Bg ?? bg;
                         }
 
                         _optionsBuilder.Append(string.Format(_colorEscapeCode,
@@ -305,8 +305,8 @@ namespace dotmenu
         /// <returns>Tuple containing option text and whitespace count.</returns>
         private (string optionText, int whitespaceCount) GetOptionText(int index, string optionText, int maxOptionLength)
         {
-            string prefix = options[index].optionPrefix ?? _optionPrefix;
-            string selector = options[index].selector ?? _selector;
+            string prefix = options[index].OptionPrefix ?? _optionPrefix;
+            string selector = options[index].Selector ?? _selector;
 
             string fullOptionText = optionText;
             if (index == _selectedIndex)
