@@ -1,16 +1,18 @@
 ﻿using dotmenu;
 
-using Hangman.Options;
+using Hangman.Credits;
+using Hangman.Gameplay;
 
 Menu
     .New()
-    .SetPrompt("Select an option:")
+    .SetPrompt("Hangman (1.0.0)\n")
     .SetOptionSelector(">")
-    .AddOption<Play>()
-    .AddOption<Settings>()
+    .AddOption<PlayOption>()
+    .AddOption<CreditsOption>()
     .AddOption(text: "Exit", action: Exit)
     .Run();
 
+Console.ReadKey();
 return;
 
 static void Exit() =>
