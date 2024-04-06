@@ -169,14 +169,14 @@ namespace dotmenu
                                 do
                                 {
                                     _selectedIndex = (_selectedIndex - 1 + options.Count) % options.Count;
-                                } while (options[_selectedIndex].hidden.Value);
+                                } while (options[_selectedIndex].hidden.HasValue);
                             }
                             if (keyPressed == ConsoleKey.DownArrow)
                             {
                                 do
                                 {
                                     _selectedIndex = (_selectedIndex + 1) % options.Count;
-                                } while (options[_selectedIndex].hidden.Value);
+                                } while (options[_selectedIndex].hidden.HasValue);
                             }
                             if (keyPressed == ConsoleKey.Tab)
                             {
@@ -223,7 +223,7 @@ namespace dotmenu
 
                 for (int i = 0; i < options.Count; i++)
                 {
-                    if (!options[i].hidden.Value)
+                    if (!options[i].hidden.HasValue)
                     {
                             var (fullOptionText, paddingSpaces) = GetOptionText(i, options[i].GetText(), Console.BufferWidth);
                             OptionColor fgColor;

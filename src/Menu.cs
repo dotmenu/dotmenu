@@ -18,6 +18,7 @@ namespace dotmenu
         protected string _optionPrefix = "";
         protected string _selector = "";
         protected ConsoleKey _altEnterKey = ConsoleKey.Enter;
+        protected int _delay = 100;
         protected static readonly string _colorEscapeCode = "\x1b[38;2;{0};{1};{2}m\x1b[48;2;{3};{4};{5}m{6}\x1b[0m";
         public static readonly bool SupportsAnsi = AnsiDetector.SupportsAnsi;
 
@@ -135,6 +136,17 @@ namespace dotmenu
             return this;
         }
         /// <summary>
+        /// Sets the delay of when the Menu alongside it's options update.
+        /// </summary>
+        /// <param name="delay">The delay before updating.</param>
+        /// <returns></returns>
+        public Menu SetDelay(int delay)
+        {
+            _delay = delay;
+
+            return this;
+        }
+        /// <summary>
         /// Sets the selected index of the menu.
         /// </summary>
         /// <param name="selectedIndex">The index of the option to be selected.</param>
@@ -184,7 +196,7 @@ namespace dotmenu
                             if (update)
                                 WriteOptions();
 
-                            await Task.Delay(500, cancellationTokenSource.Token);
+                            await Task.Delay(_delay, cancellationTokenSource.Token);
                         } while (!cancellationTokenSource.Token.IsCancellationRequested);
                     }
                     catch (TaskCanceledException) { }
@@ -201,7 +213,7 @@ namespace dotmenu
 
                         if (_shortcutMap.TryGetValue(keyPressed, out int optionIndex))
                         {
-                            if (optionIndex >= 0 && optionIndex < options.Count && !options[optionIndex].hidden.Value)
+                            if (optionIndex >= 0 && optionIndex < options.Count && !options[optionIndex].hidden.HasValue)
                             {
                                 _selectedIndex = optionIndex;
                                 Console.SetCursorPosition(0, 0);
@@ -218,14 +230,14 @@ namespace dotmenu
                                 do
                                 {
                                     _selectedIndex = (_selectedIndex - 1 + options.Count) % options.Count;
-                                } while (options[_selectedIndex].hidden.Value);
+                                } while (options[_selectedIndex].hidden.HasValue);
                             }
                             if (keyPressed == ConsoleKey.DownArrow)
                             {
                                 do
                                 {
                                     _selectedIndex = (_selectedIndex + 1) % options.Count;
-                                } while (options[_selectedIndex].hidden.Value);
+                                } while (options[_selectedIndex].hidden.HasValue);
                             }
                             WriteOptions();
                         }
@@ -258,7 +270,7 @@ namespace dotmenu
 
                 for (int i = 0; i < options.Count; i++)
                 {
-                    if (!options[i].hidden.Value)
+                    if (!options[i].hidden.HasValue)
                     {
                         var (fullOptionText, paddingSpaces) = GetOptionText(i, options[i].GetText(), Console.BufferWidth);
 
