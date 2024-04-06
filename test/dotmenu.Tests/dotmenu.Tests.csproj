@@ -23,7 +23,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\dotmenu.csproj" />
+      <ProjectReference Include="..\..\src\dotmenu\dotmenu.csproj" />
     </ItemGroup>
 
 </Project>

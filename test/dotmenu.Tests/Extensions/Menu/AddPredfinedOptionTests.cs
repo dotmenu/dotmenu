@@ -21,6 +21,13 @@ public class AddPredfinedOptionTests
         Assert.Single(menu.options);
     }
 
-    private sealed class PredefinedOption()
-        : Option(text: "sample");
+    private sealed class PredefinedOption
+        : Option
+    {
+        public PredefinedOption()
+            : base("Predefined Option")
+        {
+            
+        }
+    }
 }
