@@ -234,10 +234,10 @@ namespace dotmenu
             string selector = options[index].selector ?? _selector;
 
             string fullOptionText = optionText;
-
+            
             if (_selectedOptions.Contains(index))
             {
-                prefix += _checkedOptionPrefix;
+                prefix = _checkedOptionPrefix;
             }
             else if (index == _selectedIndex)
             {
