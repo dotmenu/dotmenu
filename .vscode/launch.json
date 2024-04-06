@@ -1,0 +1,16 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Hangman",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "Build",
+            "program": "${workspaceFolder}/samples/Hangman/bin/Debug/net8.0/Hangman.exe",
+            "args": [],
+            "cwd": "${workspaceFolder}/samples/Hangman",
+            "console": "integratedTerminal",
+            "stopAtEntry": false
+        }
+    ]
+}
