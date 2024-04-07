@@ -7,10 +7,10 @@ namespace dotmenu
         protected int _selectedIndex;
         public List<Option> options = new List<Option>();
         protected string _prompt = "";
-        protected OptionColor fg = OptionColor.ConvertConsoleColor(Console.ForegroundColor);
-        protected OptionColor bg = OptionColor.ConvertConsoleColor(Console.BackgroundColor);
-        protected OptionColor selectedFg = OptionColor.ConvertConsoleColor(Console.BackgroundColor);
-        protected OptionColor selectedBg = OptionColor.ConvertConsoleColor(Console.ForegroundColor);
+        protected OptionColor fg = OptionColor.White;
+        protected OptionColor bg = OptionColor.Black;
+        protected OptionColor selectedFg = OptionColor.Black;
+        protected OptionColor selectedBg = OptionColor.White;
         protected readonly Dictionary<ConsoleKey, int> _shortcutMap = new Dictionary<ConsoleKey, int>();
         protected readonly List<(string, string, Func<string>)> _optionTextValues = new List<(string, string, Func<string>)>();
         protected StringBuilder _optionsBuilder = new StringBuilder();
