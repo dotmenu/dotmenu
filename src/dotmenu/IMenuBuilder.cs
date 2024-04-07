@@ -34,22 +34,20 @@ public interface IMenuBuilder
     /// <param name="refreshRate">The refresh rate for the menu.</param>
     /// <returns>The current instance of the <see cref="IMenuBuilder"/>.</returns>
     IMenuBuilder SetRefreshRate(TimeSpan refreshRate);
+    
+    /// <summary>
+    /// Sets the theme for the menu.
+    /// </summary>
+    /// <param name="theme">The theme to use for the menu.</param>
+    /// <returns>The current instance of the <see cref="IMenuBuilder"/>.</returns>
+    IMenuBuilder SetTheme(ITheme theme);
 
     /// <summary>
     /// Adds an option to the menu.
     /// </summary>
-    /// <typeparam name="TOption">Specifies the type of the option to add to the menu.</typeparam>
+    /// <param name="option">The option to add to the menu.</param>
     /// <returns>The current instance of the <see cref="IMenuBuilder"/>.</returns>
-    IMenuBuilder AddOption<TOption>()
-        where TOption : IMenuOption, new();
-    
-    /// <summary>
-    /// Adds a theme to the menu.
-    /// </summary>
-    /// <typeparam name="TTheme">Specifies the type of the theme to add to the menu.</typeparam>
-    /// <returns>The current instance of the <see cref="IMenuBuilder"/>.</returns>
-    IMenuBuilder AddTheme<TTheme>()
-        where TTheme : ITheme, new();
+    IMenuBuilder AddOption(IMenuOption option);
     
     /// <summary>
     /// Builds the menu.
