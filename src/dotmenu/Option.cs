@@ -4,7 +4,7 @@ public class Option
 {
     public Action? Action { get; set; }
     public Func<string>? TextFunction { get; set; }
-    public bool? Hidden { get; set; }
+    public bool? Visible { get; set; }
     public bool? Disabled { get; set; }
     public OptionColor? Fg { get; set; }
     public OptionColor? Bg { get; set; }
@@ -18,11 +18,11 @@ public class Option
     /// </summary>
     /// <param name="textFunction">Function providing text content for this option.</param>
     /// <param name="action">Action triggered after this option is chosen.</param>
-    public Option(Func<string>? textFunction, Action? action, bool? hidden, bool? disabled, OptionColor? fg, OptionColor? bg, OptionColor? selectedFg, OptionColor? selectedBg, string? optionPrefix, string? selector)
+    public Option(Func<string>? textFunction, Action? action, bool? visible, bool? disabled, OptionColor? fg, OptionColor? bg, OptionColor? selectedFg, OptionColor? selectedBg, string? optionPrefix, string? selector)
     {
         TextFunction = textFunction;
         Action = action;
-        Hidden = hidden;
+        Visible = visible;
         Disabled = disabled;
         Fg = fg;
         Bg = bg;
@@ -36,10 +36,10 @@ public class Option
     /// Creates a new Option with the provided text function.
     /// </summary>
     /// <param name="textFunction">Function providing text content for this option.</param>
-    public Option(Func<string>? textFunction, bool? hidden, bool? disabled, OptionColor? fg, OptionColor? bg, OptionColor? selectedFg, OptionColor? selectedBg, string? optionPrefix, string? selector)
+    public Option(Func<string>? textFunction, bool? visible, bool? disabled, OptionColor? fg, OptionColor? bg, OptionColor? selectedFg, OptionColor? selectedBg, string? optionPrefix, string? selector)
     {
         TextFunction = textFunction;
-        Hidden = hidden;
+        Visible = Visible;
         Disabled = disabled;
         Fg = fg;
         Bg = bg;
@@ -73,7 +73,7 @@ public class Option
     public Option(
         string text,
         Action? action = null,
-        bool? hidden = null,
+        bool? visible = null,
         bool? disabled = null,
         OptionColor? fg = null,
         OptionColor? bg = null,
@@ -84,7 +84,7 @@ public class Option
     {
         TextFunction = () => text;
         Action = action;
-        Hidden = hidden;
+        Visible = visible;
         Disabled = disabled;
         Fg = fg;
         Bg = bg;
@@ -134,17 +134,17 @@ public class Option
     /// Sets whether this option is hidden.
     /// </summary>
     /// <param name="hidden">True if the option is hidden; otherwise, false.</param>
-    public void SetHidden(bool? hidden)
+    public void SetVisible(bool? visible)
     {
-        Hidden = hidden;
+        Visible = visible;
     }
 
     /// <summary>
     /// Gets whether this option is hidden.
     /// </summary>
     /// <returns>True if the option is hidden; otherwise, false.</returns>
-    public bool? GetHidden()
+    public bool? GetVisible()
     {
-        return Hidden;
+        return Visible;
     }
 }

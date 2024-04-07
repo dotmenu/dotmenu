@@ -78,7 +78,7 @@ namespace dotmenu
         /// <param name="textFunction">Function providing text content for this option.</param>
         /// <param name="action">Action to be performed after the option is chosen.</param>
         /// <param name="shortcut">A key to bind with this option (optional).</param>
-        /// <param name="hidden">Specifies whether the option should be hidden (optional).</param>
+        /// <param name="visible">Specifies whether the option should be visible (optional).</param>
         /// <param name="fg">The foreground color for this option (optional).</param>
         /// <param name="bg">The background color for this option (optional).</param>
         /// <param name="selectedFg">The foreground color when this option is selected (optional).</param>
@@ -86,9 +86,9 @@ namespace dotmenu
         /// <param name="optionPrefix">The prefix to be displayed before the option text (optional).</param>
         /// <param name="selector">The selector to be displayed when the option is selected (optional).</param>
         /// <returns>The current instance of Menu.</returns>
-        public Menu AddOption(Func<string> textFunction, Action action, ConsoleKey? shortcut = null, bool? hidden = false, bool? disabled = false, OptionColor? fg = null, OptionColor? bg = null, OptionColor? selectedFg = null, OptionColor? selectedBg = null, string? optionPrefix = null, string? selector = null)
+        public Menu AddOption(Func<string> textFunction, Action action, ConsoleKey? shortcut = null, bool? visible = true, bool? disabled = false, OptionColor? fg = null, OptionColor? bg = null, OptionColor? selectedFg = null, OptionColor? selectedBg = null, string? optionPrefix = null, string? selector = null)
         {
-            options.Add(new Option(textFunction, action, hidden, disabled, fg, bg, selectedFg, selectedBg, optionPrefix, selector));
+            options.Add(new Option(textFunction, action, visible, disabled, fg, bg, selectedFg, selectedBg, optionPrefix, selector));
             string val = textFunction.Invoke();
             _optionTextValues.Add(new(val, val, textFunction));
             if (shortcut.HasValue)
@@ -213,7 +213,7 @@ namespace dotmenu
 
                         if (_shortcutMap.TryGetValue(keyPressed, out int optionIndex))
                         {
-                            if (optionIndex >= 0 && optionIndex < options.Count && !options[optionIndex].Hidden.HasValue)
+                            if (optionIndex >= 0 && optionIndex < options.Count && options[optionIndex].Visible.HasValue)
                             {
                                 _selectedIndex = optionIndex;
                                 Console.SetCursorPosition(0, 0);
@@ -230,14 +230,14 @@ namespace dotmenu
                                 do
                                 {
                                     _selectedIndex = (_selectedIndex - 1 + options.Count) % options.Count;
-                                } while (options[_selectedIndex].Hidden is true);
+                                } while (options[_selectedIndex].Visible is false);
                             }
                             if (keyPressed == ConsoleKey.DownArrow)
                             {
                                 do
                                 {
                                     _selectedIndex = (_selectedIndex + 1) % options.Count;
-                                } while (options[_selectedIndex].Hidden is true);
+                                } while (options[_selectedIndex].Visible is false);
                             }
                             WriteOptions();
                         }
@@ -268,7 +268,7 @@ namespace dotmenu
 
                 for (int i = 0; i < options.Count; i++)
                 {
-                    if (options[i].Hidden is not true)
+                    if (options[i].Visible is not false)
                     {
                         var (fullOptionText, paddingSpaces) = GetOptionText(i, options[i].GetText(), Console.BufferWidth);
 

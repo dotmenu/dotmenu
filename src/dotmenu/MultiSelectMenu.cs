@@ -52,9 +52,9 @@ namespace dotmenu
         /// <param name="optionPrefix">The prefix to be displayed before the option text (optional).</param>
         /// <param name="selector">The selector to be displayed when the option is selected (optional).</param>
         /// <returns>The current instance of MultiSelectMenu.</returns>
-        public MultiSelectMenu AddOption(Func<string> textFunction, ConsoleKey? shortcut = null, bool? hidden = false, bool? disabled = false, OptionColor? fg = null, OptionColor? bg = null, OptionColor? selectedFg = null, OptionColor? selectedBg = null, string? optionPrefix = null, string? selector = null)
+        public MultiSelectMenu AddOption(Func<string> textFunction, ConsoleKey? shortcut = null, bool? visible = false, bool? disabled = false, OptionColor? fg = null, OptionColor? bg = null, OptionColor? selectedFg = null, OptionColor? selectedBg = null, string? optionPrefix = null, string? selector = null)
         {
-            options.Add(new Option(textFunction, hidden, disabled, fg, bg, selectedFg, selectedBg, optionPrefix, selector));
+            options.Add(new Option(textFunction, visible, disabled, fg, bg, selectedFg, selectedBg, optionPrefix, selector));
             string val = textFunction.Invoke();
             _optionTextValues.Add(new(val, val, textFunction));
             if (shortcut.HasValue)
@@ -152,7 +152,7 @@ namespace dotmenu
 
                         if (_shortcutMap.TryGetValue(keyPressed, out int optionIndex))
                         {
-                            if (optionIndex >= 0 && optionIndex < options.Count && !options[optionIndex].Hidden.HasValue)
+                            if (optionIndex >= 0 && optionIndex < options.Count && options[optionIndex].Visible.HasValue)
                             {
                                 _selectedIndex = optionIndex;
                                 Console.SetCursorPosition(0, 0);
@@ -169,14 +169,14 @@ namespace dotmenu
                                 do
                                 {
                                     _selectedIndex = (_selectedIndex - 1 + options.Count) % options.Count;
-                                } while (options[_selectedIndex].Hidden is true);
+                                } while (options[_selectedIndex].Visible is false);
                             }
                             if (keyPressed == ConsoleKey.DownArrow)
                             {
                                 do
                                 {
                                     _selectedIndex = (_selectedIndex + 1) % options.Count;
-                                } while (options[_selectedIndex].Hidden is true);
+                                } while (options[_selectedIndex].Visible is false);
                             }
                             if (keyPressed == ConsoleKey.Tab)
                             {
@@ -222,7 +222,7 @@ namespace dotmenu
 
                 for (int i = 0; i < options.Count; i++)
                 {
-                    if (!options[i].Hidden.HasValue)
+                    if (options[i].Visible.HasValue)
                     {
                             var (fullOptionText, paddingSpaces) = GetOptionText(i, options[i].GetText(), Console.BufferWidth);
                             OptionColor fgColor;
