@@ -1,9 +1,9 @@
 ﻿namespace dotmenu;
 
 /// <summary>
-/// Defines extension methods for the <see cref="Menu" /> class.
+/// Defines extension methods for the <see cref="IMenuBuilder" /> interface.
 /// </summary>
-public static partial class MenuExtensions
+public static partial class MenuBuilderExtensions
 {
     /// <summary>
     /// Adds a predefined option to the menu.
