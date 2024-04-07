@@ -161,101 +161,99 @@ namespace dotmenu
         /// Runs menu and starts a task that updates menu at regular time intervals.
         /// </summary>
         /// <returns>Index of option selected by the user.</returns>
-public virtual int Run()
-{
-    if (!SupportsAnsi)
-    {
-        Console.WriteLine("Please use a terminal that supports ANSI escape codes.");
-        Environment.Exit(2);
-    }
-    
-    while (true)
-    {
-        ConsoleKey keyPressed = default;
-        CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
-        Task updateTask = Task.Run(async () =>
+        public virtual void Run()
         {
-            try
+            if (!SupportsAnsi)
             {
+                Console.WriteLine("Please use a terminal that supports ANSI escape codes.");
+                Environment.Exit(2);
+            }
+            while (true)
+            {
+                ConsoleKey keyPressed = default;
+                CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
+                Task updateTask = Task.Run(async () =>
+                {
+                    try
+                    {
+                        do
+                        {
+                            bool update = false;
+
+                            for (int i = 0; i < _optionTextValues.Count; i++)
+                            {
+                                var oldNewText = _optionTextValues[i];
+
+                                oldNewText.Item2 = oldNewText.Item3.Invoke();
+
+                                if (oldNewText.Item1 != oldNewText.Item2)
+                                {
+                                    update = true;
+                                    oldNewText.Item1 = oldNewText.Item2;
+                                }
+                            }
+
+                            if (update)
+                                WriteOptions();
+
+                            await Task.Delay(_delay, cancellationTokenSource.Token);
+                        } while (!cancellationTokenSource.Token.IsCancellationRequested);
+                    }
+                    catch (TaskCanceledException) { }
+                }, cancellationTokenSource.Token);
+
+                WriteOptions();
+
                 do
                 {
-                    bool update = false;
-
-                    for (int i = 0; i < _optionTextValues.Count; i++)
+                    try
                     {
-                        var oldNewText = _optionTextValues[i];
+                        var keyInfo = Console.ReadKey(true);
+                        keyPressed = keyInfo.Key;
 
-                        oldNewText.Item2 = oldNewText.Item3.Invoke();
-
-                        if (oldNewText.Item1 != oldNewText.Item2)
+                        if (_shortcutMap.TryGetValue(keyPressed, out int optionIndex))
                         {
-                            update = true;
-                            oldNewText.Item1 = oldNewText.Item2;
+                            if (optionIndex >= 0 && optionIndex < options.Count && !options[optionIndex].Hidden.HasValue)
+                            {
+                                _selectedIndex = optionIndex;
+                                Console.SetCursorPosition(0, 0);
+                            }
+                            else
+                            {
+                                Console.WriteLine("Invalid option.");
+                            }
+                        }
+                        else
+                        {
+                            if (keyPressed == ConsoleKey.UpArrow)
+                            {
+                                do
+                                {
+                                    _selectedIndex = (_selectedIndex - 1 + options.Count) % options.Count;
+                                } while (options[_selectedIndex].Hidden is true);
+                            }
+                            if (keyPressed == ConsoleKey.DownArrow)
+                            {
+                                do
+                                {
+                                    _selectedIndex = (_selectedIndex + 1) % options.Count;
+                                } while (options[_selectedIndex].Hidden is true);
+                            }
+                            WriteOptions();
                         }
                     }
-
-                    if (update)
-                        WriteOptions();
-
-                    await Task.Delay(_delay, cancellationTokenSource.Token);
-                } while (!cancellationTokenSource.Token.IsCancellationRequested);
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                    }
+                } while (!(keyPressed == ConsoleKey.Enter && !(options[_selectedIndex].Disabled ?? false)));
+                cancellationTokenSource.Cancel();
+                updateTask.Wait();
+                Console.Clear();
+                Console.SetCursorPosition(0, _initialCursorY + options.Count + 1);
+                options[_selectedIndex].Action?.Invoke();                    
             }
-            catch (TaskCanceledException) { }
-        }, cancellationTokenSource.Token);
-
-        WriteOptions();
-
-        do
-        {
-            try
-            {
-                var keyInfo = Console.ReadKey(true);
-                keyPressed = keyInfo.Key;
-
-                if (_shortcutMap.TryGetValue(keyPressed, out int optionIndex))
-                {
-                    if (optionIndex >= 0 && optionIndex < options.Count && !options[optionIndex].Hidden.HasValue)
-                    {
-                        _selectedIndex = optionIndex;
-                        Console.SetCursorPosition(0, 0);
-                    }
-                    else
-                    {
-                        Console.WriteLine("Invalid option.");
-                    }
-                }
-                else
-                {
-                    if (keyPressed == ConsoleKey.UpArrow)
-                    {
-                        do
-                        {
-                            _selectedIndex = (_selectedIndex - 1 + options.Count) % options.Count;
-                        } while (options[_selectedIndex].Hidden is true);
-                    }
-                    if (keyPressed == ConsoleKey.DownArrow)
-                    {
-                        do
-                        {
-                            _selectedIndex = (_selectedIndex + 1) % options.Count;
-                        } while (options[_selectedIndex].Hidden is true);
-                    }
-                    WriteOptions();
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
-        } while (!(keyPressed == ConsoleKey.Enter && !(options[_selectedIndex].Disabled ?? false)));
-        cancellationTokenSource.Cancel();
-        updateTask.Wait();
-        Console.Clear();
-        Console.SetCursorPosition(0, _initialCursorY + options.Count + 1);
-        options[_selectedIndex].Action?.Invoke();                    
-        return _selectedIndex;
-    }
-}
+        }
         /// <summary>
         /// Writes the options to the console.
         /// </summary>

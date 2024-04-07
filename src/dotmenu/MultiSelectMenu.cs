@@ -100,12 +100,12 @@ namespace dotmenu
         /// Runs the MultiSelectMenu and starts a task that updates the menu text.
         /// </summary>
         /// <returns>Index of option selected by the user.</returns>
-        public override int Run()
+        public override void Run()
         {
             if (!SupportsAnsi)
             {
                 Console.WriteLine("Please use a terminal that supports ANSI escape codes.");
-                return -1;
+                Environment.Exit(2);
             }
             while(true)
             {
@@ -206,7 +206,6 @@ namespace dotmenu
                 Console.SetCursorPosition(0, _initialCursorY + options.Count + 1);
                 Console.Clear();
                 _enterAction?.Invoke();
-                return _selectedIndex;
             }
         }
         /// <summary>
