@@ -152,7 +152,7 @@ namespace dotmenu
 
                         if (_shortcutMap.TryGetValue(keyPressed, out int optionIndex))
                         {
-                            if (optionIndex >= 0 && optionIndex < options.Count)
+                            if (optionIndex >= 0 && optionIndex < options.Count && !options[optionIndex].Hidden.HasValue)
                             {
                                 _selectedIndex = optionIndex;
                                 Console.SetCursorPosition(0, 0);
@@ -169,14 +169,14 @@ namespace dotmenu
                                 do
                                 {
                                     _selectedIndex = (_selectedIndex - 1 + options.Count) % options.Count;
-                                } while (options[_selectedIndex].Hidden.HasValue);
+                                } while (options[_selectedIndex].Hidden is true);
                             }
                             if (keyPressed == ConsoleKey.DownArrow)
                             {
                                 do
                                 {
                                     _selectedIndex = (_selectedIndex + 1) % options.Count;
-                                } while (options[_selectedIndex].Hidden.HasValue);
+                                } while (options[_selectedIndex].Hidden is true);
                             }
                             if (keyPressed == ConsoleKey.Tab)
                             {
@@ -199,7 +199,7 @@ namespace dotmenu
                     {
                         Console.WriteLine(ex.Message);
                     }
-                } while (keyPressed != _altEnterKey);
+                } while (!(keyPressed == ConsoleKey.Enter && !(options[_selectedIndex].Disabled ?? false)));
 
                 cancellationTokenSource.Cancel();
                 updateTask.Wait();
