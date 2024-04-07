@@ -3,27 +3,19 @@
 using Hangman.Credits;
 using Hangman.Gameplay;
 
-public class MainMenu
-{
-    static void Main()
-    {
-        Run();
-    }
-    public static void Run()
-    {
-        Menu
-        .New()
-        .SetPrompt("Hangman\n")
-        .SetOptionSelector(">")
-        .AddOption<PlayOption>()
-        .AddOption<CreditsOption>()
-        .AddOption(text: "Exit", action: Exit)
-        .Run();
+Menu
+    .CreateDefaultBuilder()
+    .SetTitle("Hangman (1.0.0)")
+    .SetSelector("[x]")
+    .SetPrefix("[ ]")
+    .AddOption<PlayOption>()
+    .AddOption<CreditsOption>()
+    .AddOption(text: "Exit", action: Exit)
+    .Build()
+    .Run();
 
-        Console.ReadKey();
-        return;
+Console.ReadKey();
+return;
 
-        static void Exit() =>
-            Environment.Exit(exitCode: 0);
-    }
-}
+static void Exit() =>
+    Environment.Exit(exitCode: 0);

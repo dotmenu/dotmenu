@@ -3,10 +3,10 @@
 namespace Hangman.Credits;
 
 /// <summary>
-/// Represents an <see cref="Option"/> to manage game settings.
+/// Represents an <see cref="MenuOption"/> to manage game settings.
 /// </summary>
 public sealed class CreditsOption()
-    : Option(
+    : MenuOption(
         text: "Credits",
         action: ShowCredits)
 {
