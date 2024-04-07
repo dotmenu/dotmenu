@@ -1,6 +1,4 @@
-﻿using System.Numerics;
-
-namespace dotmenu.Graphics;
+﻿namespace dotmenu.Graphics;
 
 /// <summary>
 /// Defines methods for rendering menu elements.

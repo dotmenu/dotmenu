@@ -1,5 +1,3 @@
-using System.Text;
-
 namespace Nateworks.Dotmenu.Obsolete
 {
     public class MultiSelectMenu : Menu
