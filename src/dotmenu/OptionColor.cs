@@ -80,5 +80,51 @@
         /// Yellow color RGB(255, 255, 0).
         /// </summary>
         public static OptionColor Yellow = new OptionColor(255, 255, 0);
+
+        /// <summary>
+        /// Converts ConsoleColor to OptionColor.
+        /// </summary>
+        /// <param name="color">ConsoleColor to convert.</param>
+        /// <returns>Equivalent OptionColor.</returns>
+        public static OptionColor ConvertConsoleColor(ConsoleColor color)
+        {
+            switch (color)
+            {
+                case ConsoleColor.Black:
+                    return OptionColor.Black;
+                case ConsoleColor.Blue:
+                    return OptionColor.Blue;
+                case ConsoleColor.Cyan:
+                    return OptionColor.Cyan;
+                case ConsoleColor.DarkBlue:
+                    return OptionColor.DarkBlue;
+                case ConsoleColor.DarkCyan:
+                    return OptionColor.DarkCyan;
+                case ConsoleColor.DarkGray:
+                    return OptionColor.DarkGray;
+                case ConsoleColor.DarkGreen:
+                    return OptionColor.DarkGreen;
+                case ConsoleColor.DarkMagenta:
+                    return OptionColor.DarkMagenta;
+                case ConsoleColor.DarkRed:
+                    return OptionColor.DarkRed;
+                case ConsoleColor.DarkYellow:
+                    return OptionColor.DarkYellow;
+                case ConsoleColor.Gray:
+                    return OptionColor.Gray;
+                case ConsoleColor.Green:
+                    return OptionColor.Green;
+                case ConsoleColor.Magenta:
+                    return OptionColor.Magenta;
+                case ConsoleColor.Red:
+                    return OptionColor.Red;
+                case ConsoleColor.White:
+                    return OptionColor.White;
+                case ConsoleColor.Yellow:
+                    return OptionColor.Yellow;
+                default:
+                    return OptionColor.White;
+            }
+        }
     }
 }
