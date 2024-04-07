@@ -44,4 +44,8 @@ public struct OptionColor
     /// Cyan color RGB(0, 255, 255).
     /// </summary>
     public static OptionColor Cyan = new OptionColor(0, 255, 255);
+    /// <summary>
+    /// Yellow color RGB(255, 255, 0).
+    /// </summary>
+    public static OptionColor Yellow { get; } = new OptionColor(255, 255, 0);
 }
