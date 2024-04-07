@@ -2,7 +2,7 @@ using System.Text;
 
 using dotmenu.Formatting;
 
-namespace dotmenu
+namespace Nateworks.Dotmenu.Obsolete
 {
     public class Menu
     {

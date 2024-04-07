@@ -1,13 +1,13 @@
-﻿namespace dotmenu
+﻿namespace Nateworks.Dotmenu.Obsolete;
+
+/// <summary>
+/// Represents a RGB color and provides some default color values.
+/// </summary>
+public struct OptionColor
 {
-    /// <summary>
-    /// Represents a RGB color and provides some default color values.
-    /// </summary>
-    public struct OptionColor
-    {
-        public byte R { get; set; }
-        public byte G { get; set; }
-        public byte B { get; set; }
+    public byte R { get; set; }
+    public byte G { get; set; }
+    public byte B { get; set; }
 
         public OptionColor(byte r, byte g, byte b)
         {
