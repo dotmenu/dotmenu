@@ -68,25 +68,39 @@ internal sealed class DefaultMenuRenderer
         }
     }
 
-    private void RenderElement(IMenuElement? element, bool usePrefix = true)
+    private void RenderElement(
+        IMenuElement? element,
+        bool usePrefix = true)
     {
         if (element is not { Visible: true })
             return;
 
+        var useSelectionColors = false;
         var prefix = usePrefix ? Prefix : string.Empty;
         if (usePrefix && element is IMenuOption option)
+        {
+            useSelectionColors = option.Selected;
             prefix = option.Selected ? Selector : Prefix;
-        
+        }
+
         var line = $"{prefix} {element.Text}".Trim();
-        var formattedLine = FormatLine(line);
+        var formattedLine = FormatLine(line, useSelectionColors);
         _renderer.AppendLine(formattedLine);
     }
     
-    private string FormatLine(string text)
+    private string FormatLine(
+        string text,
+        bool useSelectionColors)
     {
+        var (foregroundRed, foregroundGreen, foregroundBlue) = useSelectionColors
+            ? Theme?.SelectionForeground ?? ThemeColor.White
+            : Theme?.Foreground ?? ThemeColor.White;
+        
+        var (backgroundRed, backgroundGreen, backgroundBlue) = useSelectionColors
+            ? Theme?.SelectionBackground ?? ThemeColor.Black
+            : Theme?.Background ?? ThemeColor.Black;
+        
         const string colorEscapeCode = "\x1b[38;2;{0};{1};{2}m\x1b[48;2;{3};{4};{5}m{6}\x1b[0m";
-        var (foregroundRed, foregroundGreen, foregroundBlue) = Theme?.Foreground ?? ThemeColor.White;
-        var (backgroundRed, backgroundGreen, backgroundBlue) = Theme?.Background ?? ThemeColor.Black;
         var coloredText = string.Format(colorEscapeCode,
             foregroundRed, foregroundGreen, foregroundBlue,
             backgroundRed, backgroundGreen, backgroundBlue,
