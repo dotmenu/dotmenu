@@ -18,5 +18,5 @@ public interface IMenuElement
     /// <summary>
     /// Gets or sets the text to display for this menu option.
     /// </summary>
-    string Text { get; set; }
+    string? Text { get; }
 }
