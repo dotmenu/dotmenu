@@ -13,7 +13,7 @@ dotnet add package Natesworks.Dotmenu
 
 ## Menu Samples
 
-[https://github.com/dotmenu/dotmenu/tree/main/samples/Hangman](Hangman)
+[Hangman](https://github.com/dotmenu/dotmenu/tree/main/samples/Hangman)
 
 ## MultiSelectMenu Example
 
