@@ -1,5 +1,7 @@
 using System.Text;
 
+using dotmenu.Formatting;
+
 namespace dotmenu
 {
     public class Menu
