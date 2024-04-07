@@ -252,7 +252,10 @@ namespace dotmenu
                 updateTask.Wait();
                 Console.Clear();
                 Console.SetCursorPosition(0, _initialCursorY + options.Count + 1);
-                options[_selectedIndex].Action?.Invoke();
+                if(options[_selectedIndex].Disabled ?? false)
+                {
+                    options[_selectedIndex].Action?.Invoke();
+                }
                 return _selectedIndex;
             }
         }
