@@ -17,7 +17,5 @@ internal sealed class CreditsScene
         }
 
         End();
-        Console.ReadKey();
-        MainMenu.Run();
     }
 }
