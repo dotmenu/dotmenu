@@ -11,5 +11,7 @@ internal sealed class CreditsScene
     {
         WriteCentered("Written By: tacosontitan");
         End();
+        Console.ReadKey();
+        MainMenu.Run();
     }
 }
