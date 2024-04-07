@@ -11,36 +11,9 @@ Dotmenu can be added to your project with:
 dotnet add package Natesworks.Dotmenu
 ```
 
-## Menu Example
+## Menu Samples
 
-```cs
-using dotmenu;
-var menu = Menu.New();
-menu.SetPrompt("Select an option:");
-menu.SetOptionSelector(">");
-
-menu.AddOption(
-    () => "Option 1",
-    () => Console.WriteLine("Option 1 selected"),
-    fg: OptionColor.White,
-    bg: OptionColor.Blue,
-    optionPrefix: "Custom Prefix: "
-);
-
-menu.AddOption(
-    () => "Hidden Option",
-    () => Console.WriteLine("Hidden option selected"),
-    hidden: true
-);
-
-menu.AddOption(
-    () => "Option 3",
-    () => Console.WriteLine("Option 3 selected"),
-    shortcut:ConsoleKey.A
-);
-menu.Run();
-```
-![](https://raw.githubusercontent.com/dotmenu/dotmenu/main/screenshots/menu.png)
+[https://github.com/dotmenu/dotmenu/tree/main/samples/Hangman](Hangman)
 
 ## MultiSelectMenu Example
 
