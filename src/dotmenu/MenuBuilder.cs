@@ -14,7 +14,7 @@ internal abstract class MenuBuilder
     private readonly IList<IMenuElement> _elements = new List<IMenuElement>(capacity: 1);
     private readonly IMenuConfiguration _configuration = new MenuConfiguration();
     private ITheme _theme = new DefaultTheme();
-    private string _selector = ">";
+    private string? _selector;
     private string? _prefix;
     private string? _title;
 
@@ -84,7 +84,7 @@ internal abstract class MenuBuilder
     /// <param name="prefix">The prefix for the menu.</param>
     /// <param name="theme">The theme for the menu.</param>
     protected abstract IMenuRenderer CreateRenderer(
-        string selector,
+        string? selector,
         string? prefix,
         ITheme theme);
 }
