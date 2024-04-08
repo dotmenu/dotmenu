@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
     
     <PropertyGroup Label="Package Details">
-        <Version>2.1</Version>
+        <Version>3.0</Version>
         <PackageId>Natesworks.Dotmenu</PackageId>
         <Authors>Natesworks</Authors>
         <Description>A simple console menu library.</Description>
