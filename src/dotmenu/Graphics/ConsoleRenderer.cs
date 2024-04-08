@@ -31,7 +31,7 @@ public abstract class ConsoleRenderer
     public ITheme? Theme { get; set; }
 
     /// <inheritdoc />
-    public void Render(IMenu menu)
+    public virtual void Render(IMenu menu)
     {
         Clear();
         
