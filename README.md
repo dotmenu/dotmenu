@@ -18,8 +18,8 @@ Creating a menu is similar to creating a host for modern .NET applications:
 ```csharp
 Menu.CreateDefaultBuilder()
     .SetTitle("Sample")
-    .SetPrefix("[ ]")
-    .SetSelector("[x]")
+    .SetPrefix("")
+    .SetSelector(">")
     .AddOption<PlayOption>()
     .AddOption<CreditsOption>()
     .AddOption(text: "Exit", static () => Environment.Exit(0))
