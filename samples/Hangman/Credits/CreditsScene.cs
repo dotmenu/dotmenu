@@ -10,8 +10,12 @@ internal sealed class CreditsScene
     protected override void Update()
     {
         WriteCentered("Written By: tacosontitan");
+        while (true)
+        {
+            if (Console.KeyAvailable)
+                break;
+        }
+
         End();
-        Console.ReadKey();
-        MainMenu.Run();
     }
 }

@@ -5,29 +5,31 @@ public class AddPredfinedOptionTests
     [Fact]
     public void AddPredfinedOption_WithNullMenu_ThrowsArgumentNullException()
     {
-        Menu? menu = null;
+        IMenuBuilder? builder = null;
         Assert.Throws<ArgumentNullException>(TestAction);
         return;
         
         void TestAction() =>
-            menu!.AddOption<PredefinedOption>();
+            builder!.AddOption<PredefinedOption>();
     }
     
     [Fact]
     public void AddPredfinedOption_AddsOptionToMenu()
     {
-        var menu = new Menu();
-        menu.AddOption<PredefinedOption>();
-        Assert.Single(menu.options);
+        var menu = Menu
+            .CreateDefaultBuilder()
+            .AddOption<PredefinedOption>()
+            .Build();
+        
+        Assert.Single(menu.Elements);
     }
 
     private sealed class PredefinedOption
-        : Option
+        : MenuOption
     {
         public PredefinedOption()
             : base("Predefined Option")
         {
-            
         }
     }
 }

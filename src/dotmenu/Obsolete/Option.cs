@@ -1,4 +1,4 @@
-﻿namespace dotmenu;
+﻿namespace Nateworks.Dotmenu.Obsolete;
 
 public class Option
 {

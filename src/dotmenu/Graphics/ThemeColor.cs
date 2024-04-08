@@ -75,4 +75,20 @@ public struct ThemeColor
     /// Gets or sets the blue component of the color.
     /// </summary>
     public byte B { get; set; }
+    
+    /// <summary>
+    /// Deconstructs the color into its individual components.
+    /// </summary>
+    /// <param name="r">The red component of the color.</param>
+    /// <param name="g">The green component of the color.</param>
+    /// <param name="b">The blue component of the color.</param>
+    public void Deconstruct(
+        out byte r,
+        out byte g,
+        out byte b)
+    {
+        r = R;
+        g = G;
+        b = B;
+    }
 }

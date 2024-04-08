@@ -5,12 +5,12 @@ public class AddOptionTests
     [Fact]
     public void AddOption_WithNullMenu_ThrowsArgumentNullException()
     {
-        Menu? menu = null;
+        IMenuBuilder? builder = null;
         Assert.Throws<ArgumentNullException>(TestAction);
         return;
         
         void TestAction() =>
-            menu!.AddOption("text");
+            builder!.AddOption("text");
     }
     
     [Theory]
@@ -20,19 +20,22 @@ public class AddOptionTests
     [InlineData("\t")]
     public void AddOption_WithInvalidText_ThrowsArgumentException(string? text)
     {
-        var menu = new Menu();
+        var builder = Menu.CreateDefaultBuilder();
         Assert.Throws<ArgumentException>(TestAction);
         return;
         
         void TestAction() =>
-            menu.AddOption(text!);
+            builder.AddOption(text!);
     }
     
     [Fact]
     public void AddOption_WithValidText_AddsOptionToMenu()
     {
-        var menu = new Menu();
-        menu.AddOption("text");
-        Assert.Single(menu.options);
+        var menu = Menu
+            .CreateDefaultBuilder()
+            .AddOption("sample")
+            .Build();
+        
+        Assert.Single(menu.Elements);
     }
 }

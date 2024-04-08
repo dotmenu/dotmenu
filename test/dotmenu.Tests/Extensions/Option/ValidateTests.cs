@@ -5,7 +5,7 @@ public class ValidateTests
     [Fact]
     public void Validate_WithNullOption_ThrowsArgumentNullException()
     {
-        Option? option = null;
+        IMenuOption? option = null;
         Assert.Throws<ArgumentNullException>(TestAction);
         return;
         
@@ -20,7 +20,7 @@ public class ValidateTests
     [InlineData("\t")]
     public void Validate_WithInvalidText_ThrowsArgumentException(string? text)
     {
-        var option = new Option(text);
+        var option = new MenuOption(text);
         Assert.Throws<ArgumentException>(TestAction);
         return;
         
@@ -31,27 +31,7 @@ public class ValidateTests
     [Fact]
     public void Validate_WithValidText_DoesNotThrow()
     {
-        var option = new Option("text");
+        var option = new MenuOption("text");
         option.Validate();
-    }
-    
-    [Fact]
-    public void Validate_WithNullTextFunction_ThrowsArgumentNullException()
-    {
-        var option = new Option(null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null);
-        
-        Assert.Throws<ArgumentNullException>(TestAction);
-        return;
-        
-        void TestAction() =>
-            option.Validate();
     }
 }

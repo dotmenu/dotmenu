@@ -1,6 +1,8 @@
 using System.Text;
 
-namespace dotmenu
+using dotmenu.Formatting;
+
+namespace Nateworks.Dotmenu.Obsolete
 {
     public class Menu
     {

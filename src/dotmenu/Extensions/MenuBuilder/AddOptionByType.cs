@@ -1,32 +1,30 @@
 ﻿namespace dotmenu;
 
 /// <summary>
-/// Defines extension methods for the <see cref="Menu" /> class.
+/// Defines extension methods for the <see cref="IMenuBuilder" /> interface.
 /// </summary>
-public static partial class MenuExtensions
+public static partial class MenuBuilderExtensions
 {
     /// <summary>
     /// Adds a predefined option to the menu.
     /// </summary>
-    /// <param name="menu">The menu to add the option to.</param>
+    /// <param name="source">The menu to add the option to.</param>
     /// <typeparam name="TOption">Specifies the type of option to add.</typeparam>
     /// <returns>The menu with the added option.</returns>
     /// <exception cref="ArgumentNullException">
-    ///     <paramref name="menu"/> is <see langword="null"/> -or-
+    ///     <paramref name="source"/> is <see langword="null"/> -or-
     ///     validation the created option throws <see cref="ArgumentNullException"/>.
     /// </exception>
     /// <exception cref="ArgumentException">
     ///     validation the created option throws <see cref="ArgumentException"/>.
     /// </exception>
-    public static Menu AddOption<TOption>(this Menu menu)
-        where TOption : Option, new()
+    public static IMenuBuilder AddOption<TOption>(this IMenuBuilder source)
+        where TOption : IMenuOption, new()
     {
-        ArgumentNullException.ThrowIfNull(menu, nameof(menu));
+        ArgumentNullException.ThrowIfNull(source);
         
         var option = new TOption();
-        option.Validate();
-        
-        menu.options.Add(option);
-        return menu;
+        source.AddOption(option);
+        return source;
     }
 }

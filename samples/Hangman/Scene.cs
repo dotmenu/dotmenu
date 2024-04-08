@@ -16,6 +16,7 @@ public abstract class Scene
             return;
         
         _running = true;
+        Console.Clear();
         while (_running)
             Update();
     }

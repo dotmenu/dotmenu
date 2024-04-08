@@ -11,6 +11,29 @@ Dotmenu can be added to your project with:
 dotnet add package Natesworks.Dotmenu
 ```
 
+## Usage
+
+Creating a menu is similar to creating a host for modern .NET applications:
+
+```csharp
+Menu.CreateDefaultBuilder()
+    .SetTitle("Sample")
+    .SetPrefix("[ ]")
+    .SetSelector("[x]")
+    .AddOption<PlayOption>()
+    .AddOption<CreditsOption>()
+    .AddOption(text: "Exit", static () => Environment.Exit(0))
+    .Build()
+    .Run();
+```
+
+### Builders
+
+Currently, there are a few builders available to help you create menus:
+
+- `Menu.CreateDefaultBuilder()`
+- `Menu.CreateCenteredBuilder()`
+
 ## Menu Samples
 
 [Hangman](https://github.com/dotmenu/dotmenu/tree/main/samples/Hangman)
