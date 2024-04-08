@@ -68,19 +68,4 @@ public abstract class ConsoleRenderer
     /// </summary>
     /// <param name="option">The option to render.</param>
     protected abstract void RenderOption(IMenuOption option);
-
-    /// <summary>
-    /// Formats the text of a menu option.
-    /// </summary>
-    /// <param name="option">The option to format.</param>
-    /// <returns>The formatted text.</returns>
-    protected virtual string FormatOptionText(IMenuOption option)
-    {
-        if (string.IsNullOrWhiteSpace(option.Text))
-            throw new ArgumentException("Option text cannot be null, empty, or whitespace.", nameof(option));
-        
-        var paddingLength = Math.Max(0, Console.BufferWidth - option.Text.Length);
-        var padding = new string(' ', paddingLength);
-        return $"{option.Text}{padding}";
-    }
 }
