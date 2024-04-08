@@ -33,7 +33,6 @@ Currently, there are a few builders available to help you create menus:
 
 - `Menu.CreateDefaultBuilder()`
 - `Menu.CreateCenteredBuilder()`
-- `Menu.CreateMultiSelectBuilder()`
 
 ## Menu Samples
 
