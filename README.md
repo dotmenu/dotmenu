@@ -38,43 +38,6 @@ Currently, there are a few builders available to help you create menus:
 
 [Hangman](https://github.com/dotmenu/dotmenu/tree/main/samples/Hangman)
 
-## MultiSelectMenu Example
-
-```cs
-var menu = MultiSelectMenu.New();
-menu.SetPrompt("Select an option:");
-menu.SetOptionSelector(">");
-
-menu.AddOption(
-    () => "Option 1",
-    bg: OptionColor.Blue,
-    optionPrefix: "Custom Prefix: "
-);
-
-menu.AddOption(
-    () => "Hidden Option",
-    hidden: true
-);
-
-menu.AddOption(
-    () => "Option 3",
-    ConsoleKey.A
-);
-
-menu.ActionOnEnter(() =>
-{
-    Console.WriteLine("Selected(tab) options:");
-    foreach (var index in menu.GetCheckedOptions())
-    {
-        Console.WriteLine($"Option {index + 1}");
-    }
-});
-
-menu.Run();
-```
-
-![](https://raw.githubusercontent.com/dotmenu/dotmenu/main/screenshots/multiselectmenu.png)
-
 # Documentation
 
 For more documentation on how to create and configure menus please read the wiki at [dotmenu.natesworks.com](https://dotmenu.natesworks.com)
