@@ -6,11 +6,10 @@ namespace Hangman.Credits;
 /// Represents an <see cref="MenuOption"/> to manage game settings.
 /// </summary>
 public sealed class CreditsOption()
-    : MenuOption(
-        text: "Credits",
-        action: ShowCredits)
+    : MenuOption(text: "Credits")
 {
-    private static void ShowCredits()
+    /// <inheritdoc />
+    public override void Invoke()
     {
         var creditsScene = new CreditsScene();
         creditsScene.Start();

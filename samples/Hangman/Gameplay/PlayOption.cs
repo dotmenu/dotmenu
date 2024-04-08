@@ -6,11 +6,10 @@ namespace Hangman.Gameplay;
 /// Represents an option <see cref="MenuOption"/> to start the game.
 /// </summary>
 public sealed class PlayOption()
-    : MenuOption(
-        text: "Play",
-        action: StartGame)
+    : MenuOption(text: "Play")
 {
-    private static void StartGame()
+    /// <inheritdoc />
+    public override void Invoke()
     {
         var guessScene = new GuessScene();
         guessScene.Start();
