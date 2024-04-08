@@ -64,7 +64,9 @@ internal sealed class CenteredMenuRenderer
         var column = CalculateColumn(option);
         var color = Theme?.GetAnsiColor(option);
         var position = new Vector2(column, _currentRow++);
-        AnsiConsole.Write(option.Text, color, position);
+        var prefix = option.Selected ? Selector : Prefix;
+        var text = $"{prefix} {option.Text}".Trim();
+        AnsiConsole.Write(text, color, position);
     }
 
     private void ResetCurrentRow(IMenu menu)
