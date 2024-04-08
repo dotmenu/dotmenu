@@ -49,6 +49,7 @@ internal abstract class MenuBuilder
     /// <inheritdoc />
     public IMenuBuilder AddOption(IMenuOption option)
     {
+        option.Validate();
         _elements.Add(option);
         return this;
     }
