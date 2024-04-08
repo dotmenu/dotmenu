@@ -31,7 +31,6 @@ public class MenuOption
             visible,
             action)
     {
-        
     }
     
     /// <summary>
