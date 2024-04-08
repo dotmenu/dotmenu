@@ -4,10 +4,8 @@ using Hangman.Credits;
 using Hangman.Gameplay;
 
 Menu
-    .CreateDefaultBuilder()
+    .CreateCenteredBuilder()
     .SetTitle("Hangman (1.0.0)")
-    .SetSelector("[x]")
-    .SetPrefix("[ ]")
     .AddOption<PlayOption>()
     .AddOption<CreditsOption>()
     .AddOption(text: "Exit", action: Exit)
