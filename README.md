@@ -37,7 +37,6 @@ Currently, there are a few builders available to help you create menus:
 ## Menu Samples
 
 [Hangman](https://github.com/dotmenu/dotmenu/tree/main/samples/Hangman)
-Will be adding more samples soon aswell as screenshots.
 
 # Special thanks
 
