@@ -41,8 +41,8 @@ Will be adding more samples soon aswell as screenshots.
 
 # Special thanks
 
-Special thanks to tacosontitan for adding unit tests, making hangman sample and making new API Surface.
-And thanks to samwise-the-very-brave for fixing text flickering on windows and adding inheritance.
+Special thanks to [tacosontitan](https://github.com/tacosontitan) for adding unit tests, making hangman sample and making new API Surface.
+And thanks to [samwise](https://github.com/samwise-the-very-brave) for fixing text flickering on windows and adding inheritance.
 
 # Documentation
 
