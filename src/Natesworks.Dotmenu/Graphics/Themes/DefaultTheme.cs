@@ -1,4 +1,4 @@
-﻿namespace dotmenu.Graphics.Themes;
+﻿namespace Natesworks.Dotmenu.Graphics.Themes;
 
 /// <summary>
 /// Represents the default theme.

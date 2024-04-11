@@ -1,4 +1,6 @@
-﻿namespace dotmenu.Tests.Extensions;
+﻿using Natesworks.Dotmenu.Extensions.Option;
+
+namespace Natesworks.Dotmenu.Tests.Extensions;
 
 public class ValidateTests
 {

@@ -1,4 +1,4 @@
-﻿namespace dotmenu.Graphics;
+﻿namespace Natesworks.Dotmenu.Graphics;
 
 /// <summary>
 /// Represents an ANSI console color.

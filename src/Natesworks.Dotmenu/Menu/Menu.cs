@@ -1,9 +1,9 @@
 ﻿using System.Collections.Immutable;
 
-using dotmenu.Formatting;
-using dotmenu.Graphics;
+using Natesworks.Dotmenu.Formatting;
+using Natesworks.Dotmenu.Graphics;
 
-namespace dotmenu;
+namespace Natesworks.Dotmenu;
 
 /// <summary>
 /// Represents a menu.

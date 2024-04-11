@@ -1,4 +1,6 @@
-﻿namespace dotmenu.Tests.Extensions;
+﻿using Natesworks.Dotmenu.Extensions.MenuBuilder;
+
+namespace Natesworks.Dotmenu.Tests.Extensions;
 
 public class AddOptionTests
 {

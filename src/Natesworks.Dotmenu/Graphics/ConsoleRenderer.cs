@@ -1,6 +1,4 @@
-﻿using dotmenu.Extensions;
-
-namespace dotmenu.Graphics;
+﻿namespace Natesworks.Dotmenu.Graphics;
 
 public abstract class ConsoleRenderer
     : IMenuRenderer

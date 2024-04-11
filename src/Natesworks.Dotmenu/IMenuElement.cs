@@ -1,4 +1,4 @@
-﻿namespace dotmenu;
+﻿namespace Natesworks.Dotmenu;
 
 /// <summary>
 /// Represents an element that can be rendered in a menu.

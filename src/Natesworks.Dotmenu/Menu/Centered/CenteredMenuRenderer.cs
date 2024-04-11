@@ -1,9 +1,9 @@
 ﻿using System.Numerics;
 
-using dotmenu.Extensions;
-using dotmenu.Graphics;
+using Natesworks.Dotmenu.Extensions;
+using Natesworks.Dotmenu.Graphics;
 
-namespace dotmenu;
+namespace Natesworks.Dotmenu;
 
 /// <summary>
 /// Represents a menu renderer that centers items horizontally and vertically in the console.

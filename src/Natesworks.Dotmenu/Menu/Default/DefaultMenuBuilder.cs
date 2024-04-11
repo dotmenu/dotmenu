@@ -1,6 +1,6 @@
-﻿using dotmenu.Graphics;
+﻿using Natesworks.Dotmenu.Graphics;
 
-namespace dotmenu;
+namespace Natesworks.Dotmenu;
 
 /// <summary>
 /// Represents the default implementation of a menu builder.

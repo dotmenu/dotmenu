@@ -1,4 +1,4 @@
-﻿using dotmenu;
+﻿using Natesworks.Dotmenu;
 
 namespace Hangman.Credits;
 

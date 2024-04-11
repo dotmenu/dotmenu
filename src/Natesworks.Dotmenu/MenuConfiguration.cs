@@ -1,4 +1,4 @@
-﻿namespace dotmenu;
+﻿namespace Natesworks.Dotmenu;
 
 /// <summary>
 /// Represents the standard configuration for <see cref="IMenu"/> instances.

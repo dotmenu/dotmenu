@@ -1,7 +1,8 @@
-﻿using dotmenu;
-
-using Hangman.Credits;
+﻿using Hangman.Credits;
 using Hangman.Gameplay;
+
+using Natesworks.Dotmenu;
+using Natesworks.Dotmenu.Extensions.MenuBuilder;
 
 Menu
     .CreateCenteredBuilder()

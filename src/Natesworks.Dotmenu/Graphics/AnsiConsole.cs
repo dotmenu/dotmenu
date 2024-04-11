@@ -1,6 +1,6 @@
 ﻿using System.Numerics;
 
-namespace dotmenu.Graphics;
+namespace Natesworks.Dotmenu.Graphics;
 
 /// <summary>
 /// Provides a set of methods for interacting with the console.

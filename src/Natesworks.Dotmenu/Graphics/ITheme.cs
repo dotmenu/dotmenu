@@ -1,4 +1,4 @@
-﻿namespace dotmenu.Graphics;
+﻿namespace Natesworks.Dotmenu.Graphics;
 
 /// <summary>
 /// Represents a theme for menus.

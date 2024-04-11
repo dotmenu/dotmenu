@@ -1,4 +1,4 @@
-﻿namespace dotmenu;
+﻿namespace Natesworks.Dotmenu;
 
 public sealed partial class Menu
 {

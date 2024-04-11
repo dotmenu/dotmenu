@@ -1,6 +1,6 @@
-﻿using dotmenu.Graphics;
+﻿using Natesworks.Dotmenu.Graphics;
 
-namespace dotmenu;
+namespace Natesworks.Dotmenu;
 
 /// <summary>
 /// Represents a menu builder that creates a centered menu.

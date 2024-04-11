@@ -1,6 +1,6 @@
-﻿using dotmenu.Graphics;
+﻿using Natesworks.Dotmenu.Graphics;
 
-namespace dotmenu;
+namespace Natesworks.Dotmenu;
 
 /// <summary>
 /// Defines methods for building a menu.

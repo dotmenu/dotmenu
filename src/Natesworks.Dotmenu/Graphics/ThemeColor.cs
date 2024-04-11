@@ -1,4 +1,4 @@
-﻿namespace dotmenu.Graphics;
+﻿namespace Natesworks.Dotmenu.Graphics;
 
 /// <summary>
 /// Represents a RGB color and provides some default color values.

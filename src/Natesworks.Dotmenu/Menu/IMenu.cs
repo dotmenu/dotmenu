@@ -1,6 +1,6 @@
 ﻿using System.Collections.Immutable;
 
-namespace dotmenu;
+namespace Natesworks.Dotmenu;
 
 /// <summary>
 /// Represents a menu.

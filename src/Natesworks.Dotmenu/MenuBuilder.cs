@@ -1,9 +1,10 @@
 ﻿using System.Collections.Immutable;
 
-using dotmenu.Graphics;
-using dotmenu.Graphics.Themes;
+using Natesworks.Dotmenu.Extensions.Option;
+using Natesworks.Dotmenu.Graphics;
+using Natesworks.Dotmenu.Graphics.Themes;
 
-namespace dotmenu;
+namespace Natesworks.Dotmenu;
 
 /// <summary>
 /// Represents the basic implementation of a menu builder.

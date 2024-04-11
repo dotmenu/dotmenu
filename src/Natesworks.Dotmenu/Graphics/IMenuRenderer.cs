@@ -1,4 +1,4 @@
-﻿namespace dotmenu.Graphics;
+﻿namespace Natesworks.Dotmenu.Graphics;
 
 /// <summary>
 /// Defines methods for rendering menu elements.

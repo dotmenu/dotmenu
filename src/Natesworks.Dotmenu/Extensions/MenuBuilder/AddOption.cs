@@ -1,4 +1,4 @@
-﻿namespace dotmenu;
+﻿namespace Natesworks.Dotmenu.Extensions.MenuBuilder;
 
 /// <summary>
 /// Defines extension methods for the <see cref="IMenuBuilder" /> interface.

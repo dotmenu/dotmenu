@@ -1,8 +1,7 @@
-﻿using System.Text;
+﻿using Natesworks.Dotmenu.Extensions;
+using Natesworks.Dotmenu.Graphics;
 
-using dotmenu.Extensions;
-
-namespace dotmenu.Graphics;
+namespace Natesworks.Dotmenu;
 
 /// <summary>
 /// Represents a default menu renderer.

@@ -1,4 +1,4 @@
-﻿namespace Nateworks.Dotmenu.Obsolete;
+﻿namespace dotmenu;
 
 /// <summary>
 /// Represents a RGB color and provides some default color values.

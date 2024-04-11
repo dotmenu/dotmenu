@@ -1,6 +1,6 @@
-﻿using dotmenu.Graphics;
+﻿using Natesworks.Dotmenu.Graphics;
 
-namespace dotmenu.Extensions;
+namespace Natesworks.Dotmenu.Extensions;
 
 /// <summary>
 /// Defines extension methods for <see cref="ITheme"/>.

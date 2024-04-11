@@ -1,4 +1,4 @@
-﻿namespace dotmenu;
+﻿namespace Natesworks.Dotmenu.Extensions.Option;
 
 /// <summary>
 /// Defines extension methods for <see cref="IMenuOption" /> instances.
