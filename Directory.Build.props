@@ -1,0 +1,28 @@
+﻿<Project>
+    
+    <PropertyGroup Label="Shared Project Details">
+        <OutputType>Library</OutputType>
+        <LangVersion>latest</LangVersion>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <TargetFrameworks>
+            net8.0;
+            net7.0;
+            net6.0
+        </TargetFrameworks>
+    </PropertyGroup>
+    
+    <PropertyGroup Label="Shared Package Details">
+        <Authors>Natesworks</Authors>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+        <PackageLicenseFile>LICENSE</PackageLicenseFile>
+        <RepositoryUrl>https://github.com/dotmenu/dotmenu.git</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
+    </PropertyGroup>
+    
+    <ItemGroup Label="Shared Resources">
+        <None Include="..\..\README.md" Pack="true" PackagePath="" />
+        <None Include="..\..\LICENSE" Pack="true" PackagePath="" />
+    </ItemGroup>
+    
+</Project>
