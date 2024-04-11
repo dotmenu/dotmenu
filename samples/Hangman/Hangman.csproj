@@ -2,15 +2,12 @@
 
     <PropertyGroup>
         <OutputType>Exe</OutputType>
-        <LangVersion>latest</LangVersion>
-        <TargetFramework>net8.0</TargetFramework>
-        <ImplicitUsings>enable</ImplicitUsings>
-        <Nullable>enable</Nullable>
         <RootNamespace>Hangman</RootNamespace>
+        <IsPackable>false</IsPackable>
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\src\dotmenu\dotmenu.csproj" />
+      <ProjectReference Include="..\..\src\Natesworks.Dotmenu\Natesworks.Dotmenu.csproj" />
     </ItemGroup>
 
 </Project>

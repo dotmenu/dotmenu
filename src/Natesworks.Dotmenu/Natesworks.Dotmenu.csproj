@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    
+    <PropertyGroup Label="Release Information">
+        <Version>3.0-beta1</Version>
+    </PropertyGroup>
+    
+    <PropertyGroup Label="Package Details">
+        <PackageId>Natesworks.Dotmenu</PackageId>
+        <Description>A simple console menu library.</Description>
+        <PackageTags>console;menu;command;line;interface;terminal;cmd;dot;net</PackageTags>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <None Include="..\..\resources\screenshots\*" Pack="false" Link=".resources\screenshots\%(Filename)%(Extension)"/>
+    </ItemGroup>
+    
+    <ItemGroup Label="Internal Exposure">
+        <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
+            <_Parameter1>$(ProjectName).Tests</_Parameter1>
+        </AssemblyAttribute>
+    </ItemGroup>
+
+</Project>
