@@ -17,18 +17,12 @@ public static partial class ThemeExtensions
     ///     <paramref name="theme"/> is <see langword="null"/> -or-
     ///     <paramref name="element"/> is <see langword="null"/>.
     /// </exception>
-    /// <exception cref="ArgumentException">
-    ///     <paramref name="element"/> has text that is <see langword="null"/>, empty, or whitespace.
-    /// </exception>
     public static AnsiConsoleColor GetAnsiColor(
         this ITheme theme,
         IMenuElement element)
     {
         ArgumentNullException.ThrowIfNull(theme);
         ArgumentNullException.ThrowIfNull(element);
-        if (string.IsNullOrWhiteSpace(element.Text))
-            throw new ArgumentException("Menu element text cannot be null, empty, or whitespace.", nameof(element));
-        
         return new AnsiConsoleColor(theme.Foreground, theme.Background);
     }
 }

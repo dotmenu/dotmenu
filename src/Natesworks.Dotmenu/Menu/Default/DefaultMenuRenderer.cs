@@ -19,13 +19,6 @@ internal sealed class DefaultMenuRenderer
     }
 
     /// <inheritdoc />
-    protected override void RenderTitle(IMenuElement title)
-    {
-        var color = Theme?.GetAnsiColor(title);
-        AnsiConsole.WriteLine(title.Text, color);
-    }
-
-    /// <inheritdoc />
     protected override void RenderOption(IMenuOption option)
     {
         var color = Theme?.GetAnsiColor(option);

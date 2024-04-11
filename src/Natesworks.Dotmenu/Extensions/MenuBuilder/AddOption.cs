@@ -1,4 +1,4 @@
-﻿namespace Natesworks.Dotmenu.Extensions.MenuBuilder;
+﻿namespace Natesworks.Dotmenu;
 
 /// <summary>
 /// Defines extension methods for the <see cref="IMenuBuilder" /> interface.
@@ -39,7 +39,7 @@ public static partial class MenuBuilderExtensions
             throw new ArgumentException("The text must be a non-empty string.", nameof(text));
         
         var option = new MenuOption(text, enabled, visible, action);
-        source.AddOption(option);
+        source.AddElement(option);
         return source;
     }
 }

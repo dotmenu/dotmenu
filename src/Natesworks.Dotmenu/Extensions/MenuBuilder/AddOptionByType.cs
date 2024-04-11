@@ -24,7 +24,7 @@ public static partial class MenuBuilderExtensions
         ArgumentNullException.ThrowIfNull(source);
         
         var option = new TOption();
-        source.AddOption(option);
+        source.AddElement(option);
         return source;
     }
 }
