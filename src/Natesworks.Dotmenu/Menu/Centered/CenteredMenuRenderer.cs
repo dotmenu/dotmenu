@@ -37,12 +37,19 @@ internal sealed class CenteredMenuRenderer
         if (titleElement is { Visible: true })
             RenderTitle(titleElement);
 
-        foreach (var option in menu.Elements.OfType<IMenuOption>())
+        foreach (var element in menu.Elements)
         {
-            if (option is not { Visible: true })
-                continue;
-            
-            RenderOption(option);
+            switch (element)
+            {
+                case not { Visible: true } or MenuTitle:
+                    continue;
+                case IMenuOption option:
+                    RenderOption(option);
+                    continue;
+                default:
+                    RenderElement(element);
+                    break;
+            }
         }
         
         static bool IsTitleElement(IMenuElement element)
@@ -67,6 +74,14 @@ internal sealed class CenteredMenuRenderer
         var prefix = option.Selected ? Selector : Prefix;
         var text = $"{prefix} {option.Text}".Trim();
         AnsiConsole.Write(text, color, position);
+    }
+    
+    protected override void RenderElement(IMenuElement element)
+    {
+        var column = CalculateColumn(element);
+        var color = Theme?.GetAnsiColor(element);
+        var position = new Vector2(column, _currentRow++);
+        AnsiConsole.Write(element.Text, color, position);
     }
 
     private void ResetCurrentRow(IMenu menu)

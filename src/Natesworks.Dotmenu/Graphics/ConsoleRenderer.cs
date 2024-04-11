@@ -1,4 +1,6 @@
-﻿namespace Natesworks.Dotmenu.Graphics;
+﻿using Natesworks.Dotmenu.Extensions;
+
+namespace Natesworks.Dotmenu.Graphics;
 
 public abstract class ConsoleRenderer
     : IMenuRenderer
@@ -37,12 +39,18 @@ public abstract class ConsoleRenderer
         if (titleElement is { Visible: true })
             RenderTitle(titleElement);
 
-        foreach (var option in menu.Elements.OfType<IMenuOption>())
+        foreach (var element in menu.Elements)
         {
-            if (option is not { Visible: true })
+            if (element is not { Visible: true } or MenuTitle)
                 continue;
-            
-            RenderOption(option);
+
+            if (element is IMenuOption option)
+            {
+                RenderOption(option);
+                continue;
+            }
+
+            RenderElement(element);
         }
         
         static bool IsTitleElement(IMenuElement element)
@@ -59,11 +67,18 @@ public abstract class ConsoleRenderer
     /// Renders the title of the menu.
     /// </summary>
     /// <param name="title">The title to render.</param>
-    protected abstract void RenderTitle(IMenuElement title);
+    protected virtual void RenderTitle(IMenuElement title) =>
+        RenderElement(title);
 
     /// <summary>
     /// Renders a menu option.
     /// </summary>
     /// <param name="option">The option to render.</param>
     protected abstract void RenderOption(IMenuOption option);
+    
+    protected virtual void RenderElement(IMenuElement element)
+    {
+        var color = Theme?.GetAnsiColor(element);
+        AnsiConsole.WriteLine(element.Text, color);
+    }
 }
