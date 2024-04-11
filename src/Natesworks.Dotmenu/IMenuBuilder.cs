@@ -43,11 +43,11 @@ public interface IMenuBuilder
     IMenuBuilder SetTheme(ITheme theme);
 
     /// <summary>
-    /// Adds an option to the menu.
+    /// Adds an element to the menu.
     /// </summary>
-    /// <param name="option">The option to add to the menu.</param>
+    /// <param name="element">The element to add to the menu.</param>
     /// <returns>The current instance of the <see cref="IMenuBuilder"/>.</returns>
-    IMenuBuilder AddOption(IMenuOption option);
+    IMenuBuilder AddElement(IMenuElement element);
     
     /// <summary>
     /// Builds the menu.
