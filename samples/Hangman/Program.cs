@@ -7,8 +7,10 @@ using Natesworks.Dotmenu.Extensions.MenuBuilder;
 Menu
     .CreateCenteredBuilder()
     .SetTitle("Hangman (1.0.0)")
+    .AddSeparator(' ')
     .AddOption<PlayOption>()
     .AddOption<CreditsOption>()
+    .AddSeparator('-', length: 10)
     .AddOption(text: "Exit", action: Exit)
     .Build()
     .Run();
