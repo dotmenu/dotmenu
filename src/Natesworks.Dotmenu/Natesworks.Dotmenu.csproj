@@ -2,6 +2,7 @@
     
     <PropertyGroup Label="Release Information">
         <Version>3.0-beta1</Version>
+        <RootNamespace>dotmenu</RootNamespace>
     </PropertyGroup>
     
     <PropertyGroup Label="Package Details">

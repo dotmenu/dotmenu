@@ -5,7 +5,7 @@ VisualStudioVersion = 17.5.002.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{019B4369-1826-4499-9CBD-39FE40FE3135}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dotmenu", "src\dotmenu\dotmenu.csproj", "{F9658EF6-B672-4749-BFEC-E67CC8DFDE8E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Natesworks.Dotmenu", "src\Natesworks.Dotmenu\Natesworks.Dotmenu.csproj", "{F9658EF6-B672-4749-BFEC-E67CC8DFDE8E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{223E8D67-428F-4995-8E16-40564A41062E}"
 EndProject

@@ -19,7 +19,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\src\dotmenu\dotmenu.csproj" />
+      <ProjectReference Include="..\..\src\Natesworks.Dotmenu\Natesworks.Dotmenu.csproj" />
     </ItemGroup>
 
 </Project>
