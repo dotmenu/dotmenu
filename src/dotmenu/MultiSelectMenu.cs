@@ -105,7 +105,7 @@ namespace dotmenu
             if (!SupportsAnsi)
             {
                 Console.WriteLine("Please use a terminal that supports ANSI escape codes.");
-                return -1;
+                Enviroment.Exit(2);
             }
             while(true)
             {
@@ -169,14 +169,14 @@ namespace dotmenu
                                 do
                                 {
                                     _selectedIndex = (_selectedIndex - 1 + options.Count) % options.Count;
-                                } while (options[_selectedIndex].Hidden.HasValue);
+                                } while (options[_selectedIndex].Hidden is true);
                             }
                             if (keyPressed == ConsoleKey.DownArrow)
                             {
                                 do
                                 {
                                     _selectedIndex = (_selectedIndex + 1) % options.Count;
-                                } while (options[_selectedIndex].Hidden.HasValue);
+                                } while (options[_selectedIndex].Hidden is true);
                             }
                             if (keyPressed == ConsoleKey.Tab)
                             {
@@ -223,7 +223,7 @@ namespace dotmenu
 
                 for (int i = 0; i < options.Count; i++)
                 {
-                    if (!options[i].Hidden.HasValue)
+                    if (options[i].Hidden is not true)
                     {
                             var (fullOptionText, paddingSpaces) = GetOptionText(i, options[i].GetText(), Console.BufferWidth);
                             OptionColor fgColor;

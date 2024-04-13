@@ -213,7 +213,7 @@ namespace dotmenu
 
                         if (_shortcutMap.TryGetValue(keyPressed, out int optionIndex))
                         {
-                            if (optionIndex >= 0 && optionIndex < options.Count && !options[optionIndex].Hidden.HasValue)
+                            if (optionIndex >= 0 && optionIndex < options.Count && options[optionIndex].Hidden is not true)
                             {
                                 _selectedIndex = optionIndex;
                                 Console.SetCursorPosition(0, 0);
@@ -230,14 +230,14 @@ namespace dotmenu
                                 do
                                 {
                                     _selectedIndex = (_selectedIndex - 1 + options.Count) % options.Count;
-                                } while (options[_selectedIndex].Hidden.HasValue);
+                                } while (options[_selectedIndex].Hidden is true);
                             }
                             if (keyPressed == ConsoleKey.DownArrow)
                             {
                                 do
                                 {
                                     _selectedIndex = (_selectedIndex + 1) % options.Count;
-                                } while (options[_selectedIndex].Hidden.HasValue);
+                                } while (options[_selectedIndex].Hidden is true);
                             }
                             WriteOptions();
                         }
@@ -270,7 +270,7 @@ namespace dotmenu
 
                 for (int i = 0; i < options.Count; i++)
                 {
-                    if (!options[i].Hidden.HasValue)
+                    if (options[i].Hidden is not true)
                     {
                         var (fullOptionText, paddingSpaces) = GetOptionText(i, options[i].GetText(), Console.BufferWidth);
 
