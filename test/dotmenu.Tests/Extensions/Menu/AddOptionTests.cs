@@ -1,4 +1,4 @@
-﻿namespace dotmenu.Tests.Extensions;
+﻿namespace Dotmenu.Tests.Extensions;
 
 public class AddOptionTests
 {
