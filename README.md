@@ -75,7 +75,7 @@ menu.ActionOnEnter(() =>
 menu.Run();
 ```
 
-![](https://raw.githubusercontent.com/dotmenu/dotmenu/main/screenshots/multiselectmenu.png)
+![](https://raw.githubusercontent.com/dotmenu/dotmenu/main/resources/screenshots/multiselectmenu.png)
 
 ## Documentation
 
