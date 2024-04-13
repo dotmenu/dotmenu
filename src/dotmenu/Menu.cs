@@ -1,4 +1,5 @@
 using System.Text;
+using System;
 
 namespace Dotmenu
 {
@@ -97,6 +98,18 @@ namespace Dotmenu
             }
             return this;
         }
+        public Menu AddOption(string text, Action action, ConsoleKey? shortcut = null, bool? hidden = false, bool? disabled = false, OptionColor? fg = null, OptionColor? bg = null, OptionColor? selectedFg = null, OptionColor? selectedBg = null, string? optionPrefix = null, string? selector = null)
+        {
+            Func<string> textFunction = () => text;
+            options.Add(new Option(textFunction, action, hidden, disabled, fg, bg, selectedFg, selectedBg, optionPrefix, selector));
+            string val = textFunction.Invoke();
+            _optionTextValues.Add(new(val, val, textFunction));
+            if (shortcut.HasValue)
+            {
+                _shortcutMap[shortcut.Value] = options.Count - 1;
+            }
+            return this;
+        }
         /// <summary>
         /// Sets options selector (optional).
         /// If not called, '>' will be the default selector.
@@ -161,7 +174,7 @@ namespace Dotmenu
         /// Runs menu and starts a task that updates menu at regular time intervals.
         /// </summary>
         /// <returns>Index of option selected by the user.</returns>
-        public virtual int Run()
+        public virtual void Run()
         {
             if (!SupportsAnsi)
             {
@@ -253,7 +266,6 @@ namespace Dotmenu
                 Console.Clear();
                 Console.SetCursorPosition(0, _initialCursorY + options.Count + 1);
                 options[_selectedIndex].Action?.Invoke();
-                return _selectedIndex;
             }
         }
         /// <summary>

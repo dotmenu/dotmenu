@@ -1,4 +1,4 @@
-﻿namespace dotmenu;
+﻿namespace Dotmenu;
 
 /// <summary>
 /// Defines extension methods for the <see cref="Option" /> class.
