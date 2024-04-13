@@ -7,7 +7,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 
-namespace dotmenu;
+namespace Dotmenu;
 
 internal static class AnsiDetector
 {

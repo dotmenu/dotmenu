@@ -1,6 +1,6 @@
 using System.Text;
 
-namespace dotmenu
+namespace Dotmenu
 {
     public class Menu
     {

@@ -1,4 +1,4 @@
-﻿namespace dotmenu;
+﻿namespace Dotmenu;
 
 public class Option
 {
