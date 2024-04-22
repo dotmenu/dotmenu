@@ -1,5 +1,21 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 ![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/dotmenu/dotmenu/dotnet.yml)
+
+## Important update
+
+I (Natesworks) will no longer be making any major updates to dotmenu.
+
+**Why?**
+
+There are many reasons so I'll just mention a few:
+
+- Working on other projects
+I am currently planning on making an opensource rogue-like game in Unity. More information coming soon 👀.
+- Demotivated
+A big reason is also because I am simply demotivated. I just do not want to work on this project anymore and this is the reason I have not made any major contributions in ~1 month.
+
+Every once in a while I will release bug fixes and rarely new features.
+
 # Dotmenu
 A straightforward console menu library designed to streamline user interactions in console applications.
 
