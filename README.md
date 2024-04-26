@@ -10,8 +10,12 @@ I (Natesworks) will no longer be making any major updates to dotmenu.
 There are many reasons so I'll just mention a few:
 
 - Working on other projects
+
+  
 I am activly working on multiple other projects and there are just better packages for menus like Terminal.GUI.
 - Demotivated
+
+  
 A big reason is also because I am simply demotivated. I just do not want to work on this project anymore and this is the reason I have not made any major contributions in ~1 month.
 
 **Old readme below**
