@@ -10,11 +10,11 @@ I (Natesworks) will no longer be making any major updates to dotmenu.
 There are many reasons so I'll just mention a few:
 
 - Working on other projects
-I am currently planning on making an opensource rogue-like game in Unity. More information coming soon 👀.
+I am activly working on multiple other projects and there are just better packages for menus like Terminal.GUI.
 - Demotivated
 A big reason is also because I am simply demotivated. I just do not want to work on this project anymore and this is the reason I have not made any major contributions in ~1 month.
 
-Every once in a while I will release bug fixes and rarely new features.
+**Old readme below**
 
 # Dotmenu
 A straightforward console menu library designed to streamline user interactions in console applications.
