@@ -8,7 +8,7 @@ Works on every terminal that supports ANSI escape codes.
 Dotmenu can be added to your project with:
 
 ```bash
-dotnet add package Natesworks.Dotmenu
+dotnet add package Dotmenu
 ```
 
 ## Usage
@@ -43,7 +43,7 @@ Currently, there are a few builders available to help you create menus:
 # Special thanks
 
 Special thanks to [tacosontitan](https://github.com/tacosontitan) for adding unit tests, making hangman sample and making new API Surface.
-And thanks to [samwise](https://github.com/samwise-the-very-brave) for fixing text flickering on windows and adding inheritance.
+And thanks to [samwise](https://github.com/samwise-the-very-brave) for fixing bugs.
 
 # Documentation
 
